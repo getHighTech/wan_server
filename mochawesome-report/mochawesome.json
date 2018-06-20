@@ -1,0 +1,205 @@
+{
+  "stats": {
+    "suites": 3,
+    "tests": 4,
+    "passes": 4,
+    "pending": 0,
+    "failures": 0,
+    "start": "2018-06-20T10:37:34.909Z",
+    "end": "2018-06-20T10:37:35.323Z",
+    "duration": 414,
+    "testsRegistered": 4,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false,
+    "passPercentClass": "success",
+    "pendingPercentClass": "danger"
+  },
+  "suites": {
+    "uuid": "8ae72c03-2627-4c17-aab8-dedd6b48f436",
+    "title": "",
+    "fullFile": "",
+    "file": "",
+    "beforeHooks": [],
+    "afterHooks": [],
+    "tests": [],
+    "suites": [
+      {
+        "uuid": "032fd81c-8e6e-48f5-93ed-9afa95c294ef",
+        "title": "加法函数的测试",
+        "fullFile": "/home/simontaosim/wanServer/test/index.js",
+        "file": "/test/index.js",
+        "beforeHooks": [],
+        "afterHooks": [],
+        "tests": [
+          {
+            "title": "1 加 1 应该等于 2",
+            "fullTitle": "加法函数的测试 1 加 1 应该等于 2",
+            "timedOut": false,
+            "duration": 1,
+            "state": "passed",
+            "speed": "fast",
+            "pass": true,
+            "fail": false,
+            "pending": false,
+            "code": "expect((0, _add2.default)(1, 1)).to.be.equal(2);",
+            "err": {},
+            "isRoot": false,
+            "uuid": "81f200f1-7cae-4eb4-ac06-f78ae22620b0",
+            "isHook": false,
+            "skipped": false
+          }
+        ],
+        "suites": [],
+        "passes": [
+          "81f200f1-7cae-4eb4-ac06-f78ae22620b0"
+        ],
+        "failures": [],
+        "pending": [],
+        "skipped": [],
+        "duration": 1,
+        "root": false,
+        "rootEmpty": false,
+        "_timeout": 2000
+      },
+      {
+        "uuid": "4349def2-e014-414f-aca8-be4378bbb861",
+        "title": "用户数据查询测试",
+        "fullFile": "/home/simontaosim/wanServer/test/index.js",
+        "file": "/test/index.js",
+        "beforeHooks": [
+          {
+            "title": "\"before all\" hook",
+            "fullTitle": "用户数据查询测试 \"before all\" hook",
+            "timedOut": false,
+            "duration": 1,
+            "pass": false,
+            "fail": false,
+            "pending": false,
+            "code": "(0, _connectdb2.default)();",
+            "err": {},
+            "isRoot": false,
+            "uuid": "96b82d21-74d7-47ae-8032-299b98c2b84b",
+            "isHook": true,
+            "skipped": false
+          }
+        ],
+        "afterHooks": [],
+        "tests": [
+          {
+            "title": "默认查询一条用户数据",
+            "fullTitle": "用户数据查询测试 默认查询一条用户数据",
+            "timedOut": false,
+            "duration": 0,
+            "state": "passed",
+            "speed": "fast",
+            "pass": true,
+            "fail": false,
+            "pending": false,
+            "code": "expect((0, _users.getOneUser)()).to.be.ok;",
+            "err": {},
+            "isRoot": false,
+            "uuid": "43ce7316-4006-42fc-9381-e03ab29566fb",
+            "isHook": false,
+            "skipped": false
+          },
+          {
+            "title": "查询18820965455的用户",
+            "fullTitle": "用户数据查询测试 查询18820965455的用户",
+            "timedOut": false,
+            "duration": 408,
+            "state": "passed",
+            "speed": "slow",
+            "pass": true,
+            "fail": false,
+            "pending": false,
+            "code": "(0, _users.getOneUsername)({ username: '18820965455' }).then(function (rlt) {\n  expect(rlt).to.be.equal('18820965455');\n  done();\n});",
+            "err": {},
+            "isRoot": false,
+            "uuid": "9a825ce8-0f62-4190-b5c5-3a1880882e46",
+            "isHook": false,
+            "skipped": false
+          }
+        ],
+        "suites": [],
+        "passes": [
+          "43ce7316-4006-42fc-9381-e03ab29566fb",
+          "9a825ce8-0f62-4190-b5c5-3a1880882e46"
+        ],
+        "failures": [],
+        "pending": [],
+        "skipped": [],
+        "duration": 408,
+        "root": false,
+        "rootEmpty": false,
+        "_timeout": 2000
+      },
+      {
+        "uuid": "5ff69ffe-5378-4318-8fd2-dcd07300fadb",
+        "title": "测试所有的路由",
+        "fullFile": "/home/simontaosim/wanServer/test/index.js",
+        "file": "/test/index.js",
+        "beforeHooks": [
+          {
+            "title": "\"before all\" hook",
+            "fullTitle": "测试所有的路由 \"before all\" hook",
+            "timedOut": false,
+            "duration": 1,
+            "pass": false,
+            "fail": false,
+            "pending": false,
+            "code": "(0, _connectdb2.default)();",
+            "err": {},
+            "isRoot": false,
+            "uuid": "1193d0de-5728-4510-a1f3-85d8b00dbcaa",
+            "isHook": true,
+            "skipped": false
+          }
+        ],
+        "afterHooks": [],
+        "tests": [
+          {
+            "title": "测试首页的载入",
+            "fullTitle": "测试所有的路由 测试首页的载入",
+            "timedOut": false,
+            "duration": 0,
+            "state": "passed",
+            "speed": "fast",
+            "pass": true,
+            "fail": false,
+            "pending": false,
+            "code": "",
+            "err": {},
+            "isRoot": false,
+            "uuid": "440bc493-ca35-494b-98ba-b4cd7ce157dd",
+            "isHook": false,
+            "skipped": false
+          }
+        ],
+        "suites": [],
+        "passes": [
+          "440bc493-ca35-494b-98ba-b4cd7ce157dd"
+        ],
+        "failures": [],
+        "pending": [],
+        "skipped": [],
+        "duration": 0,
+        "root": false,
+        "rootEmpty": false,
+        "_timeout": 2000
+      }
+    ],
+    "passes": [],
+    "failures": [],
+    "pending": [],
+    "skipped": [],
+    "duration": 0,
+    "root": true,
+    "rootEmpty": true,
+    "_timeout": 2000
+  },
+  "copyrightYear": 2018
+}
