@@ -1,0 +1,21 @@
+{
+  "name": "wanserver",
+  "version": "1.0.0",
+  "description": "this is a startup with koajs and mongodb , which can manage multiple frontend apps",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha tests/index.js"
+  },
+  "keywords": [
+    "koajs",
+    "api",
+    "mongodb",
+    "framework",
+    "startup"
+  ],
+  "author": "simontaosim",
+  "license": "MIT",
+  "dependencies": {
+    "koa": "^2.5.1"
+  }
+}
