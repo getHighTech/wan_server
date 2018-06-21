@@ -71,12 +71,29 @@ describe('测试所有用户的API', ()=>{
         }
       });
   })
+
   it('获取用户列表（简略信息）, 只有10条, 时间倒序', (done)=>{
       let userPromise  =  Axios.get("http://localhost:7001/api/v1/users")
       userPromise.then(rlt => {
-        expect(rlt.length).to.be.equal(10);
-        done();
+          let firtMoment = rlt[0].createdAt;
+          let secondMoment = rlt[1].createdAt;
+          let isUpdate = moment(firtMoment).isAfter(moment(secondMoment));
+          expect(rlt.length).to.be.equal(10);
+          expect(isUpdate).to.be.equal(true);
+          done();
 
       })
-  })
+  });
+
+  it('获取用户列表第8页详细信息, 有8条, 时间倒序', (done)=>{
+    let userPromise  =  Axios.get("http://localhost:7001/api/v1/users?version=detail&page=3&pagesize=8")
+    userPromise.then(rlt => {
+        let firtMoment = rlt[0].createdAt;
+        let secondMoment = rlt[1].createdAt;
+        let isUpdate = moment(firtMoment).isAfter(moment(secondMoment));
+        expect(rlt.length).to.be.equal(10);
+        expect(isUpdate).to.be.equal(true);
+        done();
+    })
+});
 })
