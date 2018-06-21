@@ -12,7 +12,8 @@ const options = {
     // If not connected, return errors immediately rather than waiting for reconnect
     bufferMaxEntries: 0
   };
-export default function connectDB(){
+
+export function connectDB(){
     console.log("正在连接数据库....");
     
     mongoose.connect(getMongoUrlByEnv).then(
@@ -32,3 +33,5 @@ export default function connectDB(){
         }
     );
 }
+
+export const dbConnection = mongoose.connect(getMongoUrlByEnv);

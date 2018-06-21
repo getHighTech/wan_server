@@ -6,7 +6,7 @@ class WanModel {
 
     static setScheme(schema, modelName, collectionName){
          this.schema = new mongoose.Schema(
-            schema, { _id: true }
+            schema
         );
         this.model = mongoose.model(modelName, schema);
         this.collectionName = collectionName;
@@ -22,31 +22,8 @@ class WanModel {
         return rlt;
     }
 
-    static async insertMany(params){
-        //params is Array
-       let rlts =  this.model.insertMany(params);
-       return rlts;
-       
-    }
-    static async addColumn(columnName){
-        let rlt  = await this.schema.add(columnName);
-        return rlt;
-    }
+    
 
-    static async find(condition){
-        let rlt  = await this.model.find(condition);
-        return rlt;
-    }
-
-    static async findOne(condition){
-        let rlt  = await this.model.findOne(condition);
-        return rlt;
-    }
-
-    static async findById(id){
-        let rlt  = await this.model.findById(id);
-        return rlt;
-    }
 }
 
 export default WanModel

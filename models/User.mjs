@@ -31,7 +31,11 @@ User.setScheme(
         "nickname" : String,
         "dataAutograph" : String,
     },
-    "User", "users"
+    "User", "users", {
+        breif: ['username', 'profile', 'nickname', 'createdAt'],
+        detail: ['score', 'username', 'profile', 'nickname', 'createdAt', 'logintimes', 'lastLoginTime', 'nickname'],
+        expose: ['profile']
+    }
 )
 
 export default  User;

@@ -1,25 +1,25 @@
 {
   "stats": {
-    "suites": 3,
-    "tests": 4,
-    "passes": 4,
+    "suites": 2,
+    "tests": 0,
+    "passes": 0,
     "pending": 0,
     "failures": 0,
-    "start": "2018-06-20T10:37:34.909Z",
-    "end": "2018-06-20T10:37:35.323Z",
-    "duration": 414,
+    "start": "2018-06-21T14:55:37.742Z",
+    "end": "2018-06-21T14:55:41.747Z",
+    "duration": 4005,
     "testsRegistered": 4,
-    "passPercent": 100,
+    "passPercent": 0,
     "pendingPercent": 0,
-    "other": 0,
-    "hasOther": false,
-    "skipped": 0,
-    "hasSkipped": false,
-    "passPercentClass": "success",
+    "other": 2,
+    "hasOther": true,
+    "skipped": 4,
+    "hasSkipped": true,
+    "passPercentClass": "danger",
     "pendingPercentClass": "danger"
   },
   "suites": {
-    "uuid": "8ae72c03-2627-4c17-aab8-dedd6b48f436",
+    "uuid": "0f9423cf-5f81-4eb1-8cf7-59682d0694a3",
     "title": "",
     "fullFile": "",
     "file": "",
@@ -28,45 +28,7 @@
     "tests": [],
     "suites": [
       {
-        "uuid": "032fd81c-8e6e-48f5-93ed-9afa95c294ef",
-        "title": "加法函数的测试",
-        "fullFile": "/home/simontaosim/wanServer/test/index.js",
-        "file": "/test/index.js",
-        "beforeHooks": [],
-        "afterHooks": [],
-        "tests": [
-          {
-            "title": "1 加 1 应该等于 2",
-            "fullTitle": "加法函数的测试 1 加 1 应该等于 2",
-            "timedOut": false,
-            "duration": 1,
-            "state": "passed",
-            "speed": "fast",
-            "pass": true,
-            "fail": false,
-            "pending": false,
-            "code": "expect((0, _add2.default)(1, 1)).to.be.equal(2);",
-            "err": {},
-            "isRoot": false,
-            "uuid": "81f200f1-7cae-4eb4-ac06-f78ae22620b0",
-            "isHook": false,
-            "skipped": false
-          }
-        ],
-        "suites": [],
-        "passes": [
-          "81f200f1-7cae-4eb4-ac06-f78ae22620b0"
-        ],
-        "failures": [],
-        "pending": [],
-        "skipped": [],
-        "duration": 1,
-        "root": false,
-        "rootEmpty": false,
-        "_timeout": 2000
-      },
-      {
-        "uuid": "4349def2-e014-414f-aca8-be4378bbb861",
+        "uuid": "4f84bd36-4335-418e-b840-890f75d1a8e6",
         "title": "用户数据查询测试",
         "fullFile": "/home/simontaosim/wanServer/test/index.js",
         "file": "/test/index.js",
@@ -74,15 +36,19 @@
           {
             "title": "\"before all\" hook",
             "fullTitle": "用户数据查询测试 \"before all\" hook",
-            "timedOut": false,
-            "duration": 1,
+            "timedOut": true,
+            "duration": 2000,
+            "state": "failed",
             "pass": false,
-            "fail": false,
+            "fail": true,
             "pending": false,
-            "code": "(0, _connectdb2.default)();",
-            "err": {},
+            "code": "_connectdb.dbConnection.then(function (rlt) {\n  if (rlt) {\n    done();\n  }\n});",
+            "err": {
+              "message": "Error: Timeout of 2000ms exceeded. For async tests and hooks, ensure \"done()\" is called; if returning a Promise, ensure it resolves. (/home/simontaosim/wanServer/test/index.js)",
+              "estack": "Error: Timeout of 2000ms exceeded. For async tests and hooks, ensure \"done()\" is called; if returning a Promise, ensure it resolves. (/home/simontaosim/wanServer/test/index.js)"
+            },
             "isRoot": false,
-            "uuid": "96b82d21-74d7-47ae-8032-299b98c2b84b",
+            "uuid": "94cf1530-17e3-4cb3-ab01-4fdd10ecfcd7",
             "isHook": true,
             "skipped": false
           }
@@ -94,67 +60,83 @@
             "fullTitle": "用户数据查询测试 默认查询一条用户数据",
             "timedOut": false,
             "duration": 0,
-            "state": "passed",
-            "speed": "fast",
-            "pass": true,
+            "pass": false,
             "fail": false,
             "pending": false,
-            "code": "expect((0, _users.getOneUser)()).to.be.ok;",
+            "code": "expect(_User2.default.model.findOne()).to.be.ok;",
             "err": {},
             "isRoot": false,
-            "uuid": "43ce7316-4006-42fc-9381-e03ab29566fb",
+            "uuid": "b3365c83-a199-4d4a-9dfd-84e852febc44",
             "isHook": false,
-            "skipped": false
+            "skipped": true
           },
           {
             "title": "查询18820965455的用户",
             "fullTitle": "用户数据查询测试 查询18820965455的用户",
             "timedOut": false,
-            "duration": 408,
-            "state": "passed",
-            "speed": "slow",
-            "pass": true,
+            "duration": 0,
+            "pass": false,
             "fail": false,
             "pending": false,
-            "code": "(0, _users.getOneUsername)({ username: '18820965455' }).then(function (rlt) {\n  expect(rlt).to.be.equal('18820965455');\n  done();\n});",
+            "code": "_User2.default.model.findOne({ username: '18820965455' }).then(function (rlt) {\n      if (rlt) {\n        expect(rlt.username).to.be.equal('18820965455');\n        done();\n      }\n    });",
             "err": {},
             "isRoot": false,
-            "uuid": "9a825ce8-0f62-4190-b5c5-3a1880882e46",
+            "uuid": "7b135237-ca39-4b80-96e3-bff55e484e30",
             "isHook": false,
-            "skipped": false
+            "skipped": true
+          },
+          {
+            "title": "查询前10条用户数据，并且按照时间顺序倒序排列,并且指定只要用户名和创建时间的字段",
+            "fullTitle": "用户数据查询测试 查询前10条用户数据，并且按照时间顺序倒序排列,并且指定只要用户名和创建时间的字段",
+            "timedOut": false,
+            "duration": 0,
+            "pass": false,
+            "fail": false,
+            "pending": false,
+            "code": "_User2.default.model.find({}).skip(0).limit(10).sort({ createdAt: -1 }).then(function (rlt) {\n  var firtMoment = rlt[0].createdAt;\n  var secondMoment = rlt[1].createdAt;\n  var isUpdate = (0, _moment2.default)(firtMoment).isAfter((0, _moment2.default)(secondMoment));\n  expect(rlt.length).to.be.equal(10);\n  expect(isUpdate).to.be.equal(true);\n  done();\n});",
+            "err": {},
+            "isRoot": false,
+            "uuid": "e3b39de9-2acf-4af4-9fd1-9fe96f673516",
+            "isHook": false,
+            "skipped": true
           }
         ],
         "suites": [],
-        "passes": [
-          "43ce7316-4006-42fc-9381-e03ab29566fb",
-          "9a825ce8-0f62-4190-b5c5-3a1880882e46"
-        ],
+        "passes": [],
         "failures": [],
         "pending": [],
-        "skipped": [],
-        "duration": 408,
+        "skipped": [
+          "b3365c83-a199-4d4a-9dfd-84e852febc44",
+          "7b135237-ca39-4b80-96e3-bff55e484e30",
+          "e3b39de9-2acf-4af4-9fd1-9fe96f673516"
+        ],
+        "duration": null,
         "root": false,
         "rootEmpty": false,
         "_timeout": 2000
       },
       {
-        "uuid": "5ff69ffe-5378-4318-8fd2-dcd07300fadb",
-        "title": "测试所有的路由",
+        "uuid": "3b5fb561-4776-4dd6-ab3e-f133f833f0e5",
+        "title": "测试所有用户的API",
         "fullFile": "/home/simontaosim/wanServer/test/index.js",
         "file": "/test/index.js",
         "beforeHooks": [
           {
             "title": "\"before all\" hook",
-            "fullTitle": "测试所有的路由 \"before all\" hook",
-            "timedOut": false,
-            "duration": 1,
+            "fullTitle": "测试所有用户的API \"before all\" hook",
+            "timedOut": true,
+            "duration": 2001,
+            "state": "failed",
             "pass": false,
-            "fail": false,
+            "fail": true,
             "pending": false,
-            "code": "(0, _connectdb2.default)();",
-            "err": {},
+            "code": "_connectdb.dbConnection.then(async function (rlt) {\n  if (rlt) {\n    _registerModel.Models.forEach(function (model) {\n      (0, _api.generateRestFul)(model.collectionName, _initApp2.default, model);\n    });\n    var port = 7001;\n    var isOccupied = await (0, _checkport.checkport)(port);\n    if (!isOccupied) {\n      _initApp2.default.listen(7001);\n    }\n    done();\n  }\n});",
+            "err": {
+              "message": "Error: Timeout of 2000ms exceeded. For async tests and hooks, ensure \"done()\" is called; if returning a Promise, ensure it resolves. (/home/simontaosim/wanServer/test/index.js)",
+              "estack": "Error: Timeout of 2000ms exceeded. For async tests and hooks, ensure \"done()\" is called; if returning a Promise, ensure it resolves. (/home/simontaosim/wanServer/test/index.js)"
+            },
             "isRoot": false,
-            "uuid": "1193d0de-5728-4510-a1f3-85d8b00dbcaa",
+            "uuid": "e04a579e-8e71-4ffb-ab51-acceedfc1849",
             "isHook": true,
             "skipped": false
           }
@@ -162,31 +144,29 @@
         "afterHooks": [],
         "tests": [
           {
-            "title": "测试首页的载入",
-            "fullTitle": "测试所有的路由 测试首页的载入",
+            "title": "获取用户列表（简略信息）, 只有10条, 时间倒序",
+            "fullTitle": "测试所有用户的API 获取用户列表（简略信息）, 只有10条, 时间倒序",
             "timedOut": false,
             "duration": 0,
-            "state": "passed",
-            "speed": "fast",
-            "pass": true,
+            "pass": false,
             "fail": false,
             "pending": false,
-            "code": "",
+            "code": "var userPromise = _axios2.default.get(\"http://localhost:7001/api/v1/users\");\nuserPromise.then(function (rlt) {\n  expect(rlt.length).to.be.equal(10);\n  done();\n});",
             "err": {},
             "isRoot": false,
-            "uuid": "440bc493-ca35-494b-98ba-b4cd7ce157dd",
+            "uuid": "feb92e90-5d27-4024-aaa2-8f3671ce863c",
             "isHook": false,
-            "skipped": false
+            "skipped": true
           }
         ],
         "suites": [],
-        "passes": [
-          "440bc493-ca35-494b-98ba-b4cd7ce157dd"
-        ],
+        "passes": [],
         "failures": [],
         "pending": [],
-        "skipped": [],
-        "duration": 0,
+        "skipped": [
+          "feb92e90-5d27-4024-aaa2-8f3671ce863c"
+        ],
+        "duration": null,
         "root": false,
         "rootEmpty": false,
         "_timeout": 2000

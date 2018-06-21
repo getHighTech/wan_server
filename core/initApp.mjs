@@ -1,5 +1,5 @@
 import Koa from 'koa';
-import connectDB from '../bootstrap/connectdb.mjs';
+import {connectDB} from '../bootstrap/connectdb.mjs';
 import  views from  'koa-views'
 import  koaStatic  from  'koa-static'
 import  bodyParser  from 'koa-bodyparser'
