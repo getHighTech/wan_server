@@ -109,6 +109,34 @@ it('获取用户列表第8页简略信息, 有8条, 时间倒序', (done)=>{
   })
 });
 
+it('根据用户Id: NR4uitrWdh9eL649k,查询一个用户， 其用户名为lawadmin', (done)=>{
+  let userPromise  =  Axios.get("http://localhost:7001/api/v1/users/NR4uitrWdh9eL649k")
+  userPromise.then(rlt => {
+      expect(rlt.username).to.be.equal('lawadmin');
+      done();
+  })
+});
+it('创建一个用户，用户名为testuser87, 密码为testuser872017best, 电话号码为1391234567', (done)=>{
+  let userPromise  =  Axios.post("http://localhost:7001/api/v1/users/create",
+  {username: "testuser87", passowrd: "testuser872017best", mobile: "1391234567"})
+  userPromise.then(rlt => {
+      let user = User.model.findById(rlt);
+      expect(user.username).to.be.equal('testuser87');
+      expect(user.profile.mobile).to.be.equal('1391234567')
+      done();
+  })
+});
+it('删除一个用户，用户名为testuser87', (done)=>{
+  let userPromise  =  Axios.post("http://localhost:7001/api/v1/users/delete",
+  {username: "testuser87"})
+  userPromise.then(rlt => {
+    let user = user.model.findOne({username: 'testuser87'})
+      expect(user).to.be.equal(null)
+      expect(rlt).to.be.equal(1)
+      done();
+  })
+});
+
 
 //测试所有用户的API
 })
