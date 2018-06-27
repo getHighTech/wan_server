@@ -32,6 +32,7 @@ User.setScheme(
         "dataAutograph" : String,
     },
     "User", "users", {
+        //OPTIONAL 提供不同版本的api, 标注哪些字段需要展开
         breif: ['username', 'profile', 'nickname', 'createdAt'],
         detail: ['score', 'username', 'profile', 'nickname', 'createdAt', 'logintimes', 'lastLoginTime', 'nickname'],
         expose: ['profile']
