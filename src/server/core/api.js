@@ -4,7 +4,6 @@ export function  generateRestFul(collectionName, App, model){
     console.log('正在加载路由...');
     let rest = new Router()
 
-    // 子路由1
     rest.get('/api/v1/'+collectionName+'/', async ( ctx )=>{
         let page = 1;
         let pagesize = 10;

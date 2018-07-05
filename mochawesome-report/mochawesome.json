@@ -1,25 +1,25 @@
 {
   "stats": {
     "suites": 2,
-    "tests": 9,
+    "tests": 10,
     "passes": 5,
     "pending": 0,
-    "failures": 4,
-    "start": "2018-06-27T05:53:40.969Z",
-    "end": "2018-06-27T05:53:49.860Z",
-    "duration": 8891,
-    "testsRegistered": 9,
-    "passPercent": 55.6,
+    "failures": 5,
+    "start": "2018-06-29T09:22:18.190Z",
+    "end": "2018-06-29T09:22:29.085Z",
+    "duration": 10895,
+    "testsRegistered": 10,
+    "passPercent": 50,
     "pendingPercent": 0,
     "other": 0,
     "hasOther": false,
     "skipped": 0,
     "hasSkipped": false,
-    "passPercentClass": "warning",
+    "passPercentClass": "danger",
     "pendingPercentClass": "danger"
   },
   "suites": {
-    "uuid": "7d7d3cb0-8914-4406-bb38-df14ff213dd4",
+    "uuid": "50fb3ce7-f3b9-47f1-9a4f-58744ac63fdb",
     "title": "",
     "fullFile": "",
     "file": "",
@@ -28,23 +28,23 @@
     "tests": [],
     "suites": [
       {
-        "uuid": "abd28d4d-7914-400b-9698-934d90ee05b4",
+        "uuid": "3d6c0a5f-f6c5-4df8-81ab-4395046181a8",
         "title": "用户数据查询测试",
-        "fullFile": "/home/simontaosim/wanServer/test/index.js",
+        "fullFile": "/home/simon/wan_server/test/index.js",
         "file": "/test/index.js",
         "beforeHooks": [
           {
             "title": "\"before all\" hook",
             "fullTitle": "用户数据查询测试 \"before all\" hook",
             "timedOut": false,
-            "duration": 305,
+            "duration": 278,
             "pass": false,
             "fail": false,
             "pending": false,
             "code": "_connectdb.dbConnection.then(function (rlt) {\n  if (rlt) {\n    done();\n  }\n});",
             "err": {},
             "isRoot": false,
-            "uuid": "67ead9f4-d881-44e8-8e2c-0037bf891e93",
+            "uuid": "456fbb11-7108-4d7b-856c-0b72c0a5396a",
             "isHook": true,
             "skipped": false
           }
@@ -64,7 +64,7 @@
             "code": "expect(_User2.default.model.findOne()).to.be.ok;",
             "err": {},
             "isRoot": false,
-            "uuid": "fef383f8-b971-4daa-97d9-7531eb09c9d1",
+            "uuid": "7d2ccf41-43b7-4810-ba9c-95ad77ed91a9",
             "isHook": false,
             "skipped": false
           },
@@ -72,7 +72,7 @@
             "title": "查询18820965455的用户",
             "fullTitle": "用户数据查询测试 查询18820965455的用户",
             "timedOut": false,
-            "duration": 134,
+            "duration": 126,
             "state": "passed",
             "speed": "slow",
             "pass": true,
@@ -81,7 +81,7 @@
             "code": "_User2.default.model.findOne({ username: '18820965455' }).then(function (rlt) {\n      if (rlt) {\n        expect(rlt.username).to.be.equal('18820965455');\n        done();\n      }\n    });",
             "err": {},
             "isRoot": false,
-            "uuid": "0e086e58-84b9-4994-916b-3a61699ff78a",
+            "uuid": "19994f50-ab4c-4e8c-8094-a6b2f6b82917",
             "isHook": false,
             "skipped": false
           },
@@ -89,7 +89,7 @@
             "title": "查询前10条用户数据，并且按照时间顺序倒序排列,并且指定只要用户名和创建时间的字段",
             "fullTitle": "用户数据查询测试 查询前10条用户数据，并且按照时间顺序倒序排列,并且指定只要用户名和创建时间的字段",
             "timedOut": false,
-            "duration": 130,
+            "duration": 183,
             "state": "passed",
             "speed": "slow",
             "pass": true,
@@ -98,43 +98,43 @@
             "code": "_User2.default.model.find({}).skip(0).limit(10).sort({ createdAt: -1 }).then(function (rlt) {\n  var firtMoment = rlt[0].createdAt;\n  var secondMoment = rlt[1].createdAt;\n  var isUpdate = (0, _moment2.default)(firtMoment).isAfter((0, _moment2.default)(secondMoment));\n  expect(rlt.length).to.be.equal(10);\n  expect(isUpdate).to.be.equal(true);\n  done();\n});",
             "err": {},
             "isRoot": false,
-            "uuid": "20c0f381-0894-4275-b9d5-b38d4d462eba",
+            "uuid": "b459f744-32ae-48b1-86ea-522464100fa7",
             "isHook": false,
             "skipped": false
           }
         ],
         "suites": [],
         "passes": [
-          "fef383f8-b971-4daa-97d9-7531eb09c9d1",
-          "0e086e58-84b9-4994-916b-3a61699ff78a",
-          "20c0f381-0894-4275-b9d5-b38d4d462eba"
+          "7d2ccf41-43b7-4810-ba9c-95ad77ed91a9",
+          "19994f50-ab4c-4e8c-8094-a6b2f6b82917",
+          "b459f744-32ae-48b1-86ea-522464100fa7"
         ],
         "failures": [],
         "pending": [],
         "skipped": [],
-        "duration": 267,
+        "duration": 312,
         "root": false,
         "rootEmpty": false,
         "_timeout": 2000
       },
       {
-        "uuid": "1dcd23e8-d02e-4744-bc21-a8f5fb319088",
+        "uuid": "d78f4318-ae08-4896-8ce5-0ada796103ef",
         "title": "测试所有用户的API",
-        "fullFile": "/home/simontaosim/wanServer/test/index.js",
+        "fullFile": "/home/simon/wan_server/test/index.js",
         "file": "/test/index.js",
         "beforeHooks": [
           {
             "title": "\"before all\" hook",
             "fullTitle": "测试所有用户的API \"before all\" hook",
             "timedOut": false,
-            "duration": 8,
+            "duration": 6,
             "pass": false,
             "fail": false,
             "pending": false,
             "code": "_connectdb.dbConnection.then(async function (rlt) {\n  if (rlt) {\n    _registerModel.Models.forEach(function (model) {\n      (0, _api.generateRestFul)(model.collectionName, _initApp2.default, model);\n    });\n    var port = 7001;\n    var isOccupied = await (0, _checkport.checkport)(port);\n    if (!isOccupied) {\n      _initApp2.default.listen(7001);\n    }\n    done();\n  }\n});",
             "err": {},
             "isRoot": false,
-            "uuid": "154fdaab-c4d6-43ea-8692-c64653823ec2",
+            "uuid": "f8f199bf-206d-46dc-a010-c12dc727a630",
             "isHook": true,
             "skipped": false
           }
@@ -145,7 +145,7 @@
             "title": "获取用户列表（简略信息）, 只有10条, 时间倒序",
             "fullTitle": "测试所有用户的API 获取用户列表（简略信息）, 只有10条, 时间倒序",
             "timedOut": false,
-            "duration": 161,
+            "duration": 154,
             "state": "passed",
             "speed": "slow",
             "pass": true,
@@ -154,7 +154,7 @@
             "code": "var userPromise = _axios2.default.get(\"http://localhost:7001/api/v1/users\");\nuserPromise.then(function (rlt) {\n  var firtMoment = rlt.data[0].createdAt;\n  var secondMoment = rlt.data[1].createdAt;\n  var isUpdate = (0, _moment2.default)(firtMoment).isAfter((0, _moment2.default)(secondMoment));\n  expect(rlt.data.length).to.be.equal(10);\n  expect(isUpdate).to.be.equal(true);\n  done();\n});",
             "err": {},
             "isRoot": false,
-            "uuid": "fc0be735-f473-46c4-b68e-cb39745032ed",
+            "uuid": "2dbe810c-cca2-4961-82cb-73ff86bac394",
             "isHook": false,
             "skipped": false
           },
@@ -171,7 +171,7 @@
             "code": "var userPromise = _axios2.default.get(\"http://localhost:7001/api/v1/users?version=detail&page=3&pagesize=8\");\nuserPromise.then(function (rlt) {\n  var firtMoment = rlt.data[0].createdAt;\n  var secondMoment = rlt.data[1].createdAt;\n  var isUpdate = (0, _moment2.default)(firtMoment).isAfter((0, _moment2.default)(secondMoment));\n  expect(rlt.data.length).to.be.equal(8);\n  expect(isUpdate).to.be.equal(true);\n  done();\n});",
             "err": {},
             "isRoot": false,
-            "uuid": "2696bc52-3914-4e91-bb7d-eeb6670541ba",
+            "uuid": "a5730124-5ba6-4b5f-b2c2-9b609768cbfc",
             "isHook": false,
             "skipped": false
           },
@@ -186,11 +186,11 @@
             "pending": false,
             "code": "var userPromise = _axios2.default.get(\"http://localhost:7001/api/v1/users?version=breif&page=3&pagesize=8\");\nuserPromise.then(function (rlt) {\n  var firtMoment = rlt[0].createdAt;\n  var secondMoment = rlt[1].createdAt;\n  var isUpdate = (0, _moment2.default)(firtMoment).isAfter((0, _moment2.default)(secondMoment));\n  expect(rlt.length).to.be.equal(10);\n  expect(isUpdate).to.be.equal(true);\n  done();\n});",
             "err": {
-              "message": "Error: Timeout of 2000ms exceeded. For async tests and hooks, ensure \"done()\" is called; if returning a Promise, ensure it resolves. (/home/simontaosim/wanServer/test/index.js)",
-              "estack": "Error: Timeout of 2000ms exceeded. For async tests and hooks, ensure \"done()\" is called; if returning a Promise, ensure it resolves. (/home/simontaosim/wanServer/test/index.js)"
+              "message": "Error: Timeout of 2000ms exceeded. For async tests and hooks, ensure \"done()\" is called; if returning a Promise, ensure it resolves. (/home/simon/wan_server/test/index.js)",
+              "estack": "Error: Timeout of 2000ms exceeded. For async tests and hooks, ensure \"done()\" is called; if returning a Promise, ensure it resolves. (/home/simon/wan_server/test/index.js)"
             },
             "isRoot": false,
-            "uuid": "59ae507d-6ffb-479b-a5e7-394b2f212828",
+            "uuid": "f7bb4883-1458-450b-a727-f8bdccedebbb",
             "isHook": false,
             "skipped": false
           },
@@ -198,18 +198,18 @@
             "title": "根据用户Id: NR4uitrWdh9eL649k,查询一个用户， 其用户名为lawadmin",
             "fullTitle": "测试所有用户的API 根据用户Id: NR4uitrWdh9eL649k,查询一个用户， 其用户名为lawadmin",
             "timedOut": true,
-            "duration": 2000,
+            "duration": 2001,
             "state": "failed",
             "pass": false,
             "fail": true,
             "pending": false,
             "code": "var userPromise = _axios2.default.get(\"http://localhost:7001/api/v1/users/NR4uitrWdh9eL649k\");\nuserPromise.then(function (rlt) {\n  expect(rlt.username).to.be.equal('lawadmin');\n  done();\n});",
             "err": {
-              "message": "Error: Timeout of 2000ms exceeded. For async tests and hooks, ensure \"done()\" is called; if returning a Promise, ensure it resolves. (/home/simontaosim/wanServer/test/index.js)",
-              "estack": "Error: Timeout of 2000ms exceeded. For async tests and hooks, ensure \"done()\" is called; if returning a Promise, ensure it resolves. (/home/simontaosim/wanServer/test/index.js)"
+              "message": "Error: Timeout of 2000ms exceeded. For async tests and hooks, ensure \"done()\" is called; if returning a Promise, ensure it resolves. (/home/simon/wan_server/test/index.js)",
+              "estack": "Error: Timeout of 2000ms exceeded. For async tests and hooks, ensure \"done()\" is called; if returning a Promise, ensure it resolves. (/home/simon/wan_server/test/index.js)"
             },
             "isRoot": false,
-            "uuid": "9a11ec98-6997-45e3-8253-1fcbf52650ba",
+            "uuid": "aad5148a-a981-408f-9b18-6b349f246d25",
             "isHook": false,
             "skipped": false
           },
@@ -217,18 +217,18 @@
             "title": "创建一个用户，用户名为testuser87, 密码为testuser872017best, 电话号码为1391234567",
             "fullTitle": "测试所有用户的API 创建一个用户，用户名为testuser87, 密码为testuser872017best, 电话号码为1391234567",
             "timedOut": true,
-            "duration": 2001,
+            "duration": 2000,
             "state": "failed",
             "pass": false,
             "fail": true,
             "pending": false,
             "code": "var userPromise = _axios2.default.post(\"http://localhost:7001/api/v1/users/create\", { username: \"testuser87\", passowrd: \"testuser872017best\", mobile: \"1391234567\" });\nuserPromise.then(function (rlt) {\n  var user = _User2.default.model.findById(rlt);\n  expect(user.username).to.be.equal('testuser87');\n  expect(user.profile.mobile).to.be.equal('1391234567');\n  done();\n});",
             "err": {
-              "message": "Error: Timeout of 2000ms exceeded. For async tests and hooks, ensure \"done()\" is called; if returning a Promise, ensure it resolves. (/home/simontaosim/wanServer/test/index.js)",
-              "estack": "Error: Timeout of 2000ms exceeded. For async tests and hooks, ensure \"done()\" is called; if returning a Promise, ensure it resolves. (/home/simontaosim/wanServer/test/index.js)"
+              "message": "Error: Timeout of 2000ms exceeded. For async tests and hooks, ensure \"done()\" is called; if returning a Promise, ensure it resolves. (/home/simon/wan_server/test/index.js)",
+              "estack": "Error: Timeout of 2000ms exceeded. For async tests and hooks, ensure \"done()\" is called; if returning a Promise, ensure it resolves. (/home/simon/wan_server/test/index.js)"
             },
             "isRoot": false,
-            "uuid": "56ffc607-5e23-4c6f-8054-c0cd319a6e42",
+            "uuid": "b34addbc-cd13-4982-90ff-71cb3a607606",
             "isHook": false,
             "skipped": false
           },
@@ -236,36 +236,56 @@
             "title": "删除一个用户，用户名为testuser87",
             "fullTitle": "测试所有用户的API 删除一个用户，用户名为testuser87",
             "timedOut": true,
-            "duration": 2001,
+            "duration": 2000,
             "state": "failed",
             "pass": false,
             "fail": true,
             "pending": false,
             "code": "var userPromise = _axios2.default.post(\"http://localhost:7001/api/v1/users/delete\", { username: \"testuser87\" });\nuserPromise.then(function (rlt) {\n  var user = user.model.findOne({ username: 'testuser87' });\n  expect(user).to.be.equal(null);\n  expect(rlt).to.be.equal(1);\n  done();\n});",
             "err": {
-              "message": "Error: Timeout of 2000ms exceeded. For async tests and hooks, ensure \"done()\" is called; if returning a Promise, ensure it resolves. (/home/simontaosim/wanServer/test/index.js)",
-              "estack": "Error: Timeout of 2000ms exceeded. For async tests and hooks, ensure \"done()\" is called; if returning a Promise, ensure it resolves. (/home/simontaosim/wanServer/test/index.js)"
+              "message": "Error: Timeout of 2000ms exceeded. For async tests and hooks, ensure \"done()\" is called; if returning a Promise, ensure it resolves. (/home/simon/wan_server/test/index.js)",
+              "estack": "Error: Timeout of 2000ms exceeded. For async tests and hooks, ensure \"done()\" is called; if returning a Promise, ensure it resolves. (/home/simon/wan_server/test/index.js)"
             },
             "isRoot": false,
-            "uuid": "53850d04-d3a3-4015-a330-be1352e03091",
+            "uuid": "7f975c4e-3385-4878-8f71-66fb5c2f0420",
+            "isHook": false,
+            "skipped": false
+          },
+          {
+            "title": "获取用户的OPENID",
+            "fullTitle": "测试所有用户的API 获取用户的OPENID",
+            "timedOut": true,
+            "duration": 2001,
+            "state": "failed",
+            "pass": false,
+            "fail": true,
+            "pending": false,
+            "code": "var userPromise = _axios2.default.post(\"http://localhost:7001/api/v1/nomodel/wechat/users/openid\");\nuserPromise.then(function (rlt) {\n  var user = user.model.findOne({ username: 'testuser87' });\n  expect(user).to.be.equal(null);\n  expect(rlt).to.be.equal(1);\n  done();\n});",
+            "err": {
+              "message": "Error: Timeout of 2000ms exceeded. For async tests and hooks, ensure \"done()\" is called; if returning a Promise, ensure it resolves. (/home/simon/wan_server/test/index.js)",
+              "estack": "Error: Timeout of 2000ms exceeded. For async tests and hooks, ensure \"done()\" is called; if returning a Promise, ensure it resolves. (/home/simon/wan_server/test/index.js)"
+            },
+            "isRoot": false,
+            "uuid": "02d2f72b-b7cd-46b6-a883-21328389e296",
             "isHook": false,
             "skipped": false
           }
         ],
         "suites": [],
         "passes": [
-          "fc0be735-f473-46c4-b68e-cb39745032ed",
-          "2696bc52-3914-4e91-bb7d-eeb6670541ba"
+          "2dbe810c-cca2-4961-82cb-73ff86bac394",
+          "a5730124-5ba6-4b5f-b2c2-9b609768cbfc"
         ],
         "failures": [
-          "59ae507d-6ffb-479b-a5e7-394b2f212828",
-          "9a11ec98-6997-45e3-8253-1fcbf52650ba",
-          "56ffc607-5e23-4c6f-8054-c0cd319a6e42",
-          "53850d04-d3a3-4015-a330-be1352e03091"
+          "f7bb4883-1458-450b-a727-f8bdccedebbb",
+          "aad5148a-a981-408f-9b18-6b349f246d25",
+          "b34addbc-cd13-4982-90ff-71cb3a607606",
+          "7f975c4e-3385-4878-8f71-66fb5c2f0420",
+          "02d2f72b-b7cd-46b6-a883-21328389e296"
         ],
         "pending": [],
         "skipped": [],
-        "duration": 8286,
+        "duration": 10279,
         "root": false,
         "rootEmpty": false,
         "_timeout": 2000

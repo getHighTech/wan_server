@@ -1,4 +1,4 @@
-import WanModel from "../core/model.mjs";
+import WanModel from "../core/model.js";
 
 class User extends WanModel {
     constructor(props){

@@ -21,6 +21,22 @@ class WanModel {
         let rlt = await  this.model.create(params);
         return rlt;
     }
+    static async litmit(page=0, pagesize=10){
+
+    }
+    static async sortLimitByTime(page=0, pagesize=10){
+        
+    }
+    static async getOne(id){
+    
+    }
+    static async update(id, params){
+    
+    }
+    
+    static async deleteOne(id){
+    
+    }
 
     
 

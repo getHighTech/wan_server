@@ -1,14 +1,14 @@
 import chai from 'chai';
-import {dbConnection, connectDB} from '../../bootstrap/connectdb.mjs';
-import User from '../../models/User.mjs';
+import {dbConnection, connectDB} from '../../bootstrap/connectdb.js';
+import User from '../../models/User.js';
 import moment from 'moment';
-import App from  '../../core/initApp.mjs';
+import App from  '../../core/initApp.js';
 
-import { generateRestFul } from '../../core/api.mjs';
+import { generateRestFul } from '../../core/api.js';
 
 //load models;
-import { Models } from '../../models/registerModel.mjs';
-import { checkport } from '../../utils/checkport.mjs';
+import { Models } from '../../models/registerModel.js';
+import { checkport } from '../../utils/checkport.js';
 import Axios from 'axios';
 
 
@@ -28,14 +28,14 @@ describe('用户数据查询测试', function(){
     });
 
     it('查询18820965455的用户', (done)=>{
-      
+
      User.model.findOne({username: '18820965455'}).then(
       (rlt) => {
         if(rlt){
           expect(rlt.username).to.be.equal('18820965455');
           done();
         }
-        
+
       }
     );
     });
@@ -75,7 +75,7 @@ describe('测试所有用户的API', ()=>{
   it('获取用户列表（简略信息）, 只有10条, 时间倒序', (done)=>{
       let userPromise  =  Axios.get("http://localhost:7001/api/v1/users")
       userPromise.then(rlt => {
-          
+
           let firtMoment = rlt.data[0].createdAt;
           let secondMoment = rlt.data[1].createdAt;
           let isUpdate = moment(firtMoment).isAfter(moment(secondMoment));
@@ -137,6 +137,16 @@ it('删除一个用户，用户名为testuser87', (done)=>{
       done();
   })
 });
+
+it('获取用户的OPENID', (done)=>{
+  let userPromise  =  Axios.post("http://localhost:7001/api/v1/nomodel/wechat/users/openid");
+  userPromise.then(rlt => {
+    let user = user.model.findOne({username: 'testuser87'})
+      expect(user).to.be.equal(null)
+      expect(rlt).to.be.equal(1)
+      done();
+  })
+})
 
 
 //测试所有用户的API

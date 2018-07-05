@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
-import ENV from './loadEnv.mjs';
-import dburl from '../config/db.mjs';
+import ENV from './loadEnv.js';
+import dburl from '../config/db.js';
 
 const getMongoUrlByEnv =  dburl[ENV];
 const options = {
@@ -15,21 +15,21 @@ const options = {
 
 export function connectDB(){
     console.log("正在连接数据库....");
-    
+
     mongoose.connect(getMongoUrlByEnv).then(
         rlt=> {
             if(rlt){
                 console.log("成功连接数据库");
-                
+
             }else{
                 console.log("连接数据库失败, 请检查配置");
-                
+
             }
-            
+
         },
         err => {
             console.log("存在错误", err);
-            
+
         }
     );
 }

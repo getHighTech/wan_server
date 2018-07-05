@@ -1,5 +1,5 @@
 import Koa from 'koa';
-import {connectDB} from '../bootstrap/connectdb.mjs';
+import {connectDB} from '../bootstrap/connectdb.js';
 import  views from  'koa-views'
 import  koaStatic  from  'koa-static'
 import  bodyParser  from 'koa-bodyparser'
@@ -12,7 +12,12 @@ connectDB();
 
 const  App = new Koa();
 // 配置控制台日志中间件
-App.use(koaLogger())
+App.use(koaLogger({
+  enableTypes: ['json', 'form', 'text'],
+  extendTypes: {
+    text: ['text/xml', 'application/xml']
+  }
+}))
 
 // 配置ctx.body解析中间件
 App.use(bodyParser())
@@ -31,5 +36,3 @@ App.use(views(path.join(__dirname, './view'), {
 
 
 export default App;
-
-
