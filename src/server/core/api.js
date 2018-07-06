@@ -11,7 +11,6 @@ export function  generateRestFul(collectionName, App, model){
         if(ctx.query.page ){
             page = ctx.query.page;
         }
-        console.log(ctx.query.pagesize);
         
         if(ctx.query.pagesize){
             pagesize = ctx.query.pagesize;
@@ -21,7 +20,6 @@ export function  generateRestFul(collectionName, App, model){
 
     }).get('/api/'+collectionName+'/:id', async ( ctx )=>{
         let record =  await model.findById(ctx.params.id);
-        console.log(record);
         
         ctx.body = record;
     }).get('/api/v1/'+collectionName+'/:id/update', async ( ctx )=>{
