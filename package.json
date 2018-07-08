@@ -30,6 +30,7 @@
     "ejs": "^2.6.1",
     "file-loader": "^1.1.11",
     "global": "^4.3.2",
+    "gun": "^0.9.9993",
     "koa": "^2.5.1",
     "koa-bodyparser": "^4.2.1",
     "koa-logger": "^3.2.0",

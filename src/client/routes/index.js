@@ -163,11 +163,11 @@ class AppRoutes extends React.Component {
     }
 
 
-    
-   
+
+
     return (
       <div className={classes.root}>
-        
+
         <div className={classes.appFrame}>
           <AppBar
             className={classNames(classes.appBar, {
@@ -224,13 +224,13 @@ class AppRoutes extends React.Component {
             })}
           >
             <div className={classes.drawerHeader} />
-            
-            
+
+
             <Router>
               <div>
+                
 
-              
-              
+
               </div>
             </Router>
           </main>

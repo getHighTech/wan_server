@@ -1,12 +1,12 @@
 const HtmlWebPackPlugin = require("html-webpack-plugin");
-
+const  path = require('path');
 require("babel-core/register");
 require("babel-polyfill");
-
 module.exports = {
   entry: ['babel-polyfill', "./src/client/index.js"],
   output: {
-    filename: 'main.js',
+    path: __dirname + '/public',
+    filename: 'assets/main.js',
   },
   module: {
     rules: [
@@ -30,7 +30,7 @@ module.exports = {
           },
         ],
       }
-      
+
     ]
   },
   devServer: {
@@ -38,7 +38,7 @@ module.exports = {
     port: 9000,
     proxy: {
       '/api/v1': {
-        target: 'http://localhost:1234',
+        target: path.join(__dirname, 'public'),
         pathRewrite: {'^/api/v1' : ''}
       }
     }
@@ -46,6 +46,7 @@ module.exports = {
   plugins: [
     new HtmlWebPackPlugin({
       template: "./src/client/index.html",
+      filename: "index.html",
       minify: true,
     })
   ]
