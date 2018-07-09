@@ -8,7 +8,9 @@ approute.get('/app/:appname', async ( ctx )=>{
     let from_url = ctx.query.from_url ? ctx.query.from_url : "";
     if(!ctx.query.code){
       await ctx.render('app', {
-        appname: ctx.params.appname
+        appname: ctx.params.appname,
+        openid: null,
+        from_url: null
       })
     }else{
       request.get(`https://api.weixin.qq.com/sns/oauth2/access_token?appid=${app_id}&secret=${app_secrect}&code=${ctx.query.code}&grant_type=authorization_code`, async (err, response, body)=>{
