@@ -20,7 +20,6 @@ import LOGO from '../components/images/favicon.png'
 import  { connect } from 'react-redux';
 import { APP_SWITCH_SIDEBAR } from '../actions/app.js';
 import { HashRouter as Router, Route, Link } from "react-router-dom";
-import Creeper from '../components/Tools/Creeper.js';
 
 const drawerWidth = 240;
 
@@ -231,7 +230,6 @@ class AppRoutes extends React.Component {
               <div>
 
                 <Route path="/" component={Creeper} />
-                <Route path="/tools/creaper" component={Creeper} />
               </div>
             </Router>
           </main>
