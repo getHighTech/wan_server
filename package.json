@@ -46,7 +46,9 @@
     "react-redux": "^5.0.7",
     "react-router": "^4.3.1",
     "redux": "^4.0.0",
+    "request": "^2.87.0",
     "tenpay": "^2.1.6",
+    "urlencode": "^1.1.0",
     "webpack-command": "^0.4.0"
   },
   "devDependencies": {

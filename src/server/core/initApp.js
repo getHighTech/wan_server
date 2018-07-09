@@ -24,7 +24,7 @@ App.use(bodyParser())
 
 // 配置静态资源加载中间件
 App.use(koaStatic(
-  path.join(__dirname , './public/assets')
+  path.join(__dirname , './public')
 ))
 
 // 配置服务端模板渲染引擎中间件
