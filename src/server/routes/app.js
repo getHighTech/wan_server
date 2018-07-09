@@ -11,7 +11,7 @@ approute.get('/app/:appname', async ( ctx )=>{
         appname: ctx.params.appname
       })
     }else{
-      request.get(`https://api.weixin.qq.com/sns/oauth2/access_token?appid=${app_id}&secret=${app_secrect}&code=${ctx.query.code}&grant_type=authorization_code`, function(err, response, body){
+      request.get(`https://api.weixin.qq.com/sns/oauth2/access_token?appid=${app_id}&secret=${app_secrect}&code=${ctx.query.code}&grant_type=authorization_code`, async (err, response, body)=>{
         console.log(body);
         await ctx.render('app', {
           appname: ctx.params.appname,
