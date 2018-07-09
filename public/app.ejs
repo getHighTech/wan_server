@@ -1,0 +1,74 @@
+<!doctype html>
+<html class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1">
+  <title>乐多多平台</title>
+
+  <!-- Set render engine for 360 browser -->
+  <meta name="renderer" content="webkit">
+
+  <!-- No Baidu Siteapp-->
+  <meta http-equiv="Cache-Control" content="no-siteapp"/>
+
+  <link rel="icon" type="image/png" href="assets/i/favicon.png">
+
+  <!-- Add to homescreen for Chrome on Android -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <link rel="icon" sizes="192x192" href="assets/i/app-icon72x72@2x.png">
+
+  <!-- Add to homescreen for Safari on iOS -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="乐多多平台"/>
+  <link rel="apple-touch-icon-precomposed" href="assets/i/app-icon72x72@2x.png">
+
+  <!-- Tile icon for Win8 (144x144 + tile color) -->
+  <meta name="msapplication-TileImage" content="assets/i/app-icon72x72@2x.png">
+  <meta name="msapplication-TileColor" content="#0e90d2">
+
+  <link rel="stylesheet" href="https://cdn.bootcss.com/materialize/1.0.0-rc.1/css/materialize.min.css">
+</head>
+<body>
+<p>
+  此处根据不同应用加载不同的域名， 并且给予不同的openId, 进行支付,当前应用为<%= appname %>
+</p>
+<script type="text/javascript">
+var isWeixin = function () { //判断是否是微信
+    var ua = navigator.userAgent.toLowerCase();
+    return ua.match(/MicroMessenger/i) == "micromessenger";
+};
+var locationToJump = function(){
+  switch ('<%= appname %>') {
+    case "wanchehui":
+      return 'http://test1.10000cars.cn';
+    case "xianzhi":
+      return 'http://xianzhi.10000cars.cn';
+    default:
+      alert("您的应用暂时没有上线，请联系我们");
+      return "http://test2.10000cars.cn";
+
+  }
+}
+if(!isWeixin()){
+  window.location.assign(locationToJump());
+}else{
+  var redirect_uri = encodeURI(window.location.href);
+  if("<%= code %>" != ''){
+    var from_url = encodeURI('<%= from_url %>')
+    https://api.weixin.qq.com/sns/oauth2/access_token?appid=APPID&secret=SECRET&code=CODE&grant_type=authorization_code
+  }
+  window.location.assign('https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx9ca3272fed4926ba&redirect_uri='+redirect_uri+'&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect');
+}
+
+
+</script>
+
+
+
+</body>
+</html>
