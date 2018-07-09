@@ -58,10 +58,13 @@ if(!isWeixin()){
   window.location.assign(locationToJump());
 }else{
   var redirect_uri = encodeURI(window.location.href);
-  console.log("<%= openid %>");
-  if(!"<%= openid %>"){
-    var from_url = encodeURI('<%= from_url %>');
-    console.log(from_url);
+  alert("<%= openid %>");
+  if("<%= openid %>"!==""){
+    if('<%= from_url %>'){
+      window.location.assign(from_url)
+    }else{
+      window.location.assign(locationToJump());
+    }
     
   }
   window.location.assign('https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx9ca3272fed4926ba&redirect_uri='+redirect_uri+'&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect');
