@@ -229,7 +229,7 @@ class AppRoutes extends React.Component {
             <Router>
               <div>
 
-                <Route path="/" component={Creeper} />
+
               </div>
             </Router>
           </main>
