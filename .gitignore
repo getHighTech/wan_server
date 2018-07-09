@@ -4,5 +4,5 @@ package-lock.json
 /yarn-error.log
 /public/assets/
 /public/*.png
-/yarn.lock
+yarn*
 /public/index.html
