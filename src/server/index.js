@@ -17,7 +17,7 @@ genenrateWechatApis(App);
 App.use(homeRoute.routes()).use(homeRoute.allowedMethods())
 App.use(approute.routes()).use(approute.allowedMethods())
 
-App.listen(1234);
+App.listen(1235);
 
 console.log("=========================================================");
 
