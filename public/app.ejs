@@ -34,9 +34,7 @@
   <link rel="stylesheet" href="https://cdn.bootcss.com/materialize/1.0.0-rc.1/css/materialize.min.css">
 </head>
 <body>
-<p>
-  此处根据不同应用加载不同的域名， 并且给予不同的openId, 进行支付,当前应用为<%= appname %>
-</p>
+
 <script type="text/javascript">
 var isWeixin = function () { //判断是否是微信
     var ua = navigator.userAgent.toLowerCase();
@@ -55,13 +53,18 @@ var locationToJump = function(){
   }
 }
 
-
-
 </script>
 <% if (openid) { %>
+  <p>
+    已经有了openId, 需要判是否有需要返回的的页面
+  </p>
   <% if(from_url) {%>
+    <p>
+      已经有了openId, 也有返回的页面，那么就跳转到返回的页面
+    </p>
     <script>
       var from_url = encodeURI('<%= from_url %>');
+      alert(from_url)
       window.location.assign(from_url);
 
     </script>
@@ -76,8 +79,8 @@ var locationToJump = function(){
   if(!isWeixin()){
     window.location.assign(locationToJump());
   }else{
-    var redirect_uri = encodeURI(window.location.href+"/back");
-
+    var redirect_uri = encodeURI(window.location.href);
+    alert(redirect_uri);
     window.location.assign('https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx9ca3272fed4926ba&redirect_uri='+redirect_uri+'&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect');
   }
   </script>
