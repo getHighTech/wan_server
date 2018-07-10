@@ -5,8 +5,8 @@ const  approute = new Router();
 
 const app_secrect = "9f22e4512d30fd774d93defa85c3282b";
 const app_id = "wx9ca3272fed4926ba";
-approute.get('/app/:appname', async ( ctx )=>{
-    let from_url = ctx.query.from_url ? ctx.query.from_url : "";
+approute.get('/app/:appname/:from_url', async ( ctx )=>{
+    let from_url = ctx.params.from_url ? ctx.params.from_url : "";
     if(!ctx.query.code){
       await ctx.render('app', {
         appname: ctx.params.appname,
