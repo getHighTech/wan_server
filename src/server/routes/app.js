@@ -12,32 +12,20 @@ approute.get('/app/:appname/getopenid', async ( ctx )=>{
         openid: null,
         from_url: null
       })
-    }else{
-      await request.get(`https://api.weixin.qq.com/sns/oauth2/access_token?appid=${app_id}&secret=${app_secrect}&code=${ctx.query.code}&grant_type=authorization_code`, async (err, response, body)=>{
-        console.log(body);
-        await ctx.render('app', {
-          appname: ctx.params.appname,
-          from_url,
-          openid: body.openid,
-        })
-      })
-
     }
 
 }).get('/app/:appname/getopenid/back', async (ctx)=>{
-  request.get(`https://api.weixin.qq.com/sns/oauth2/access_token?appid=${app_id}&secret=${app_secrect}&code=${ctx.query.code}&grant_type=authorization_code`, async (err, response, body)=>{
+  let from_url = ctx.query.from_url ? ctx.query.from_url : "";
+
+  return await equest.get(`https://api.weixin.qq.com/sns/oauth2/access_token?appid=${app_id}&secret=${app_secrect}&code=${ctx.query.code}&grant_type=authorization_code`, async (err, response, body)=>{
     console.log(body);
-    await ctx.render('app', {
+    return await ctx.render('app', {
       appname: ctx.params.appname,
       from_url,
       openid: body.openid,
     })
   });
-  await ctx.render('app', {
-    appname: ctx.params.appname,
-    from_url,
-    openid: body.openid,
-  })
+
 })
 
 export default approute;
