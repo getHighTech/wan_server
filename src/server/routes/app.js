@@ -15,10 +15,10 @@ approute.get('/app/:appname', async ( ctx )=>{
       })
     }else{
       let res = await Axios.get(`https://api.weixin.qq.com/sns/oauth2/access_token?appid=${app_id}&secret=${app_secrect}&code=${ctx.query.code}&grant_type=authorization_code`);
-      console.log(await res);
+      console.log(await res.data);
       await ctx.render('app', {
         appname: ctx.params.appname,
-        openid: await res.openid,
+        openid: await res.data.openid,
         from_url,
       })
 
