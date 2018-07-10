@@ -6,6 +6,7 @@
 <body>
 
 <script type="text/javascript">
+let openid_required = 0;
 var isWeixin = function () { //判断是否是微信
     var ua = navigator.userAgent.toLowerCase();
     return ua.match(/MicroMessenger/i) == "micromessenger";
@@ -58,7 +59,11 @@ var locationToJump = function(){
     }else{
       var redirect_uri = encodeURI(window.location.href);
       alert(redirect_uri);
-      window.location.assign('https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx9ca3272fed4926ba&redirect_uri='+redirect_uri+'&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect');
+      if(openid_required === 0){
+        openid_required++;
+        window.location.assign('https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx9ca3272fed4926ba&redirect_uri='+redirect_uri+'&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect');
+        
+      }
     }
   }
 
