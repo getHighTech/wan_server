@@ -10,7 +10,7 @@ approute.get('/app/:appname', async ( ctx )=>{
     if(!ctx.query.code){
       await ctx.render('app', {
         appname: ctx.params.appname,
-        openid,
+        openid: null,
         from_url
       })
     }else{
