@@ -14,13 +14,19 @@ approute.get('/app/:appname/:from_url', async ( ctx )=>{
         from_url
       })
     }else{
-      let res = await Axios.get(`https://api.weixin.qq.com/sns/oauth2/access_token?appid=${app_id}&secret=${app_secrect}&code=${ctx.query.code}&grant_type=authorization_code`);
-      console.log(res.data);
-      await ctx.render('app', {
-        appname: ctx.params.appname,
-        openid: res.data.openid,
-        from_url,
+      Axios.get(`https://api.weixin.qq.com/sns/oauth2/access_token?appid=${app_id}&secret=${app_secrect}&code=${ctx.query.code}&grant_type=authorization_code`)
+      .then(res=>{
+        console.log(res.data);
+        ctx.render('app', {
+          appname: ctx.params.appname,
+          openid: res.data.openid,
+          from_url,
+        })
+      }).catch(err=>{
+        console.log(err);
+
       })
+
 
     }
 
