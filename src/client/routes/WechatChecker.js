@@ -14,12 +14,13 @@ class WechatChecker extends React.Component {
     {
       alert("这是微信端");
     }
+    alert(JSON.stringify(this.match.params));
 
     if(!this.isWeChat()){
       this.props.history.push("/")
     }
 
-    alert(this.match.params.openid.toString());
+
 
     if(!this.match.params.openid){
       this.props.history.push("/");
