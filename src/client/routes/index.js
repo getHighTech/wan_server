@@ -22,6 +22,12 @@ class AppRoutes extends React.Component {
     var ua = navigator.userAgent.toLowerCase();
     return ua.match(/MicroMessenger/i) == "micromessenger";
   }
+  componentDidMount(){
+    if(isWeChat())
+    {
+      alert("这是微信端");
+    }
+  }
 
 
 
