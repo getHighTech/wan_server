@@ -28,7 +28,7 @@ approute.get('/app/getopenid/:from_url', async ( ctx )=>{
   .then( async res=>{
     console.log(res.data);
     await ctx.render('getopenid_back.ejs', {
-      openid,
+      openid: res.data.openid,
       from_url
     })
     // await ctx.redirect(ctx.params.from_url+"?openid="+res.data.openid);
