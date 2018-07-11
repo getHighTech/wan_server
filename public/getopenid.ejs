@@ -17,11 +17,7 @@
       window.location.assign('<%=from_url%>');
     }else{
       var redirect_uri = encodeURI(window.location.href+"/back/");
-      alert(redirect_uri);
-      if(openid_required === 0){
-        openid_required++;
-        window.location.assign('https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx9ca3272fed4926ba&redirect_uri='+redirect_uri+'&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect');
-      }
+      window.location.assign('https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx9ca3272fed4926ba&redirect_uri='+redirect_uri+'&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect');
     }
   }
 
