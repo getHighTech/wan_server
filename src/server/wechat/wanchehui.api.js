@@ -1,8 +1,11 @@
 import config from './wanchehui.config.js';
 import  tenpay from 'tenpay';
 import request from 'request';
-import urlencode from 'urlencode';
 import Router from 'koa-router';
+import urlencode from 'urlencode';
+
+import WeChatUser from '../models/WeChatUser.js';
+
 const wechatApi = new tenpay(config);
 const appName = "wanchehui";
 const redirect_uri = urlencode("")
@@ -14,20 +17,12 @@ export default function genenrateWechatApis(App){
 
   let rest = new Router();
 
-  rest.get('/api/v1/wechat/openid/get/', async ( ctx )=>{
-    let redirect_uri = ctx.request.url+'code';
-    var options = {
-        url: `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${config.appid}&redirect_uri=${redirect_uri}&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect`,
-        headers: {
-          'User-Agent': 'request',
-          'Accept': 'text/html'
-        }
-      };
-    ctx.body = await request.get(options,
-        (err, response, body)=>{
-          console.log(body);
-
-      })
+  rest.get('/api/v1/wechat/user/openid/:openid', async ( ctx )=>{
+      if(!ctx.params.openid){
+        return "OPENID REQUIRED"
+      }
+      let user = await WeChatUser.getUserByOpenid(ctx.params.openid);
+      return user;
 
   })
   .get('/api/v1/wechat/openid/get/code', async ( ctx )=>{
