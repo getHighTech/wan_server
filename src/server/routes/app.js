@@ -27,7 +27,11 @@ approute.get('/app/getopenid/:from_url', async ( ctx )=>{
   Axios.get(`https://api.weixin.qq.com/sns/oauth2/access_token?appid=${app_id}&secret=${app_secrect}&code=${ctx.query.code}&grant_type=authorization_code`)
   .then( async res=>{
     console.log(res.data);
-    await ctx.redirect(ctx.params.from_url+"?openid="+res.data.openid);
+    await ctx.render('getopenid_back.ejs', {
+      openid,
+      from_url
+    })
+    // await ctx.redirect(ctx.params.from_url+"?openid="+res.data.openid);
   }).catch( async err=>{
     console.log(err);
     await ctx.redirect(ctx.params.from_url);
