@@ -9,7 +9,11 @@ class WechatChecker extends React.Component {
     return ua.match(/MicroMessenger/i) == "micromessenger";
   }
   componentDidMount(){
-    console.log(this.props);
+    alert("微信检查");
+    if(isWeChat())
+    {
+      alert("这是微信端");
+    }
 
     if(!this.isWeChat()){
       this.props.history.push("/")
