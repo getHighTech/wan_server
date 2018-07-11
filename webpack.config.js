@@ -37,10 +37,7 @@ module.exports = {
     compress: false,
     port: 9000,
     proxy: {
-      '/api/v1': {
-        target: path.join(__dirname, 'public'),
-        pathRewrite: {'^/api/v1' : ''}
-      }
+      "/api/v1/": "http://localhost:1235"
     }
   },
   plugins: [

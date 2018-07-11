@@ -6,6 +6,8 @@ import  { connect } from 'react-redux';
 import { HashRouter as Router, Route, Link, Switch } from "react-router-dom";
 
 import HomePage from './HomePage';
+import WechatChecker from './WechatChecker';
+import NotFound from './NotFound';
 
 import MainLayout from '../components/MainLayout';
 
@@ -16,19 +18,37 @@ import MainLayout from '../components/MainLayout';
 class AppRoutes extends React.Component {
 
 
+  isWeChat(){
+    var ua = navigator.userAgent.toLowerCase();
+    return ua.match(/MicroMessenger/i) == "micromessenger";
+  }
+
+
 
   render() {
 
     return (
       <Router>
-      <Switch>
-      <Route exact path="/" component={HomePage}/>
+        <Switch>
+          <Route exact path="/" component={HomePage}/>
 
-          <MainLayout>
 
-          </MainLayout>
+              {
+                this.isWeChat() &&
+                <div>
+                  <Route exact path="/wechat_checker" component={WechatChecker}/>
+                  <Route exact path="/wechat_checker/:openid" component={WechatChecker}/>
+                </div>
 
-      </Switch>
+              }
+
+            <MainLayout>
+              <Route exact path="/404" component={NotFound}/>
+              <Route component={NotFound}/>
+
+            </MainLayout>
+            <Route component={NotFound}/>
+        </Switch>
       </Router>
     );
   }
