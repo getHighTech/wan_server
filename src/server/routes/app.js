@@ -22,7 +22,8 @@ approute.get('/app/getopenid/:from_url', async ( ctx )=>{
   })
 })
 .get("/app/getopenid/:from_url/back", async (ctx) => {
-
+  let from_url = ctx.params.from_url ? ctx.params.from_url : "http://test2.10000cars.cn";
+  
   Axios.get(`https://api.weixin.qq.com/sns/oauth2/access_token?appid=${app_id}&secret=${app_secrect}&code=${ctx.query.code}&grant_type=authorization_code`)
   .then(res=>{
     console.log(res.data);
