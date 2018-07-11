@@ -1,4 +1,5 @@
 import React from 'react';
+import urlencode from 'urlencode';
 
 class WechatChecker extends React.Component {
 
@@ -11,7 +12,8 @@ class WechatChecker extends React.Component {
     if(this.isWeChat())
     {
     }
-    let getOpenidCodeUrl = window.localhost.href;
+    alert(JSON.stringify(this.props.match.params.openid));
+    let getOpenidCodeUrl = urlencode(window.location.href);
 
     alert(getOpenidCodeUrl);
 
