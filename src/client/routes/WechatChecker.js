@@ -9,12 +9,9 @@ class WechatChecker extends React.Component {
     return ua.match(/MicroMessenger/i) == "micromessenger";
   }
   componentDidMount(){
-    alert("微信检查");
     if(this.isWeChat())
     {
-      alert("这是微信端");
     }
-    alert(JSON.stringify(this.props.match.params.openid));
     let getOpenidCodeUrl = urlencode(window.localhost.href);
 
     alert(getOpenidCodeUrl);
