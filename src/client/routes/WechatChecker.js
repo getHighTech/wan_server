@@ -10,7 +10,7 @@ class WechatChecker extends React.Component {
   }
   componentDidMount(){
     alert("微信检查");
-    if(isWeChat())
+    if(this.isWeChat())
     {
       alert("这是微信端");
     }
