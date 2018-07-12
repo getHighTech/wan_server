@@ -28,7 +28,7 @@ approute.get('/app/getopenid/:from_url', async ( ctx )=>{
 
   let res = await Axios.get(`https://api.weixin.qq.com/sns/oauth2/access_token?appid=${app_id}&secret=${app_secrect}&code=${ctx.query.code}&grant_type=authorization_code`)
   console.log(res.data);
-  await WeChatUser.createOrUpdate(res.data.openid, res.data.access_token);
+  // await WeChatUser.createOrUpdate(res.data.openid, res.data.access_token);
   await ctx.render('getopenid_back', {
     openid: res.data.openid,
     from_url
