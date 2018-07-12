@@ -6,7 +6,7 @@ import  { connect } from 'react-redux';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
 import {isWeChat, logWechat} from '../actions/wechat.js';
-
+import {getStore} from '../actions/localStore.js';
 
 const styles = theme => ({
   root: {

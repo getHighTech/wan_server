@@ -1,3 +1,4 @@
+import {setStore} from './localStore.js';
 export function isWeChat(){
     var ua = navigator.userAgent.toLowerCase();
     return ua.match(/MicroMessenger/i) == "micromessenger";
