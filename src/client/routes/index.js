@@ -25,7 +25,9 @@ class AppRoutes extends React.Component {
     return ua.match(/MicroMessenger/i) == "micromessenger";
   }
   componentDidMount(){
+
     if(this.isWeChat()){
+      alert("微信客户端")
       if(!getStore("openid")){
         history.push('/wechat_checker/')
       }
@@ -43,14 +45,11 @@ class AppRoutes extends React.Component {
           <Route exact path="/" component={HomePage}/>
 
 
-              {
-                this.isWeChat() &&
+
                 <div>
                   <Route exact path="/wechat_checker" component={WechatChecker}/>
                   <Route exact path="/wechat_checker/:openid" component={WechatChecker}/>
                 </div>
-
-              }
 
             <MainLayout>
               <Route exact path="/404" component={NotFound}/>

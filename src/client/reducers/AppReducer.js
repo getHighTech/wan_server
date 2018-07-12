@@ -1,4 +1,4 @@
-import { APP_SWITCH_SIDEBAR } from "../actions/app";
+import { APP_SWITCH_SIDEBAR, GET_OPENID } from "../actions/app";
 
 export default function AppReducer(state={
     sideBarOpen: true,
