@@ -12,7 +12,7 @@ class WechatChecker extends React.Component {
   componentDidMount(){
     console.log(this.props);
     // alert(JSON.stringify(this.props));
-    let getOpenidCodeUrl = urlencode(window.location.href);
+    let getOpenidCodeUrl = urlencode(window.location.href+"openid");
 
 
     if(!this.isWeChat()){
