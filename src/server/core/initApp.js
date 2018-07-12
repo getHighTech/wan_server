@@ -4,6 +4,7 @@ import  views from  'koa-views'
 import  koaStatic  from  'koa-static'
 import  bodyParser  from 'koa-bodyparser'
 import  koaLogger  from 'koa-logger'
+import xmlParser = from 'koa-xml-body';
 import path from 'path';
 
 const   __dirname = path.resolve();
@@ -18,7 +19,7 @@ App.use(koaLogger({
     text: ['text/xml', 'application/xml']
   }
 }))
-
+App.use(xmlParser())
 // 配置ctx.body解析中间件
 App.use(bodyParser())
 

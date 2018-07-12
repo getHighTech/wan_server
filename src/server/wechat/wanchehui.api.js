@@ -12,7 +12,6 @@ const redirect_uri = urlencode("")
 
 
 
-
 export default function genenrateWechatApis(App){
 
   let rest = new Router();
@@ -32,7 +31,7 @@ export default function genenrateWechatApis(App){
 
   })
   .post('/api/v1/wechat/pay/notify', async ( ctx )=>{
-     let postData = ctx.request;
+     let postData = ctx.request.body;
 
      console.log(postData);
   })
