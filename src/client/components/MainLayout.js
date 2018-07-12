@@ -112,7 +112,7 @@ class MainLayout extends React.Component {
               <MenuIcon />
             </IconButton>
             <Typography variant="title" color="inherit" noWrap>
-              Mini variant drawer
+              乐多多营销解决方案
             </Typography>
           </Toolbar>
         </AppBar>

@@ -31,11 +31,17 @@ export default function genenrateWechatApis(App){
   .get('/api/v1/wechat/openid/getstatus', async ( ctx )=>{
 
   })
-  .get('/api/v1/wechat/:openid/pay', async ( ctx )=>{
+  .get('/api/v1/wechat/get/jsapi', async ( ctx )=>{
 
   })
   .get('/api/v1/wechat/payback', async ( ctx )=>{
-
+    let result = await wechatApi.getPayParams({
+        out_trade_no: (new Date()).getTime(),
+        body: '万人车汇付款测试',
+        total_fee: ctx.query.fee,
+        openid: ctx.query.openid
+      });
+    await ctx.render("wechatpay", result)
   });
   // 加载路由中间件
   App.use(rest.routes()).use(rest.allowedMethods());

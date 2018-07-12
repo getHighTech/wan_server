@@ -5,11 +5,12 @@ import  { connect } from 'react-redux';
 
 import { HashRouter as Router, Route, Link, Switch } from "react-router-dom";
 
-import HomePage from './HomePage';
-import WechatChecker from './WechatChecker';
-import NotFound from './NotFound';
+import HomePage from './HomePage.js';
+import WechatChecker from './WechatChecker.js';
+import NotFound from './NotFound.js';
 
-import MainLayout from '../components/MainLayout';
+import MainLayout from '../components/MainLayout.js';
+import WeChatCharge from '../components/WeChatCharge.js';
 // import {history} from "react-router"
 import {getStore} from '../actions/localStore.js';
 
@@ -27,14 +28,16 @@ class AppRoutes extends React.Component {
 
 
           <MainLayout>
-
+            <Switch>
             <Route exact path="/wechat_checker" component={WechatChecker}/>
             <Route exact path="/wechat_checker/:openid" component={WechatChecker}/>
+            <Route exact path="/wechat/charge" component={WeChatCharge}/>
 
-              <Route exact path="/404" component={NotFound}/>
-              <Route component={NotFound}/>
+            <Route exact path="/404" component={NotFound}/>
 
             <Route component={NotFound}/>
+            </Switch>
+
           </MainLayout>
 
         </Switch>

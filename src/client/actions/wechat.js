@@ -13,6 +13,6 @@ export function logWechat(history){
     setStore('pathBeforeLogin', "/");
 
   }
-  history.push('/wechat_checker');
+  history.push('/wechat_checker/');
 
 }
