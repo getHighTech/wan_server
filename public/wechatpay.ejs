@@ -2,6 +2,7 @@
 <html>
 <head>
   <title>万人车汇支付</title>
+  <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
 </head>
 <body>
 <script type="text/javascript">
@@ -17,6 +18,8 @@ window.onload = function(){
              "paySign": "<%=signType %>"//微信签名
          },
          function(res){
+           alert(JSON.stringify(res));
+
             alert(res.err.msg);
              if(res.err_msg == "get_brand_wcpay_request:ok" ) {
 
