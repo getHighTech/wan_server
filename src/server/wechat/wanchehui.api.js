@@ -3,6 +3,7 @@ import  tenpay from 'tenpay';
 import request from 'request';
 import Router from 'koa-router';
 import urlencode from 'urlencode';
+import Axios from 'axios'
 
 import WeChatUser from '../models/WeChatUser.js';
 
@@ -10,21 +11,19 @@ const wechatApi = new tenpay(config);
 const appName = "wanchehui";
 const redirect_uri = urlencode("")
 
+const app_secrect = "9f22e4512d30fd774d93defa85c3282b";
 
 
 export default function genenrateWechatApis(App){
 
   let rest = new Router();
 
-  rest.get('/api/v1/wechat/user/openid/:openid', async ( ctx )=>{
-      if(!ctx.params.openid){
-        return "OPENID REQUIRED"
-      }
-      let user = await WeChatUser.getUserByOpenid(ctx.params.openid);
-      return user;
+  rest.get('/api/v1/wechat/access/token', async ( ctx )=>{
+    let rlt  = await Axios.get(`https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=${config.appid}&secret=${app_secrect}`)
+    ctx.body = rlt;
 
   })
-  .get('/api/v1/wechat/openid/get/code', async ( ctx )=>{
+  .get('/api/v1/wechat', async ( ctx )=>{
 
   })
   .get('/api/v1/wechat/openid/getstatus', async ( ctx )=>{
