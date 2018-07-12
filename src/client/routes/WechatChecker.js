@@ -30,7 +30,7 @@ class WechatChecker extends React.Component {
         window.location.assign('http://test2.10000cars.cn/app/getopenid/'+getOpenidCodeUrl);
       }
     }
-    if(this.match.params.openid){
+    if(this.props.match.params.openid){
       alert(this.match.params.openid);
       this.props.history.push("/")
     }
