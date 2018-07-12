@@ -10,7 +10,9 @@ import WechatChecker from './WechatChecker';
 import NotFound from './NotFound';
 
 import MainLayout from '../components/MainLayout';
-
+import createHistory from "history/createHashHistory"
+import {getStore} from '../actions/localStore.js';
+const history = createHistory()
 
 
 
@@ -23,7 +25,12 @@ class AppRoutes extends React.Component {
     return ua.match(/MicroMessenger/i) == "micromessenger";
   }
   componentDidMount(){
-  
+    if(this.isWeChat()){
+      if(!getStore("openid")){
+        history.push('/wechat_checker/')
+      }
+    }
+
   }
 
 
@@ -62,6 +69,7 @@ class AppRoutes extends React.Component {
 function mapToState(state){
   return {
       open: state.AppReducer.sideBarOpen,
+      openid: state.AppReducer.openid,
       anchor: state.AppReducer.anchor,
   }
 }

@@ -5,7 +5,7 @@ import Grid from '@material-ui/core/Grid';
 import  { connect } from 'react-redux';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
-import {getUsers} from '../services/users.js';
+// import {getUsers} from '../services/users.js';
 
 
 const styles = theme => ({
@@ -26,14 +26,13 @@ const styles = theme => ({
 class HomePage extends React.Component {
 
   componentDidMount(){
-    getUsers();
+    // getUsers();
   }
 
 
 
   render(){
     const { classes } = this.props;
-    console.log(this.props);
 
     return (
         <div className={classes.root}>
