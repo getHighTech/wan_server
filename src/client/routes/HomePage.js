@@ -5,7 +5,7 @@ import Grid from '@material-ui/core/Grid';
 import  { connect } from 'react-redux';
 import Typography from '@material-ui/core/Typography';
 import Divider from '@material-ui/core/Divider';
-// import {getUsers} from '../services/users.js';
+import {isWeChat, logWechat} from '../actions/wechat.js';
 
 
 const styles = theme => ({
@@ -26,7 +26,13 @@ const styles = theme => ({
 class HomePage extends React.Component {
 
   componentDidMount(){
-    // getUsers();
+
+    if(isWeChat()){
+      alert(getStore("openid"));
+      if(!getStore("openid")){
+        logWechat(this.props.history);
+      }
+    }
   }
 
 
