@@ -52,6 +52,7 @@
     "redux": "^4.0.0",
     "request": "^2.87.0",
     "tenpay": "^2.1.6",
+    "urldecode": "^1.0.1",
     "urlencode": "^1.1.0",
     "webpack-command": "^0.4.0"
   },
