@@ -11,7 +11,7 @@ import NotFound from './NotFound';
 
 import MainLayout from '../components/MainLayout';
 import createHistory from "history/createHashHistory"
-import getStore from '../actions/localStore.js';
+import {getStore} from '../actions/localStore.js';
 const history = createHistory()
 
 

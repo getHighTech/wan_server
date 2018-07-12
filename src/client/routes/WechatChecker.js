@@ -1,5 +1,6 @@
 import React from 'react';
 import urlencode from 'urlencode';
+import {setStore} from '../actions/localStore.js'
 
 class WechatChecker extends React.Component {
 
