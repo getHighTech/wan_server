@@ -27,7 +27,7 @@ class WeChatUser extends WanModel {
         await this.model.create(userParams);
       }
 
-      let user =  await this.model.findOne({openid});
+      user =  await this.model.findOne({openid});
       console.log(user);
       return user;
     }
