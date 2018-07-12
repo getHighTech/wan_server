@@ -12,13 +12,12 @@ class WechatChecker extends React.Component {
     if(this.isWeChat())
     {
     }
-    alert(JSON.stringify(this.props.match.params.openid));
+    alert(JSON.stringify(this.props));
     let getOpenidCodeUrl = urlencode(window.location.href);
 
-    alert(getOpenidCodeUrl);
 
     if(!this.isWeChat()){
-      this.props.history.push("/")
+      this.props.histroy.push("/")
     }
 
 
@@ -31,7 +30,7 @@ class WechatChecker extends React.Component {
       }
     }
     if(this.props.match.params.openid){
-      alert(this.match.params.openid);
+      alert(this.props.match.params.openid);
       this.props.history.push("/")
     }
 
