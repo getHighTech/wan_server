@@ -15,7 +15,7 @@ window.onload = function(){
              "nonceStr": "<%=nonceStr %>", //随机串
              "package": "<%=package %>",
              "signType":"<%=signType %>",         //微信签名方式：
-             "paySign": "<%=signType %>"//微信签名
+             "paySign": "<%=paySign %>"//微信签名
          },
          function(res){
            alert(JSON.stringify(res));
