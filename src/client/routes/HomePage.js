@@ -28,7 +28,7 @@ class HomePage extends React.Component {
   componentDidMount(){
 
     if(isWeChat()){
-      alert(getStore("openid"));
+      // alert(getStore("openid"));
       if(!getStore("openid")){
         logWechat(this.props.history);
       }

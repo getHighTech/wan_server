@@ -1,6 +1,6 @@
 import React from 'react';
 import urlencode from 'urlencode';
-import {setStore} from '../actions/localStore.js'
+import {setStore, getStore} from '../actions/localStore.js'
 
 class WechatChecker extends React.Component {
 
@@ -22,11 +22,14 @@ class WechatChecker extends React.Component {
 
 
     if(this.props.match.params.openid===undefined){
-      this.props.history.push("/");
       if(this.isWeChat()){
 
         window.location.assign('http://test2.10000cars.cn/app/getopenid/'+getOpenidCodeUrl);
+      }else{
+        this.props.history.push("/");
+
       }
+
     }
     if(this.props.match.params.openid){
       setStore("openid", this.props.match.params.openid);
@@ -40,7 +43,7 @@ class WechatChecker extends React.Component {
 
     return (
         <div>
-          <h2>此处是检查微信并获取openid的地方</h2>
+
 
         </div>
       );
