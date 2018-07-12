@@ -78,7 +78,7 @@ class WeChatCharge extends React.Component {
      moenyErrorText: "",
      requireApi: true
    })
-   window.location.assign(`/api/v1/wechat/payback/show?openid=${getStore('openid')}&fee=${this.state.money}`);
+   window.location.assign(`/api/v1/wechat/payback/show?openid=${getStore('openid')}&fee=${this.state.money}&appname='leduoduo'`);
 
  }
 
@@ -116,7 +116,7 @@ class WeChatCharge extends React.Component {
         <Divider light />
         <TextField
           error={this.state.moneyError}
-          label="金额"
+          label="金额:单位（分）"
           className={classes.textField}
           onChange={this.handleChange('money')}
           type="number"
