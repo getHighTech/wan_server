@@ -20,7 +20,7 @@ export default function genenrateWechatApis(App){
 
   rest.get('/api/v1/wechat/access/token', async ( ctx )=>{
     let rlt  = await Axios.get(`https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=${config.appid}&secret=${app_secrect}`)
-    ctx.body = rlt;
+    ctx.body = rlt.data;
 
   })
   .get('/api/v1/wechat', async ( ctx )=>{
