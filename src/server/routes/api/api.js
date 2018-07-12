@@ -5,7 +5,7 @@ const  ApiRoute = new Router();
   
 
 ApiRoute.get('/api/order/status', async ( ctx )=>{
-    console.log(`123`)
+    try{
         const {userId, status } = ctx.query
         console.log(userId)
         console.log(status)
@@ -13,7 +13,11 @@ ApiRoute.get('/api/order/status', async ( ctx )=>{
         ctx.body = {
             order,
         }
-   
+    } catch (err) {
+        ctx.body = {
+            msg: 'fail'
+        }
+    }
 })
 
 export default ApiRoute;

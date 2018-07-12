@@ -10,7 +10,7 @@ import path from 'path';
 
 const   __dirname = path.resolve();
 
-connectDB();2
+connectDB();
 
 const  App = new Koa();
 //跨域
