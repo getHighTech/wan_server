@@ -10,15 +10,13 @@ class WechatChecker extends React.Component {
     return ua.match(/MicroMessenger/i) == "micromessenger";
   }
   componentDidMount(){
-    if(this.isWeChat())
-    {
-    }
+    console.log(this.props);
     // alert(JSON.stringify(this.props));
     let getOpenidCodeUrl = urlencode(window.location.href);
 
 
     if(!this.isWeChat()){
-      this.props.histroy.push("/")
+      this.props.history.push("/")
     }
 
 
@@ -32,7 +30,7 @@ class WechatChecker extends React.Component {
     }
     if(this.props.match.params.openid){
       setStore("openid", this.props.match.params.openid);
-      this.props.history.push("/")
+      this.props.history.push(getStore("pathBeforeLogin"));
     }
 
   }
