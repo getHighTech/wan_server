@@ -4,7 +4,7 @@ import  views from  'koa-views'
 import  koaStatic  from  'koa-static'
 import  bodyParser  from 'koa-bodyparser'
 import  koaLogger  from 'koa-logger'
-import xmlParser = from 'koa-xml-body';
+import xmlParser  from 'koa-xml-body';
 import path from 'path';
 
 const   __dirname = path.resolve();
