@@ -52,7 +52,13 @@
     "redux": "^4.0.0",
     "request": "^2.87.0",
     "tenpay": "^2.1.6",
+<<<<<<< HEAD
     "urlencode": "^1.1.0"
+=======
+    "urldecode": "^1.0.1",
+    "urlencode": "^1.1.0",
+    "webpack-command": "^0.4.0"
+>>>>>>> eb00fa5bb395d7903e17642be198b51365f51013
   },
   "devDependencies": {
     "@material-ui/icons": "^1.1.0",
