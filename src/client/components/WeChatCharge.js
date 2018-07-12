@@ -78,7 +78,7 @@ class WeChatCharge extends React.Component {
      moenyErrorText: "",
      requireApi: true
    })
-   window.location.assign(`/api/v1/wechat/payback?openid=${getStore('openid')}&fee=${this.state.money}`);
+   window.location.assign(`/api/v1/wechat/payback/show?openid=${getStore('openid')}&fee=${this.state.money}`);
 
  }
 

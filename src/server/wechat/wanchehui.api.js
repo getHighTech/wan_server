@@ -34,7 +34,7 @@ export default function genenrateWechatApis(App){
   .get('/api/v1/wechat/get/jsapi', async ( ctx )=>{
 
   })
-  .get('/api/v1/wechat/payback', async ( ctx )=>{
+  .get('/api/v1/wechat/payback/show', async ( ctx )=>{
     let result = await wechatApi.getPayParams({
         out_trade_no: (new Date()).getTime(),
         body: '万人车汇付款测试',
