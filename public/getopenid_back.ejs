@@ -6,7 +6,9 @@
 <body>
 <p>已经获取了openid,<%=openid %>, 要返回的地址是: <%=from_url%><%=openid%></p>
 <script type="text/javascript">
-  window.location.assign("<%=from_url %>/<%=openid %>");
+  window.onload = function(){
+    // window.location.assign("<%=from_url %>/<%=openid %>");
+  }
 </script>
 
 
