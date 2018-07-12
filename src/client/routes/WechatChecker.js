@@ -32,7 +32,7 @@ class WechatChecker extends React.Component {
     }
     if(this.match.params.openid){
       alert(this.match.params.openid);
-      return false;
+      this.props.history.push("/")
     }
 
   }
