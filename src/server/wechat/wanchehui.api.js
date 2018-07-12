@@ -32,7 +32,7 @@ export default function genenrateWechatApis(App){
 
   })
   .post('/api/v1/wechat/pay/notify', async ( ctx )=>{
-     let postData = ctx.request.body;
+     let postData = ctx.request;
 
      console.log(postData);
   })
