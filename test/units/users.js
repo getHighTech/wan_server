@@ -1,14 +1,14 @@
 import chai from 'chai';
-import {dbConnection, connectDB} from './src/server/bootstrap/connectdb.js';
-import User from './src/server/models/User.js';
+import {dbConnection, connectDB} from '../../src/server/bootstrap/connectdb.js';
+import User from '../../src/server/models/User.js';
 import moment from 'moment';
-import App from  './src/server/core/initApp.js';
+import App from  '../../src/server/core/initApp.js';
 
-import { generateRestFul } from './src/server/core/api.js';
+import { generateRestFul } from '../../src/server/core/api.js';
 
 //load models;
-import { Models } from './src/server/models/registerModel.js';
-import { checkport } from './src/server/utils/checkport.js';
+import { Models } from '../../src/server/models/registerModel.js';
+import { checkport } from '../../src/server/utils/checkport.js';
 import Axios from 'axios';
 
 

@@ -4,11 +4,11 @@
   "description": "this is a startup with koajs and mongodb , which can manage multiple frontend apps",
   "main": "index.js",
   "scripts": {
-    "test": "node_modules/mocha/bin/mocha  --require babel-core/register --reporter mochawesome --watch  --env  'dev'",
+    "test": "node_modules/mocha/bin/mocha  --compilers js:babel-core/register --require babel-polyfill --reporter mochawesome --watch",
     "dev": " concurrently \"npm run client-server\"   \"npm run backend-dev\"",
     "start": "npm run build-client && npm run backend",
-    "backend-dev": "nodemon --experimental-modules  --loader  ./custom-loader.mjs  ./src/server/index.js --en 'dev'",
-    "backend": "nodemon --experimental-modules  --loader  ./custom-loader.mjs  ./src/server/index.js --en 'production'",
+    "backend-dev": "nodemon --experimental-modules  --loader  ./custom-loader.mjs  ./src/server/index.js --env 'dev'",
+    "backend": "nodemon --experimental-modules  --loader  ./custom-loader.mjs  ./src/server/index.js --env 'production'",
     "build-client": "webpack --mode production",
     "client-server": "webpack-dev-server --open --hot --mode development"
   },
@@ -27,6 +27,7 @@
     "babel-cli": "^6.26.0",
     "classnames": "^2.2.6",
     "consolidate": "^0.15.1",
+    "dotenv": "^6.0.0",
     "ejs": "^2.6.1",
     "ejs-lint": "^0.3.0",
     "esm": "^3.0.65",
@@ -44,7 +45,7 @@
     "lodash": "^4.17.10",
     "minimist": "^1.2.0",
     "moment": "^2.22.2",
-    "mongoose": "^5.1.6",
+    "mongoose": "^5.2.4",
     "pouchdb": "^7.0.0",
     "pouchdb-find": "^7.0.0",
     "react-redux": "^5.0.7",
@@ -53,8 +54,7 @@
     "request": "^2.87.0",
     "tenpay": "^2.1.6",
     "urldecode": "^1.0.1",
-    "urlencode": "^1.1.0",
-    "webpack-command": "^0.4.0"
+    "urlencode": "^1.1.0"
   },
   "devDependencies": {
     "@material-ui/icons": "^1.1.0",

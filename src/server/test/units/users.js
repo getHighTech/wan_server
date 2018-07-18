@@ -51,6 +51,17 @@ describe('用户数据查询测试', function(){
         }
       )
     });
+    it('根据用户Id: NR4uitrWdh9eL649k,查询一个用户， 其用户名为lawadmin', (done)=>{
+      User.model.findOne({_id: 'NR4uitrWdh9eL649k'}).then(
+       (rlt) => {
+         if(rlt){
+           expect(rlt.username).to.be.equal('lawadmin');
+              done();
+         }
+       }
+     );
+    });
+
 })
 
 
@@ -60,6 +71,8 @@ describe('测试所有用户的API', ()=>{
     dbConnection.then(async (rlt)=>{
         if(rlt){
         Models.forEach(model => {
+          console.log('74------------------------------------------------------------------ ');
+          console.log(model.collectionName);
             generateRestFul(model.collectionName, App, model);
         });
         let port =7001;
@@ -111,7 +124,7 @@ it('获取用户列表第8页简略信息, 有8条, 时间倒序', (done)=>{
 });
 
 it('根据用户Id: NR4uitrWdh9eL649k,查询一个用户， 其用户名为lawadmin', (done)=>{
-  let userPromise  =  Axios.get("http://localhost:7001/api/v1/users/NR4uitrWdh9eL649k")
+  let userPromise  =  Axios.get("http://localhost:7001/api/users/NR4uitrWdh9eL649k")
   userPromise.then(rlt => {
       expect(rlt.username).to.be.equal('lawadmin');
       done();
