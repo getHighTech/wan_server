@@ -53,6 +53,12 @@ describe('用户数据查询测试', function(){
     });
 })
 
+describe('测试token安全', ()=>{
+  it('获取用户的公钥', (done)=>{
+    done();
+  })
+});
+
 
 
 describe('测试所有用户的API', ()=>{

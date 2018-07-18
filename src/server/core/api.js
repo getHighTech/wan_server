@@ -20,7 +20,7 @@ export function  generateRestFul(collectionName, App, model){
         ctx.body = records
 
     }).get('/api/'+collectionName+'/:id', async ( ctx )=>{
-        let record =  await model.findById(ctx.params.id);
+        let record =  await model.model.findById(ctx.params.id);
         
         ctx.body = record;
     }).get('/api/v1/'+collectionName+'/:id/update', async ( ctx )=>{
