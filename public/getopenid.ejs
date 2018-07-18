@@ -1,0 +1,30 @@
+<!doctype html>
+<html>
+<head>
+  <title>getopenid</title>
+</head>
+<body>
+<!-- <p>开始获取openid, 返回的地址是<%=from_url%></p> -->
+<script type="text/javascript">
+  var isWeixin = function () { //判断是否是微信
+    var ua = navigator.userAgent.toLowerCase();
+    return ua.match(/MicroMessenger/i) == "micromessenger";
+  };
+
+
+  window.onload = function(){
+    if(!isWeixin()){
+      window.location.assign('<%=from_url%>');
+    }else{
+      var redirect_uri = encodeURI(window.location.href+"/back");
+      window.location.assign('https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx9ca3272fed4926ba&redirect_uri='+redirect_uri+'&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect');
+    }
+  }
+
+  </script>
+
+
+
+
+</body>
+</html>

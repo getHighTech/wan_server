@@ -1,2 +1,8 @@
 /node_modules
 package-lock.json
+/tokens*
+/yarn-error.log
+/public/assets/
+/public/*.png
+yarn*
+/public/index.html

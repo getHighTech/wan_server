@@ -23,7 +23,6 @@ describe('用户数据查询测试', function(){
         }
       });
     })
-
     it('默认查询一条用户数据', ()=>{
       expect(User.model.findOne()).to.be.ok;
     });
@@ -60,7 +59,6 @@ describe('测试所有用户的API', ()=>{
   before((done)=>{
     dbConnection.then(async (rlt)=>{
         if(rlt){
-
         Models.forEach(model => {
             generateRestFul(model.collectionName, App, model);
         });
@@ -88,17 +86,11 @@ describe('测试所有用户的API', ()=>{
       })
   });
 
-
-
-
-
   it('获取用户列表第8页详细信息, 有8条, 时间倒序', (done)=>{
     let userPromise  =  Axios.get("http://localhost:7001/api/v1/users?version=detail&page=3&pagesize=8")
-
     userPromise.then(rlt => {
         let firtMoment = rlt.data[0].createdAt;
         let secondMoment = rlt.data[1].createdAt;
-
         let isUpdate = moment(firtMoment).isAfter(moment(secondMoment));
         expect(rlt.data.length).to.be.equal(8);
         expect(isUpdate).to.be.equal(true);
@@ -119,7 +111,7 @@ it('获取用户列表第8页简略信息, 有8条, 时间倒序', (done)=>{
 });
 
 it('根据用户Id: NR4uitrWdh9eL649k,查询一个用户， 其用户名为lawadmin', (done)=>{
-  let userPromise  =  Axios.get("http://localhost:7001/api/users/NR4uitrWdh9eL649k")
+  let userPromise  =  Axios.get("http://localhost:7001/api/v1/users/NR4uitrWdh9eL649k")
   userPromise.then(rlt => {
       expect(rlt.username).to.be.equal('lawadmin');
       done();
