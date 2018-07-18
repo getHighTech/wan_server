@@ -60,12 +60,16 @@ describe('测试所有用户的API', ()=>{
     dbConnection.then(async (rlt)=>{
         if(rlt){
         Models.forEach(model => {
+          console.log(model.collectionName);
+          
             generateRestFul(model.collectionName, App, model);
         });
         let port =7001;
         let isOccupied = await checkport(port);
         if(!isOccupied){
             App.listen(7001);
+            console.log("测试地址在7001端口");
+            
         }
         done();
         }

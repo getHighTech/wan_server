@@ -10,7 +10,11 @@ class ServerKey extends WanModel {
 User.setScheme(
     {
         "uuid": String,
-        "privateKey": String
+        "privateKey": String,
+        "publicKey": String,
+        "password": String,
+        "type": String,
+        "typeOption": Object
     },
     "ServerKey", "server_keys"
 

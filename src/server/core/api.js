@@ -3,7 +3,8 @@ import Router from 'koa-router';
 export function  generateRestFul(collectionName, App, model){
     console.log('正在加载路由...');
     let rest = new Router()
-
+    console.log('/api/v1/'+collectionName+'/');
+    
     rest.get('/api/v1/'+collectionName+'/', async ( ctx )=>{
         let page = 1;
         let pagesize = 10;
