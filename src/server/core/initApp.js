@@ -7,7 +7,7 @@ import  koaLogger  from 'koa-logger'
 import xmlParser  from 'koa-xml-body';
 import cors from 'koa-cors';
 import path from 'path';
-import { validClient } from '../middles/serverkey.js';
+
 
 const   __dirname = path.resolve();
 
@@ -39,7 +39,7 @@ App.use(views(path.join(__dirname, './public'), {
   extension: 'ejs'
 }));
 
-App.use(validClient);
+
 
 
 

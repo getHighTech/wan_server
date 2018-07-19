@@ -7,22 +7,21 @@ import apiRoute from './routes/api/api.js';
 
 //load models;
 import { Models } from './models/registerModel.js';
+import { validClient } from "./middles/serverkey.js";
 
 console.log("=========================================================");
 
-
-
-Models.forEach(model => {
-    generateRestFul(model.collectionName, App, model);
-});
-
-genenrateWechatApis(App);
 
 App.use(homeRoute.routes()).use(homeRoute.allowedMethods())
 App.use(approute.routes()).use(approute.allowedMethods())
 App.use(apiRoute.routes()).use(apiRoute.allowedMethods())
 
+App.use(validClient);
+Models.forEach(model => {
+    generateRestFul(model.collectionName, App, model);
+});
 
+genenrateWechatApis(App);
 
 App.listen(1235);
 

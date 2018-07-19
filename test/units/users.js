@@ -1,28 +1,13 @@
 import chai from 'chai';
-import {dbConnection, connectDB} from '../../src/server/bootstrap/connectdb.js';
 import User from '../../src/server/models/User.js';
 import moment from 'moment';
-import App from  '../../src/server/core/initApp.js';
-
-import { generateRestFul } from '../../src/server/core/api.js';
-
 //load models;
-import { Models } from '../../src/server/models/registerModel.js';
-import { checkport } from '../../src/server/utils/checkport.js';
 import Axios from 'axios';
-
-
 
 let expect = chai.expect;
 
 describe('用户数据查询测试', function(){
-    before( (done)=>{
-      dbConnection.then((rlt)=>{
-        if(rlt){
-          done();
-        }
-      });
-    })
+    
     it('默认查询一条用户数据', ()=>{
       expect(User.model.findOne()).to.be.ok;
     });
@@ -53,39 +38,15 @@ describe('用户数据查询测试', function(){
     });
 })
 
-describe('测试token安全', ()=>{
-  it('获取用户的公钥', (done)=>{
-    done();
-  })
-});
-
-
 
 describe('测试所有用户的API', ()=>{
-  before((done)=>{
-    dbConnection.then(async (rlt)=>{
-        if(rlt){
-        Models.forEach(model => {
-          console.log(model.collectionName);
-          
-            generateRestFul(model.collectionName, App, model);
-        });
-        let port =7001;
-        let isOccupied = await checkport(port);
-        if(!isOccupied){
-            App.listen(7001);
-            console.log("测试地址在7001端口");
-            
-        }
-        done();
-        }
-      });
-  })
+  
 
   it('获取用户列表（简略信息）, 只有10条, 时间倒序', (done)=>{
       let userPromise  =  Axios.get("http://localhost:7001/api/v1/users")
       userPromise.then(rlt => {
-
+          console.log(rlt.data);
+          
           let firtMoment = rlt.data[0].createdAt;
           let secondMoment = rlt.data[1].createdAt;
           let isUpdate = moment(firtMoment).isAfter(moment(secondMoment));
