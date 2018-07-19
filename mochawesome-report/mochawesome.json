@@ -2,14 +2,14 @@
   "stats": {
     "suites": 2,
     "tests": 10,
-    "passes": 3,
+    "passes": 5,
     "pending": 0,
-    "failures": 7,
-    "start": "2018-07-18T09:30:54.348Z",
-    "end": "2018-07-18T09:31:08.968Z",
-    "duration": 14620,
+    "failures": 5,
+    "start": "2018-07-18T10:08:15.122Z",
+    "end": "2018-07-18T10:08:26.007Z",
+    "duration": 10885,
     "testsRegistered": 10,
-    "passPercent": 30,
+    "passPercent": 50,
     "pendingPercent": 0,
     "other": 0,
     "hasOther": false,
@@ -19,7 +19,7 @@
     "pendingPercentClass": "danger"
   },
   "suites": {
-    "uuid": "47fc0eab-e53c-4686-8adb-5965d0ded7bb",
+    "uuid": "8e2edd13-a452-49b6-aff5-544ff849e642",
     "title": "",
     "fullFile": "",
     "file": "",
@@ -28,7 +28,7 @@
     "tests": [],
     "suites": [
       {
-        "uuid": "de37e972-e021-4fc0-803e-eeaff77aacdc",
+        "uuid": "c5bfe746-d72f-46f2-813e-198d01c65bc3",
         "title": "用户数据查询测试",
         "fullFile": "/home/zhoushixiong/wan_server/test/index.js",
         "file": "/test/index.js",
@@ -37,14 +37,14 @@
             "title": "\"before all\" hook",
             "fullTitle": "用户数据查询测试 \"before all\" hook",
             "timedOut": false,
-            "duration": 328,
+            "duration": 319,
             "pass": false,
             "fail": false,
             "pending": false,
             "code": "_connectdb.dbConnection.then(function (rlt) {\n  if (rlt) {\n    done();\n  }\n});",
             "err": {},
             "isRoot": false,
-            "uuid": "b3b36886-3095-4d09-8399-9da3309ec5b8",
+            "uuid": "6e65e3de-5267-44a5-ac69-332e0c3e35b3",
             "isHook": true,
             "skipped": false
           }
@@ -64,7 +64,7 @@
             "code": "expect(_User2.default.model.findOne()).to.be.ok;",
             "err": {},
             "isRoot": false,
-            "uuid": "62b62a8e-04ed-4968-bd87-3236c5df8ea4",
+            "uuid": "257831e7-00fd-41f6-8bd1-a092af5bb5fd",
             "isHook": false,
             "skipped": false
           },
@@ -81,7 +81,7 @@
             "code": "_User2.default.model.findOne({ username: '18820965455' }).then(function (rlt) {\n      if (rlt) {\n        expect(rlt.username).to.be.equal('18820965455');\n        done();\n      }\n    });",
             "err": {},
             "isRoot": false,
-            "uuid": "b58dbe74-04dc-470f-8f1a-8cbf9a2e598d",
+            "uuid": "066369eb-d82c-4900-a95e-fe0853e8941e",
             "isHook": false,
             "skipped": false
           },
@@ -98,16 +98,16 @@
             "code": "_User2.default.model.find({}).skip(0).limit(10).sort({ createdAt: -1 }).then(function (rlt) {\n  var firtMoment = rlt[0].createdAt;\n  var secondMoment = rlt[1].createdAt;\n  var isUpdate = (0, _moment2.default)(firtMoment).isAfter((0, _moment2.default)(secondMoment));\n  expect(rlt.length).to.be.equal(10);\n  expect(isUpdate).to.be.equal(true);\n  done();\n});",
             "err": {},
             "isRoot": false,
-            "uuid": "2aeb205d-c47c-4e0e-9bdb-c85df81d7ae3",
+            "uuid": "8d6a2fef-95d7-46d8-b840-95881a3ebe01",
             "isHook": false,
             "skipped": false
           }
         ],
         "suites": [],
         "passes": [
-          "62b62a8e-04ed-4968-bd87-3236c5df8ea4",
-          "b58dbe74-04dc-470f-8f1a-8cbf9a2e598d",
-          "2aeb205d-c47c-4e0e-9bdb-c85df81d7ae3"
+          "257831e7-00fd-41f6-8bd1-a092af5bb5fd",
+          "066369eb-d82c-4900-a95e-fe0853e8941e",
+          "8d6a2fef-95d7-46d8-b840-95881a3ebe01"
         ],
         "failures": [],
         "pending": [],
@@ -118,7 +118,7 @@
         "_timeout": 2000
       },
       {
-        "uuid": "6d431e5c-fdb5-4d90-a960-2082aa2c9488",
+        "uuid": "df019b6c-9bdf-4faf-84f0-528d788d0c21",
         "title": "测试所有用户的API",
         "fullFile": "/home/zhoushixiong/wan_server/test/index.js",
         "file": "/test/index.js",
@@ -131,10 +131,10 @@
             "pass": false,
             "fail": false,
             "pending": false,
-            "code": "_connectdb.dbConnection.then(function () {\n  var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(rlt) {\n    var port, isOccupied;\n    return regeneratorRuntime.wrap(function _callee$(_context) {\n      while (1) {\n        switch (_context.prev = _context.next) {\n          case 0:\n            if (!rlt) {\n              _context.next = 8;\n              break;\n            }\n            _registerModel.Models.forEach(function (model) {\n              (0, _api.generateRestFul)(model.collectionName, _initApp2.default, model);\n            });\n            port = 7001;\n            _context.next = 5;\n            return (0, _checkport.checkport)(port);\n          case 5:\n            isOccupied = _context.sent;\n            if (!isOccupied) {\n              _initApp2.default.listen(7001);\n            }\n            done();\n          case 8:\n          case 'end':\n            return _context.stop();\n        }\n      }\n    }, _callee, undefined);\n  }));\n  return function (_x) {\n    return _ref.apply(this, arguments);\n  };\n}());",
+            "code": "_connectdb.dbConnection.then(function () {\n  var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(rlt) {\n    var port, isOccupied;\n    return regeneratorRuntime.wrap(function _callee$(_context) {\n      while (1) {\n        switch (_context.prev = _context.next) {\n          case 0:\n            if (!rlt) {\n              _context.next = 8;\n              break;\n            }\n            _registerModel.Models.forEach(function (model) {\n              console.log(model.collectionName);\n              (0, _api.generateRestFul)(model.collectionName, _initApp2.default, model);\n            });\n            port = 7001;\n            _context.next = 5;\n            return (0, _checkport.checkport)(port);\n          case 5:\n            isOccupied = _context.sent;\n            if (!isOccupied) {\n              _initApp2.default.listen(7001);\n              console.log(\"测试地址在7001端口\");\n            }\n            done();\n          case 8:\n          case 'end':\n            return _context.stop();\n        }\n      }\n    }, _callee, undefined);\n  }));\n  return function (_x) {\n    return _ref.apply(this, arguments);\n  };\n}());",
             "err": {},
             "isRoot": false,
-            "uuid": "63b4a9e7-2348-42f2-acf3-35bdea9d110c",
+            "uuid": "3e90b564-662e-4da9-a020-b5e5ab4c3c6d",
             "isHook": true,
             "skipped": false
           }
@@ -144,38 +144,34 @@
           {
             "title": "获取用户列表（简略信息）, 只有10条, 时间倒序",
             "fullTitle": "测试所有用户的API 获取用户列表（简略信息）, 只有10条, 时间倒序",
-            "timedOut": true,
-            "duration": 2000,
-            "state": "failed",
-            "pass": false,
-            "fail": true,
+            "timedOut": false,
+            "duration": 141,
+            "state": "passed",
+            "speed": "slow",
+            "pass": true,
+            "fail": false,
             "pending": false,
             "code": "var userPromise = _axios2.default.get(\"http://localhost:7001/api/v1/users\");\nuserPromise.then(function (rlt) {\n  var firtMoment = rlt.data[0].createdAt;\n  var secondMoment = rlt.data[1].createdAt;\n  var isUpdate = (0, _moment2.default)(firtMoment).isAfter((0, _moment2.default)(secondMoment));\n  expect(rlt.data.length).to.be.equal(10);\n  expect(isUpdate).to.be.equal(true);\n  done();\n});",
-            "err": {
-              "message": "Error: Timeout of 2000ms exceeded. For async tests and hooks, ensure \"done()\" is called; if returning a Promise, ensure it resolves. (/home/zhoushixiong/wan_server/test/index.js)",
-              "estack": "Error: Timeout of 2000ms exceeded. For async tests and hooks, ensure \"done()\" is called; if returning a Promise, ensure it resolves. (/home/zhoushixiong/wan_server/test/index.js)"
-            },
+            "err": {},
             "isRoot": false,
-            "uuid": "d200f411-5c08-47a5-a795-94e80e28d18b",
+            "uuid": "51b9a041-3859-4f55-ac50-ad47a4ed5377",
             "isHook": false,
             "skipped": false
           },
           {
             "title": "获取用户列表第8页详细信息, 有8条, 时间倒序",
             "fullTitle": "测试所有用户的API 获取用户列表第8页详细信息, 有8条, 时间倒序",
-            "timedOut": true,
-            "duration": 2000,
-            "state": "failed",
-            "pass": false,
-            "fail": true,
+            "timedOut": false,
+            "duration": 133,
+            "state": "passed",
+            "speed": "slow",
+            "pass": true,
+            "fail": false,
             "pending": false,
             "code": "var userPromise = _axios2.default.get(\"http://localhost:7001/api/v1/users?version=detail&page=3&pagesize=8\");\nuserPromise.then(function (rlt) {\n  var firtMoment = rlt.data[0].createdAt;\n  var secondMoment = rlt.data[1].createdAt;\n  var isUpdate = (0, _moment2.default)(firtMoment).isAfter((0, _moment2.default)(secondMoment));\n  expect(rlt.data.length).to.be.equal(8);\n  expect(isUpdate).to.be.equal(true);\n  done();\n});",
-            "err": {
-              "message": "Error: Timeout of 2000ms exceeded. For async tests and hooks, ensure \"done()\" is called; if returning a Promise, ensure it resolves. (/home/zhoushixiong/wan_server/test/index.js)",
-              "estack": "Error: Timeout of 2000ms exceeded. For async tests and hooks, ensure \"done()\" is called; if returning a Promise, ensure it resolves. (/home/zhoushixiong/wan_server/test/index.js)"
-            },
+            "err": {},
             "isRoot": false,
-            "uuid": "bb5104f6-0466-45c8-a56d-f4207a589d87",
+            "uuid": "3e5f282b-9731-424a-848e-127222c1ecc2",
             "isHook": false,
             "skipped": false
           },
@@ -194,7 +190,7 @@
               "estack": "Error: Timeout of 2000ms exceeded. For async tests and hooks, ensure \"done()\" is called; if returning a Promise, ensure it resolves. (/home/zhoushixiong/wan_server/test/index.js)"
             },
             "isRoot": false,
-            "uuid": "d6fd6753-221e-4f15-ac6a-cceba389a30d",
+            "uuid": "b2e2e7f4-009a-453f-9bab-89092e0c4193",
             "isHook": false,
             "skipped": false
           },
@@ -202,7 +198,7 @@
             "title": "根据用户Id: NR4uitrWdh9eL649k,查询一个用户， 其用户名为lawadmin",
             "fullTitle": "测试所有用户的API 根据用户Id: NR4uitrWdh9eL649k,查询一个用户， 其用户名为lawadmin",
             "timedOut": true,
-            "duration": 2000,
+            "duration": 2001,
             "state": "failed",
             "pass": false,
             "fail": true,
@@ -213,7 +209,7 @@
               "estack": "Error: Timeout of 2000ms exceeded. For async tests and hooks, ensure \"done()\" is called; if returning a Promise, ensure it resolves. (/home/zhoushixiong/wan_server/test/index.js)"
             },
             "isRoot": false,
-            "uuid": "585cc3ca-bfa8-4bde-a460-1e832e397ff7",
+            "uuid": "5da2535c-569b-41f2-a742-4a015bd41917",
             "isHook": false,
             "skipped": false
           },
@@ -232,7 +228,7 @@
               "estack": "Error: Timeout of 2000ms exceeded. For async tests and hooks, ensure \"done()\" is called; if returning a Promise, ensure it resolves. (/home/zhoushixiong/wan_server/test/index.js)"
             },
             "isRoot": false,
-            "uuid": "8a5f65d4-c86e-4953-8ca4-0641f6da61de",
+            "uuid": "a69d7d0f-b344-4187-b52b-b59650b6e951",
             "isHook": false,
             "skipped": false
           },
@@ -251,7 +247,7 @@
               "estack": "Error: Timeout of 2000ms exceeded. For async tests and hooks, ensure \"done()\" is called; if returning a Promise, ensure it resolves. (/home/zhoushixiong/wan_server/test/index.js)"
             },
             "isRoot": false,
-            "uuid": "9f332886-d4c6-4d34-97bc-d5362526a3fe",
+            "uuid": "6fb8be01-a7e8-474a-80da-6b8d3f4613ba",
             "isHook": false,
             "skipped": false
           },
@@ -270,25 +266,26 @@
               "estack": "Error: Timeout of 2000ms exceeded. For async tests and hooks, ensure \"done()\" is called; if returning a Promise, ensure it resolves. (/home/zhoushixiong/wan_server/test/index.js)"
             },
             "isRoot": false,
-            "uuid": "de59d900-56b9-4612-8de1-2f9bb88aedf1",
+            "uuid": "d6dc7d97-b099-41f3-9ffa-b0b3007b46f9",
             "isHook": false,
             "skipped": false
           }
         ],
         "suites": [],
-        "passes": [],
+        "passes": [
+          "51b9a041-3859-4f55-ac50-ad47a4ed5377",
+          "3e5f282b-9731-424a-848e-127222c1ecc2"
+        ],
         "failures": [
-          "d200f411-5c08-47a5-a795-94e80e28d18b",
-          "bb5104f6-0466-45c8-a56d-f4207a589d87",
-          "d6fd6753-221e-4f15-ac6a-cceba389a30d",
-          "585cc3ca-bfa8-4bde-a460-1e832e397ff7",
-          "8a5f65d4-c86e-4953-8ca4-0641f6da61de",
-          "9f332886-d4c6-4d34-97bc-d5362526a3fe",
-          "de59d900-56b9-4612-8de1-2f9bb88aedf1"
+          "b2e2e7f4-009a-453f-9bab-89092e0c4193",
+          "5da2535c-569b-41f2-a742-4a015bd41917",
+          "a69d7d0f-b344-4187-b52b-b59650b6e951",
+          "6fb8be01-a7e8-474a-80da-6b8d3f4613ba",
+          "d6dc7d97-b099-41f3-9ffa-b0b3007b46f9"
         ],
         "pending": [],
         "skipped": [],
-        "duration": 14001,
+        "duration": 10276,
         "root": false,
         "rootEmpty": false,
         "_timeout": 2000

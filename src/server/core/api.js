@@ -4,6 +4,7 @@ export function  generateRestFul(collectionName, App, model){
     console.log('正在加载路由...');
     let rest = new Router()
     console.log('走了这');
+
     rest.get('/api/v1/'+collectionName+'/', async ( ctx )=>{
         let page = 1;
         let pagesize = 10;
@@ -21,7 +22,7 @@ export function  generateRestFul(collectionName, App, model){
     }).get('/api/'+collectionName+'/:id', async ( ctx )=>{
         console.log(ctx.params.id);
         let record =  await model.findById(ctx.params.id);
-        console.log('23------------------');
+        console.log('25------------------');
         console.log(record);
         ctx.body = record;
     }).get('/api/v1/'+collectionName+'/:id/update', async ( ctx )=>{

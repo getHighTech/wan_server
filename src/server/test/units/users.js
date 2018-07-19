@@ -51,17 +51,6 @@ describe('用户数据查询测试', function(){
         }
       )
     });
-    it('根据用户Id: NR4uitrWdh9eL649k,查询一个用户， 其用户名为lawadmin', (done)=>{
-      User.model.findOne({_id: 'NR4uitrWdh9eL649k'}).then(
-       (rlt) => {
-         if(rlt){
-           expect(rlt.username).to.be.equal('lawadmin');
-              done();
-         }
-       }
-     );
-    });
-
 })
 
 

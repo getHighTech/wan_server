@@ -26,12 +26,15 @@ App.use(xmlParser())
 // 配置ctx.body解析中间件
 App.use(bodyParser())
 
-App.use(async (ctx, next)=>{
-  console.log(ctx);
-  console.log(next);
+// App.use(async (ctx, next)=>{
+//   // console.log(ctx);
+//   // console.log(next);
+//   //此处验证客户端数据
+//   console.log('此处验证客户端消息');
   
   
-})
+  
+// })
 // 配置静态资源加载中间件
 App.use(koaStatic(
   path.join(__dirname , './public')
