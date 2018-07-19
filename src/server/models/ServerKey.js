@@ -53,6 +53,21 @@ class ServerKey extends WanModel {
         }
     
     }
+
+    static async getPublicKeyByUUID(uuid){
+        try {
+            let key = await this.model.findOne({uuid});
+            if(!key){
+                return false;
+            }
+            return key;
+            
+        } catch (error) {
+            return console.error("find key by UUID", error);
+            
+        }
+        
+    }
 }
 
 ServerKey.setScheme(
