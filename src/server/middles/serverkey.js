@@ -45,7 +45,7 @@ export async function validToken(uuid, token){
 
 
 export async function validClient(ctx, next){
-    if(ctx.request.url === "/api/v1/valid_token"){
+    if(ctx.request.url.includes("/api/v1/valid_token")){
         if(!ctx.query.uuid){
             ctx.body = {
                 msg: "device error"
