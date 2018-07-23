@@ -5,10 +5,11 @@ export function  generateRestFul(collectionName, App, model){
     let rest = new Router()
     console.log('/api/v1/'+collectionName+'/');
     
-    rest.get('/api/v1/'+collectionName+'/', async ( ctx )=>{
+    rest.get('/api/v1/'+collectionName, async ( ctx )=>{
         let page = 1;
         let pagesize = 10;
-
+        console.log(ctx.query);
+        
         if(ctx.query.page ){
             page = ctx.query.page;
         }

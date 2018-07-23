@@ -4,9 +4,57 @@ import moment from 'moment';
 //load models;
 import Axios from 'axios';
 
+
+import ed25519 from 'ed25519';
+import  uuidv4 from 'uuid/v4';
+import { decipher } from '../../src/both/ciphers.js';
+import { validClient } from '../../src/server/middles/serverkey.js';
+
+
+
 let expect = chai.expect;
 
+
+let uuid = "34534734563456";
+
+let sign = null;
+
+let publicKey = null;
+
+let token = null;
+
 describe('用户数据查询测试', function(){
+
+
+    before((done)=>{
+      Axios.get("http://127.0.0.1:7001/api/v1/get_token?uuid="+uuid).then(rlt => {
+            publicKey = rlt.data.publicKey;
+            sign = rlt.data.sign;
+            let randomString = rlt.data.randomString;
+            let msgCiphered = rlt.data.msgCiphered;
+            token = msgCiphered;
+
+            if(ed25519.Verify(Buffer.from(msgCiphered), Buffer.from(sign), Buffer.from(publicKey))){
+                 // 验证函数返回了true，通过验证
+                var msg = decipher('aes192', new Buffer(publicKey, 'utf8'), msgCiphered);  //使用公钥解密
+                console.log("用户获得签名");
+                
+                expect(msg).to.be.equal(randomString);
+                done();
+            }
+            
+          }).catch(err => {
+              console.log(err);
+              
+          });
+    });
+
+    it('此类测试之前，uuid和sign, 以及publickey都是存在的', ()=>{
+      expect(uuid).to.be.equal("34534734563456");
+      expect(sign).to.not.equal(null);
+      expect(publicKey).to.not.equal(null);
+      expect(token).to.not.equal(null);
+    });
     
     it('默认查询一条用户数据', ()=>{
       expect(User.model.findOne()).to.be.ok;
@@ -43,7 +91,7 @@ describe('测试所有用户的API', ()=>{
   
 
   it('获取用户列表（简略信息）, 只有10条, 时间倒序', (done)=>{
-      let userPromise  =  Axios.get("http://localhost:7001/api/v1/users")
+      let userPromise  =  Axios.get("http://localhost:7001/api/v1/users?uuid="+uuid+"&token="+token);
       userPromise.then(rlt => {
           console.log(rlt.data);
           
