@@ -10,7 +10,7 @@
 
 	var url = "<%=from_url %>";
 
-    	url = url.replace(/amp;/, '');
+    	url = url.replace(/amp;/g, '');
     window.location.assign(url+"&openid=<%=openid %>");
   }
 </script>
