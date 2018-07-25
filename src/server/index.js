@@ -4,33 +4,24 @@ import genenrateWechatApis from "./wechat/wanchehui.api.js";
 import homeRoute from './routes/home.js';
 import approute from './routes/app.js';
 import apiRoute from './routes/api/api.js';
-console.log("=========================================================");
 
 //load models;
 import { Models } from './models/registerModel.js';
+import { validClient } from "./middles/serverkey.js";
 
-App.use(async (ctx, next)=>{
-    console.log(ctx);
-    console.log(next);
-    //此处验证客户端数据
-    console.log('此处验证客户端消息');
-    await next();
-    
-    
-    
-  })
+console.log("=========================================================");
 
-Models.forEach(model => {
-    generateRestFul(model.collectionName, App, model);
-});
-
-genenrateWechatApis(App);
 
 App.use(homeRoute.routes()).use(homeRoute.allowedMethods())
 App.use(approute.routes()).use(approute.allowedMethods())
 App.use(apiRoute.routes()).use(apiRoute.allowedMethods())
 
+App.use(validClient);
+Models.forEach(model => {
+    generateRestFul(model.collectionName, App, model);
+});
 
+genenrateWechatApis(App);
 
 App.listen(1235);
 

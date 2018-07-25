@@ -1,29 +1,14 @@
 import chai from 'chai';
-import {dbConnection, connectDB} from '../../src/server/bootstrap/connectdb.js';
 import User from '../../src/server/models/User.js';
 import moment from 'moment';
-import App from  '../../src/server/core/initApp.js';
-
-import { generateRestFul } from '../../src/server/core/api.js';
-
 //load models;
-import { Models } from '../../src/server/models/registerModel.js';
-import { checkport } from '../../src/server/utils/checkport.js';
 import Axios from 'axios';
-
-
 
 let expect = chai.expect;
 
 describe('用户数据查询测试', function(){
-    before( (done)=>{
-      dbConnection.then((rlt)=>{
-        if(rlt){
-          done();
-        }
-      });
-    })
-    it('默认查询一条用户数据', ()=>{
+
+    it('默认查询一条用户数据1', ()=>{
       expect(User.model.findOne()).to.be.ok;
     });
 
@@ -51,35 +36,23 @@ describe('用户数据查询测试', function(){
         }
       )
     });
+    it('根据用户Id: NR4uitrWdh9eL649k,查询一个用户， 其用户名为lawadmin',  (done)=> {
+        User.model.findOne({'username':'lawadmin'}).then(
+        rlt => {
+          expect(rlt.username).to.be.equal('lawadmin');
+          done();
+        }
+      )
+    });
 })
 
 
-
 describe('测试所有用户的API', ()=>{
-  before((done)=>{
-    dbConnection.then(async (rlt)=>{
-        if(rlt){
-        Models.forEach(model => {
-          console.log(model.collectionName);
-          
-            generateRestFul(model.collectionName, App, model);
-        });
-        let port =7001;
-        let isOccupied = await checkport(port);
-        if(!isOccupied){
-            App.listen(7001);
-            console.log("测试地址在7001端口");
-            
-        }
-        done();
-        }
-      });
-  })
+
 
   it('获取用户列表（简略信息）, 只有10条, 时间倒序', (done)=>{
       let userPromise  =  Axios.get("http://localhost:7001/api/v1/users")
       userPromise.then(rlt => {
-
           let firtMoment = rlt.data[0].createdAt;
           let secondMoment = rlt.data[1].createdAt;
           let isUpdate = moment(firtMoment).isAfter(moment(secondMoment));
@@ -90,34 +63,36 @@ describe('测试所有用户的API', ()=>{
       })
   });
 
-  it('获取用户列表第8页详细信息, 有8条, 时间倒序', (done)=>{
-    let userPromise  =  Axios.get("http://localhost:7001/api/v1/users?version=detail&page=3&pagesize=8")
+  it('获取用户列表第3页详细信息, 有8条, 时间倒序', (done)=>{
+    let userPromise  =  Axios.get("http://localhost:7001/api/v1/users?version=detail&page=3&pagesize=4")
     userPromise.then(rlt => {
         let firtMoment = rlt.data[0].createdAt;
         let secondMoment = rlt.data[1].createdAt;
         let isUpdate = moment(firtMoment).isAfter(moment(secondMoment));
-        expect(rlt.data.length).to.be.equal(8);
+        expect(rlt.data.length).to.be.equal(4);
         expect(isUpdate).to.be.equal(true);
         done();
     })
 });
 
 it('获取用户列表第8页简略信息, 有8条, 时间倒序', (done)=>{
-  let userPromise  =  Axios.get("http://localhost:7001/api/v1/users?version=breif&page=3&pagesize=8")
+  let userPromise  =  Axios.get("http://localhost:7001/api/v1/users?version=breif&page=8&pagesize=8")
   userPromise.then(rlt => {
-      let firtMoment = rlt[0].createdAt;
-      let secondMoment = rlt[1].createdAt;
+    let firtMoment = rlt.data[0].createdAt;
+    let secondMoment = rlt.data[1].createdAt;
       let isUpdate = moment(firtMoment).isAfter(moment(secondMoment));
-      expect(rlt.length).to.be.equal(10);
+      expect(rlt.data.length).to.be.equal(8);
       expect(isUpdate).to.be.equal(true);
       done();
   })
 });
 
 it('根据用户Id: NR4uitrWdh9eL649k,查询一个用户， 其用户名为lawadmin', (done)=>{
-  let userPromise  =  Axios.get("http://localhost:7001/api/v1/users/NR4uitrWdh9eL649k")
+  let userPromise  =  Axios.get("http://localhost:7001/api/v1/users/lawadmin")
   userPromise.then(rlt => {
-      expect(rlt.username).to.be.equal('lawadmin');
+    console.log('93---------------------------');
+    let zsx = rlt.auth_cards
+      expect(rlt.data.username).to.be.equal('lawadmin');
       done();
   })
 });

@@ -23,7 +23,7 @@ describe('用户数据查询测试', function(){
         }
       });
     })
-    it('默认查询一条用户数据', ()=>{
+    it('默认查询一条用户数据2', ()=>{
       expect(User.model.findOne()).to.be.ok;
     });
 
@@ -51,6 +51,17 @@ describe('用户数据查询测试', function(){
         }
       )
     });
+    // it('根据用户Id: NR4uitrWdh9eL649k,查询一个用户， 其用户名为lawadmin', (done)=>{
+    //   User.model.findOne({_id: 'NR4uitrWdh9eL649k'}).then(
+    //    (rlt) => {
+    //      if(rlt){
+    //        expect(rlt.username).to.be.equal('lawadmin');
+    //           done();
+    //      }
+    //    }
+    //  );
+    // });
+
 })
 
 
@@ -60,8 +71,7 @@ describe('测试所有用户的API', ()=>{
     dbConnection.then(async (rlt)=>{
         if(rlt){
         Models.forEach(model => {
-          console.log('74------------------------------------------------------------------ ');
-          console.log(model.collectionName);
+
             generateRestFul(model.collectionName, App, model);
         });
         let port =7001;

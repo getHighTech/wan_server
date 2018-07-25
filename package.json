@@ -4,7 +4,7 @@
   "description": "this is a startup with koajs and mongodb , which can manage multiple frontend apps",
   "main": "index.js",
   "scripts": {
-    "test": "node_modules/mocha/bin/mocha  --compilers js:babel-core/register --require babel-polyfill --reporter mochawesome --watch",
+    "test": "node_modules/mocha/bin/mocha  --compilers js:babel-core/register --require babel-polyfill --reporter mochawesome",
     "dev": " concurrently \"npm run client-server\"   \"npm run backend-dev\"",
     "start": "npm run build-client && npm run backend",
     "backend-dev": "nodemon --experimental-modules  --loader  ./custom-loader.mjs  ./src/server/index.js --env 'dev'",
@@ -28,6 +28,7 @@
     "classnames": "^2.2.6",
     "consolidate": "^0.15.1",
     "dotenv": "^6.0.0",
+    "ed25519": "0.0.4",
     "ejs": "^2.6.1",
     "ejs-lint": "^0.3.0",
     "esm": "^3.0.65",
@@ -48,13 +49,15 @@
     "mongoose": "^5.2.4",
     "pouchdb": "^7.0.0",
     "pouchdb-find": "^7.0.0",
+    "random-string": "^0.2.0",
     "react-redux": "^5.0.7",
     "react-router": "^4.3.1",
     "redux": "^4.0.0",
     "request": "^2.87.0",
     "tenpay": "^2.1.6",
     "urldecode": "^1.0.1",
-    "urlencode": "^1.1.0"
+    "urlencode": "^1.1.0",
+    "uuid": "^3.3.2"
   },
   "devDependencies": {
     "@material-ui/icons": "^1.1.0",

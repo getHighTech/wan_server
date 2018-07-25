@@ -8,6 +8,7 @@ import xmlParser  from 'koa-xml-body';
 import cors from 'koa-cors';
 import path from 'path';
 
+
 const   __dirname = path.resolve();
 
 connectDB();
@@ -26,15 +27,8 @@ App.use(xmlParser())
 // 配置ctx.body解析中间件
 App.use(bodyParser())
 
-// App.use(async (ctx, next)=>{
-//   // console.log(ctx);
-//   // console.log(next);
-//   //此处验证客户端数据
-//   console.log('此处验证客户端消息');
-  
-  
-  
-// })
+
+
 // 配置静态资源加载中间件
 App.use(koaStatic(
   path.join(__dirname , './public')
@@ -44,6 +38,8 @@ App.use(koaStatic(
 App.use(views(path.join(__dirname, './public'), {
   extension: 'ejs'
 }));
+
+
 
 
 
