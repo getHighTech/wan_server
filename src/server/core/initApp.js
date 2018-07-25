@@ -8,6 +8,7 @@ import xmlParser  from 'koa-xml-body';
 import cors from 'koa-cors';
 import path from 'path';
 
+
 const   __dirname = path.resolve();
 
 connectDB();
@@ -27,6 +28,7 @@ App.use(xmlParser())
 App.use(bodyParser())
 
 
+
 // 配置静态资源加载中间件
 App.use(koaStatic(
   path.join(__dirname , './public')
@@ -36,6 +38,8 @@ App.use(koaStatic(
 App.use(views(path.join(__dirname, './public'), {
   extension: 'ejs'
 }));
+
+
 
 
 

@@ -3,6 +3,12 @@ package-lock.json
 /tokens*
 /yarn-error.log
 /public/assets/
+public/assets/
 /public/*.png
+public/*.png
 yarn*
 /public/index.html
+public/index.html
+node_modules
+mochawesome-report
+/mochawesome-report

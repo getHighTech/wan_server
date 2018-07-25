@@ -1,8 +1,7 @@
 import Router from 'koa-router';
-import request from 'request';
 import Axios from 'axios'
-import WeChatUser from '../models/WeChatUser.js';
-import  decode from 'urldecode'
+import  decode from 'urldecode';
+import urlencode from 'urlencode';
 const  approute = new Router();
 
 
@@ -27,16 +26,15 @@ approute.get('/app/getopenid/:from_url', async ( ctx )=>{
 .get("/app/getopenid/:from_url/back", async (ctx) => {
   let from_url = ctx.params.from_url ? ctx.params.from_url : "http://test2.10000cars.cn";
 
-
-
   let res = await Axios.get(`https://api.weixin.qq.com/sns/oauth2/access_token?appid=${app_id}&secret=${app_secrect}&code=${ctx.query.code}&grant_type=authorization_code`)
-  console.log(res.data);
-  // await WeChatUser.createOrUpdate(res.data.openid, res.data.access_token);
-  console.log("from_url", from_url);
-  console.log("decode.url",decode(from_url));
+  console.log(res.data['openid']);
+	let openid = res.data['openid'];
+	let url = decode(from_url)+"&openid="+res.data['openid'];
+	if(!openid){
+		url = '/app/getopenid/'+urlencode(from_url);
+	}	
   await ctx.render('getopenid_back', {
-    openid: res.data.openid,
-    from_url: decode(from_url)
+	url
   })
 
 })

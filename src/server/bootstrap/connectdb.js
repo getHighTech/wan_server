@@ -2,21 +2,22 @@ import mongoose from 'mongoose';
 import ENV from './loadEnv.js';
 import dburl from '../config/db.js';
 
-const getMongoUrlByEnv =  dburl[ENV];
+const getMongoUrlByEnv = dburl[ENV];
+
 const options = {
-    useMongoClient: true,
-    autoIndex: false, // Don't build indexes
+    autoIndex: true, // Don't build indexes
     reconnectTries: Number.MAX_VALUE, // Never stop trying to reconnect
     reconnectInterval: 500, // Reconnect every 500ms
     poolSize: 10, // Maintain up to 10 socket connections
     // If not connected, return errors immediately rather than waiting for reconnect
-    bufferMaxEntries: 0
+    bufferMaxEntries: 0,
+    useNewUrlParser: true
   };
 
 export function connectDB(){
     console.log("正在连接数据库....");
 
-    mongoose.connect(getMongoUrlByEnv).then(
+    mongoose.connect(getMongoUrlByEnv, options).then(
         rlt=> {
             if(rlt){
                 console.log("成功连接数据库");
@@ -34,4 +35,4 @@ export function connectDB(){
     );
 }
 
-export const dbConnection = mongoose.connect(getMongoUrlByEnv);
+export const dbConnection = mongoose.connect(getMongoUrlByEnv, options);
