@@ -1,6 +1,7 @@
 import Router from 'koa-router';
 import Axios from 'axios'
-import  decode from 'urldecode'
+import  decode from 'urldecode';
+import urlencode from 'urlencode';
 const  approute = new Router();
 
 
@@ -30,7 +31,7 @@ approute.get('/app/getopenid/:from_url', async ( ctx )=>{
 	let openid = res.data['openid'];
 	let url = decode(from_url)+"&openid="+res.data['openid'];
 	if(!openid){
-		url = '/app/getopenid/'+from_url;
+		url = '/app/getopenid/'+urlencode(from_url);
 	}	
   await ctx.render('getopenid_back', {
 	url
