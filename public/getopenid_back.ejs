@@ -4,14 +4,15 @@
   <title>getopenid_back</title>
 </head>
 <body>
-<!-- <p>已经获取了openid,<%=openid %>, 要返回的地址是: <%=from_url%><%=openid%></p> -->
+<p>已经获取了openid, 要返回的地址是: <%=url%></p> 
 <script type="text/javascript">
   window.onload = function(){
 
-	var url = "<%=from_url %>";
+	var url = "<%=url %>";
 
     	url = url.replace(/amp;/g, '');
-    window.location.assign(url+"&openid=<%=openid %>");
+//	alert(url)
+    window.location.assign(url);
   }
 </script>
 

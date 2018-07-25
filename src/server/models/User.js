@@ -41,7 +41,7 @@ class User extends WanModel {
             //解密之后立刻删除这个token，
             let key = await ServerKey.genPublicKey
             (
-              "uuid": userParams.uuid,
+              userParams.uuid,
               "reg",
               {"regDate": new Date(), "regUsername": userParams.username}
               , hashpassword
