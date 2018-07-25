@@ -35,9 +35,8 @@ export default function genenrateWechatApis(App){
      console.log(postData);
   })
   .get('/api/v1/wechat/payback/show', async ( ctx )=>{
-    console.log("订单号", ctx.query.order);
     let uresult = await wechatApi.unifiedOrder({
-      out_trade_no: (new Date()).getTime(),
+      out_trade_no: ctx.query.order,
       body: '万人车汇付款测试',
       total_fee: ctx.query.fee,
       openid: ctx.query.openid

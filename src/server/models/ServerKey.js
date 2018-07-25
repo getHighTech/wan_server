@@ -13,7 +13,7 @@ import { cipher } from '../../both/ciphers.js';
 class ServerKey extends WanModel {
     constructor(props){
         super(props);
-        this.collection = "ServerKey";
+        this.collection = "server_keys";
     }
     static async genPublicKey(uuid, type, typeOption, hashPass){
         //hashPass一般传入用户的加密密码
@@ -24,20 +24,19 @@ class ServerKey extends WanModel {
         } else{
              password = randomString({length: 17});
         }
-        
+
         var hash = crypto.createHash('sha256').update(password).digest();
         const serverKeyPair = ed25519.MakeKeypair(hash);
         const privateKey = serverKeyPair.privateKey;
         const publicKey = serverKeyPair.publicKey;
         let message = randomString({length: 17});
-        console.log("33", message);
-        
-        let msgCiphered = cipher('aes192', publicKey, message); 
+
+        let msgCiphered = cipher('aes192', publicKey, message);
         //公钥进行签名
 
-        let signature = ed25519.Sign(new Buffer(msgCiphered, 'utf8'), privateKey); 
+        let signature = ed25519.Sign(new Buffer(msgCiphered, 'utf8'), privateKey);
 
-        
+
         //把密钥对存入数据库
         await this.model.create({
             password,
@@ -49,15 +48,15 @@ class ServerKey extends WanModel {
             msgCiphered,
             type, typeOption,
             createdAt: new Date()
-        });       
-        
+        });
+
         return {
              publicKey: publicKey,
              sign: signature,
              randomString: message,
              msgCiphered
         }
-    
+
     }
     static decipherMsg(sign, msgCiphered, publicKey){
         if(ed25519.Verify(new Buffer(msgCiphered, 'utf8'), sign, publicKey)){
@@ -70,14 +69,14 @@ class ServerKey extends WanModel {
 
     static async getPublicKeyByUUID(uuid){
         try {
-            
+
             let key = await this.model.findOne({uuid});
-            
+
             if(!await key){
                 return false;
             }
-             
-            
+
+
             let outPut = {
                 publicKey: key.publicKey,
                 sign: key.sign,
@@ -85,12 +84,12 @@ class ServerKey extends WanModel {
                 msgCiphered: key.msgCiphered
             }
             return await outPut;
-            
+
         } catch (error) {
             return console.error("find key by UUID", error);
-            
+
         }
-        
+
     }
 
     static async validToken(uuid, sign){
@@ -99,7 +98,7 @@ class ServerKey extends WanModel {
             if(!key){
                 return "NO UUID EXIST? require again";
             }
-            
+
             if(
                 ed25519.Verify(new Buffer(key.msgCiphered, 'utf8'), sign, new Buffer(key.publicKey, 'utf8'))
             ){
@@ -107,11 +106,11 @@ class ServerKey extends WanModel {
            }else{
                 return "INVALID API";
             }
-            
+
         } catch (error) {
             console.error(error);
             return error;
-            
+
         }
     }
 
