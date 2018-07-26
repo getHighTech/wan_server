@@ -3,11 +3,12 @@ import Router from 'koa-router';
 export function  generateRestFul(collectionName, App, model){
     console.log('正在加载路由...');
     let rest = new Router()
-    console.log('走了这');
 
-    rest.get('/api/v1/'+collectionName+'/', async ( ctx )=>{
+
+    rest.get('/api/v1/'+collectionName, async ( ctx )=>{
         let page = 1;
         let pagesize = 10;
+        console.log(ctx.query);
 
         if(ctx.query.page ){
             page = ctx.query.page;
@@ -19,7 +20,7 @@ export function  generateRestFul(collectionName, App, model){
         let records = await model.model.find({}).sort({createdAt: -1}).skip((page-1)*pagesize).limit(parseInt(pagesize, 10));
         ctx.body = records
 
-    }).get('/api/v1/'+collectionName+'/:id', async ( ctx )=>{
+    }).get('/api/'+collectionName+'/:id', async ( ctx )=>{
 // <<<<<<< HEAD
 //         console.log(ctx.params.id);
 //         let record =  await model.findById(ctx.params.id);

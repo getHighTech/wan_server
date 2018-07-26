@@ -1,12 +1,29 @@
-import ed25519 from 'ed25519';
 import { cipher } from '../../both/ciphers';
+import { getRemoteToken } from '../services/tokens';
 
 export function signToken(msg, publicKey){
     let msgCiphered = cipher('aes192', publicKey, msg); 
-    //进行签名
-    let signature = ed25519.Sign(new Buffer(msgCiphered, 'utf8'), privateKey); 
     return {
-        signature,
+        msg,
         msgCiphered
     };
+}
+
+//获取密钥
+export function getToken(){
+    getRemoteToken().then(
+        rlt => {
+            console.log(rlt);
+            
+        }
+    ).catch(
+        err => {
+            console.log(err);
+            
+        }
+    )
+}
+//验证密钥
+export function validToken(pulicKey, msg, msgCiphered, uuid){
+
 }

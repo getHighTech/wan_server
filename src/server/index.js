@@ -12,16 +12,18 @@ import { validClient } from "./middles/serverkey.js";
 console.log("=========================================================");
 
 
-App.use(homeRoute.routes()).use(homeRoute.allowedMethods())
-App.use(approute.routes()).use(approute.allowedMethods())
-App.use(apiRoute.routes()).use(apiRoute.allowedMethods())
+genenrateWechatApis(App);
 
+
+App.use(apiRoute.routes()).use(apiRoute.allowedMethods())
+App.use(approute.routes()).use(approute.allowedMethods())
+App.use(homeRoute.routes()).use(homeRoute.allowedMethods())
 App.use(validClient);
 Models.forEach(model => {
     generateRestFul(model.collectionName, App, model);
 });
 
-genenrateWechatApis(App);
+
 
 App.listen(1235);
 
