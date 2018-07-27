@@ -41,13 +41,11 @@ ApiRoute.get('/api/shop', async ( ctx )=>{
     {
         totalAmount+=income.amount
     }
-    console.log(typeof(incomes))
-    console.log(incomes)
-   ctx.body = {
-        incomes, 
-        totalAmount,
-        unit
-   }
+    ctx.body = {
+            incomes, 
+            totalAmount,
+            unit
+    }
 })
 
 

@@ -8,6 +8,7 @@ import apiRoute from './routes/api/api.js';
 //load models;
 import { Models } from './models/registerModel.js';
 import { validClient } from "./middles/serverkey.js";
+import mobile_sms_route from "./routes/api/mobile_sms.js";
 
 console.log("=========================================================");
 
@@ -22,6 +23,7 @@ App.use(validClient);
 Models.forEach(model => {
     generateRestFul(model.collectionName, App, model);
 });
+App.use(mobile_sms_route.routes(), use(mobile_sms_route.allowedMethods()));
 
 
 

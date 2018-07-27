@@ -27,15 +27,14 @@ class User extends WanModel {
             console.log({hashpassword});
 
             let regRlt = await this.model.create({
-              "services" : {
-                  "password" : {
-                      "bcrypt" : hashpassword
-                  },
-              },
+               hashpassword,
               "username" : userParams.username,
               "createdAt": new Date()
 
             });
+
+            console.log({regRlt});
+            
 
 
             //解密之后立刻删除这个token，
@@ -69,15 +68,7 @@ class User extends WanModel {
 User.setScheme(
     {
         "createdAt" : { type: Date, default: Date.now },
-        "services" : {
-            "password" : {
-                "bcrypt" : String
-            },
-            "resume" : {
-                "loginTokens" : Array,
-                "loginLocation" : Array,
-            }
-        },
+        "hashpassword": String,
         "username" : String,
         "profile" : {
             "mobile" : String,
