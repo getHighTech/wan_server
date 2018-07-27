@@ -5,6 +5,8 @@ const  homeRoute = new Router();
   
 
 homeRoute.get('/', async ( ctx )=>{
+    console.log(123);
+    
     await ctx.render('index.html')
 
 })

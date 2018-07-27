@@ -32,12 +32,12 @@ export default function genenrateWechatApis(App){
   .post('/api/v1/wechat/pay/notify', async ( ctx )=>{
      let postData = ctx.request.body;
 
-     console.log(postData);
+     console.log(postData.xml);
   })
   .get('/api/v1/wechat/payback/show', async ( ctx )=>{
     let uresult = await wechatApi.unifiedOrder({
-      out_trade_no: (new Date()).getTime(),
-      body: '万人车汇付款测试',
+      out_trade_no: ctx.query.order,
+      body: '万人车汇商品汇总',
       total_fee: ctx.query.fee,
       openid: ctx.query.openid
     });

@@ -8,7 +8,7 @@ import { decipher } from "../../both/ciphers.js";
 export async function validToken(uuid, token){
     let key = await ServerKey.getPublicKeyByUUID(uuid);
     if(!key){
-      
+
         return false;
     }else{
         let publicKey = key.publicKey;
@@ -20,24 +20,24 @@ export async function validToken(uuid, token){
                 var msg = decipher('aes192', new Buffer(publicKey, 'utf8'), token);  //使用公钥解密
                 if(msg === randomString) {
                     return true;
-    
+
                 }else{
                     return false;
                 }
             }else{
                return false
             }
-            
+
         } catch (error) {
             console.log(error);
             return false;
-            
-        }
-        
-        
 
-        
-        
+        }
+
+
+
+
+
 
     }
 
@@ -72,10 +72,10 @@ export async function validClient(ctx, next){
 
 
     }
-    
+
     if(!ctx.request.url.includes("/api/v1/get_token")){
        //一般的api请求
-        
+
          if(!ctx.query.uuid){
             ctx.body = {
                 msg: "device error"
@@ -104,7 +104,7 @@ export async function validClient(ctx, next){
         //开始向客户端发送token
         let uuid = null;
         let token = null;
-        
+
         if(!ctx.query.uuid){
             ctx.body = {
                 msg: "device error"
@@ -126,12 +126,12 @@ export async function validClient(ctx, next){
                 return false;
 
             }
-            
-            
+
+
         }
-       
-       
+
+
     }
-    
-   
+
+
   }
