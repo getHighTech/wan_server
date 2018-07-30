@@ -36,7 +36,20 @@ class ServerKey extends WanModel {
 
         let signature = ed25519.Sign(new Buffer(msgCiphered, 'utf8'), privateKey);
 
+        let roleName = "nobody";
+        switch (type) {
+            case "random":
+                roleName = "nobody";
+                break;
+            case "regUsername":
+                roleName = "loginedUser";
 
+            case "login":
+                roleName = "loginedUser";
+        
+            default:
+                break;
+        }
         //把密钥对存入数据库
         await this.model.create({
             password,
@@ -47,6 +60,7 @@ class ServerKey extends WanModel {
             sign: signature,
             msgCiphered,
             type, typeOption,
+            roleName,
             createdAt: new Date()
         });
 
@@ -132,6 +146,7 @@ ServerKey.setScheme(
             type: Buffer
         },
         "type": String,
+        "roleName": String,
         "typeOption": Object
     },
     "ServerKey", "server_keys"

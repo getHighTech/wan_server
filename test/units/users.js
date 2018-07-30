@@ -1,16 +1,9 @@
 import chai from 'chai';
 import User from '../../src/server/models/User.js';
 import moment from 'moment';
-//load models;
 import Axios from 'axios';
-
-
 import ed25519 from 'ed25519';
-import  uuidv4 from 'uuid/v4';
 import { decipher, cipher } from '../../src/both/ciphers.js';
-import { validClient } from '../../src/server/middles/serverkey.js';
-
-
 
 let expect = chai.expect;
 
