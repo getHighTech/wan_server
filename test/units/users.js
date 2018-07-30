@@ -169,6 +169,33 @@ describe('用户数据查询测试', function(){
         }
       )
     });
+    it('根据用户名username: 18820965455,将其nickname修改为 zsx_test',  (done)=> {
+        User.model.update({'username':'18820965455'},{$set:{nickname:'zsx_test'}},function (error,rlt) {
+          if (error) {
+              console.error(error);
+          } else {
+              console.error("更新nickname成功")
+              User.model.findOne({username: '18820965455'},function(err,alt){
+                if (!err) {
+                  expect(alt.nickname).to.be.equal('zsx_test');
+                  done();
+                }
+              })
+
+
+
+
+          }
+      })
+    });
+    it('根据用户Id: NR4uitrWdh9eL649k,查询一个用户， 其用户名为lawadmin', (done)=>{
+      User.model.find({'username':'lawadmin'},function(err,alt){
+        console.log('193---------------------------------------------------');
+        if (!err) {
+
+        }
+      })
+    });
 })
 
 
