@@ -27,6 +27,7 @@ function ShowAppName(appname){
 export default function genenrateWechatApis(App){
 
   let rest = new Router();
+  let orderCode = null;
 
   rest.get('/api/v1/wechat/access/token', async ( ctx )=>{
     let rlt  = await Axios.get(`https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=${config.appid}&secret=${app_secrect}`)
@@ -41,6 +42,23 @@ export default function genenrateWechatApis(App){
   })
   .post('/api/v1/wechat/pay/notify', async ( ctx )=>{
      let postData = ctx.request.body;
+     if(!postData.xml){
+
+       return false;
+     }
+
+     if(!postData.xml.out_trade_no){
+
+       
+       return false;
+     }else{
+       if(orderCode !== postData.xml.out_trade_no[0]){
+         console.log("订单有效，可以处理订单了")
+    
+       }else{
+         console.log("订单重复了")
+       }
+     }
 
      console.log(postData.xml);
   })
