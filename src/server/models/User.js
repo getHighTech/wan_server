@@ -18,7 +18,7 @@ class User extends WanModel {
           let  password = decipher('aes192', userParams.sign, userParams.passowrd);  //使用签名解密
 
           try {
-
+            //解密之后立刻删除这个token，
             await ServerKey.model.remove({msgCiphered: userParams.sign});
 
 
@@ -37,12 +37,16 @@ class User extends WanModel {
             
 
 
-            //解密之后立刻删除这个token，
+            
             let key = await ServerKey.genPublicKey
             (
               userParams.uuid,
               "reg",
-              {"regDate": new Date(), "regUsername": userParams.username}
+              {
+                  "regDate": new Date(),
+                   "regUsername": userParams.username,
+                    userId: regRlt._id
+              }
               , hashpassword
             );
 
