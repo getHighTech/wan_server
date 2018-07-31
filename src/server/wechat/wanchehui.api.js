@@ -1,15 +1,11 @@
 import config from './wanchehui.config.js';
 import  tenpay from 'tenpay';
-import request from 'request';
 import Router from 'koa-router';
 import urlencode from 'urlencode';
 import Axios from 'axios'
 
-import WeChatUser from '../models/WeChatUser.js';
 
 const wechatApi = new tenpay(config);
-const appName = "wanchehui";
-const redirect_uri = urlencode("")
 
 const app_secrect = "9f22e4512d30fd774d93defa85c3282b";
 
@@ -63,7 +59,8 @@ export default function genenrateWechatApis(App){
     console.log(ctx.query.appname);
     await ctx.render("wechatpay", {
       ...result,
-      appname: ctx.query.appname
+      appname: ctx.query.appname,
+      appTitle: ShowAppName(ctx.query.appname)
     })
   });
   // 加载路由中间件
