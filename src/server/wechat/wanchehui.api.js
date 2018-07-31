@@ -59,7 +59,8 @@ export default function genenrateWechatApis(App){
     console.log(ctx.query.appname);
     await ctx.render("wechatpay", {
       ...result,
-      appname: howAppName(ctx.query.appname)
+      appname: ctx.query.appname,
+      appTitle: ShowAppName(ctx.query.appname)
     })
   });
   // 加载路由中间件
