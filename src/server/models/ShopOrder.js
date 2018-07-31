@@ -2,15 +2,15 @@ import WanModel from "../core/model.js";
 import mongoose from 'mongoose';
 
 
-class Order extends WanModel {
+class ShopOrder extends WanModel {
     constructor(props){
         super(props);
-        this.collection = "orders";
+        this.collection = "shop_orders";
     }
     
 }
 
-Order.setScheme(
+ShopOrder.setScheme(
     {
       "orderCode": String,
       "createdAt" : { type: Date, default: Date.now },
@@ -21,8 +21,8 @@ Order.setScheme(
       "products": Array,
       "userId": { type: mongoose.Schema.ObjectId, ref: 'users' },
     },
-    "Order", "orders"
+    "ShopOrder", "shop_orders"
 
 )
 
-export default Order;
+export default ShopOrder;
