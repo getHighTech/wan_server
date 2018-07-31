@@ -3,6 +3,7 @@ import  tenpay from 'tenpay';
 import Router from 'koa-router';
 import urlencode from 'urlencode';
 import Axios from 'axios'
+import OrderDeal from '../models/OrderDeal.js';
 
 
 const wechatApi = new tenpay(config);
@@ -27,7 +28,6 @@ function ShowAppName(appname){
 export default function genenrateWechatApis(App){
 
   let rest = new Router();
-  let orderCode = null;
 
   rest.get('/api/v1/wechat/access/token', async ( ctx )=>{
     let rlt  = await Axios.get(`https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=${config.appid}&secret=${app_secrect}`)
@@ -52,12 +52,8 @@ export default function genenrateWechatApis(App){
        
        return false;
      }else{
-       if(orderCode !== postData.xml.out_trade_no[0]){
-         console.log("订单有效，可以处理订单了")
-    
-       }else{
-         console.log("订单重复了")
-       }
+       //将订单加入队列并且处理
+       OrderDeal.join( postData.xml.out_trade_no[0]);
      }
 
      console.log(postData.xml);
