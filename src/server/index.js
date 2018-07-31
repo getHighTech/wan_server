@@ -23,7 +23,8 @@ App.use(validClient);
 Models.forEach(model => {
     generateRestFul(model.collectionName, App, model);
 });
-App.use(mobile_sms_route.routes(), use(mobile_sms_route.allowedMethods()));
+
+App.use(mobile_sms_route.routes()).use(mobile_sms_route.allowedMethods());
 
 
 

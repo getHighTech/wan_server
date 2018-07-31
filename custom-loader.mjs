@@ -48,7 +48,7 @@ export function resolve(specifier, parentModuleURL = baseURL, defaultResolve) {
   const resolved = new URL(specifier, parentModuleURL);
   // console.log(resolved);
   const ext = path.extname(resolved.pathname);
-  console.log(ext);
+  console.log(resolved.pathname);
   if (!JS_EXTENSIONS.has(ext)) {
     console.log(ext);
     throw new Error(
