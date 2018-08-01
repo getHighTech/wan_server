@@ -6,7 +6,7 @@ class OrderDeal extends WanModel {
         this.collection = "order_deals";
     }
     static async join(orderCode){
-        let orderDeal = await this.model.findOne({orderCode, status: "ready"});
+        let orderDeal = await this.model.findOne({orderCode});
         console.log("加入队列的订单", orderDeal);
         
         if(!orderDeal){
@@ -28,7 +28,7 @@ class OrderDeal extends WanModel {
     static async deal(){
         let orderDeals = await this.model.find({status: "ready"});
         let count = 0;
-        orderDeals.forEach(deal=>{
+        orderDeals.forEach(async deal=>{
             count++;
             console.log("处理每一个订单"+count);
             console.log("================================"+count);
