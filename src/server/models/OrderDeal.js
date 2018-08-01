@@ -56,6 +56,10 @@ class OrderDeal extends WanModel {
                 
                 $set: {status: "paid", "updatedAt": new Date()}
             });
+
+            console.log(shopOrdersUpdate);
+            
+
             console.log("获取店铺的每个商品的佣金");
             let productsTamp = [];
             shopOrders.forEach(async shopOrder => {
@@ -68,12 +72,7 @@ class OrderDeal extends WanModel {
                     console.log("如果商品是道具类别, 记录商品的拥有");
                     
                 }
-                if(product.productClass){
-                    if (product.productClass === "common_card") {
-                        console.log("如果商品是普通会员卡，则开店，并且记录这个店的上级店铺是什么");
-                        
-                    }
-                }
+                
                 let agencyProfit = 0;
                 let superAgencyProfit = 0;
                 if(product.agencyLevelPrices[0]){
@@ -83,37 +82,75 @@ class OrderDeal extends WanModel {
                     superAgencyProfit = product.agencyLevelPrices[1];
                 }
                 console.log("更改代理关系");
-                let agency = await AgencyRelation.findOne({shopId: product.shopId});
+                let agency = await AgencyRelation.model.findOne({shopId: product.shopId});
                 let shop = null;
-                shop = await Shop.model.findOne({_id: agency.shopId});
+
+                let giveMoneyToShopOwner = async shop => {
+                    console.log("获取产品的店铺");
+                    let userId = await shop.acl.own.users;
+                    let shopOwner = await User.model.findOne({_id: userId});
+                    console.log("================================");
+                    console.log("给店铺拥有者佣金");
+                    let balance  = await   Balance.model.findOne({userId: shopOwner._id});
+                    await BalanceIncome.create({
+                        "amount": agencyProfit*shopOrder.productCounts[product._id],
+                        "userId": shopOrder.userId,
+                        "reasonType": "agencyGive",
+                        "agency": shopOwner._id,
+                        "text": "店铺代理营收",
+                        "productId": product._id,
+                        "productCounts": shopOrder.productCounts[product._id],
+                        "balanceId": balance._id,
+                        "updatedAt": new Date()
+                    });
+                    let balanceAmount = balance.amount + parseInt(agencyProfit)*shopOrder.productCounts[product._id];
+                    let balance_update = await Balance.model.update({_id: balance._id}, {
+                        amount: balanceAmount
+                    })
+                    console.log(balance_update);
+                }
+
+
+                let buyer = await User.model.findById(order.userId);
                 if(!agency){
-                    shop = await Shop.model.findOne({appName: Order.app});
+                    if(product.productClass){
+                        if (product.productClass === "common_card") {
+                            console.log("如果商品是普通会员卡，则开店，并且记录这个店的上级店铺是什么");
+                            agency = await AgencyRelation.model.findOne({SshopId: product.shopId});
+                            let newShop = await Shop.model.create({
+                                "name": buyer.username+"_shop",
+                                "name_zh": "buyer.username的"+"店铺",
+                                "acl": {
+                                    own: {
+                                        users: buyer._id
+                                    }
+                                },
+                                "status": true,
+                                "phone": buyer.profile.mobile,
+                                "lanAndLat": shop.lanAndLat,
+                            })
+                            await AgencyRelation.model.update({SshopId: product.shopId}, {
+                                $set: {updatedAt: new Date(), shopId: newShop._Id}
+                            })
+                            shop = await Shop.model.findOne({_id: agency.shopId});
+                            await giveMoneyToShopOwner(shop);
+                            return 0;
+                        }else{
+                            shop = await Shop.model.findOne({appName: Order.app});
+                            await giveMoneyToShopOwner(shop);
+                            return 0;
+
+                        }
+                    }
+                }else{
+                    shop = await Shop.model.findOne({_id: agency.shopId});
+                    await giveMoneyToShopOwner(shop);
+                    return 0;
                 }
                 
               
 
-                console.log("获取产品的店铺");
-                let userId = await shop.acl.own.users;
-                let shopOwner = await User.model.findOne({_id: userId});
-                console.log("================================");
-                console.log("给店铺拥有者佣金");
-                let balance  = await   Balance.model.findOne({userId: shopOwner._id});
-                await BalanceIncome.create({
-                    "amount": agencyProfit*shopOrder.productCounts[product._id],
-                    "userId": shopOrder.userId,
-                    "reasonType": "agencyGive",
-                    "agency": shopOwner._id,
-                    "text": "店铺代理营收",
-                    "productId": product._id,
-                    "productCounts": shopOrder.productCounts[product._id],
-                    "balanceId": balance._id,
-                    "updatedAt": new Date()
-                });
-                let balanceAmount = balance.amount + parseInt(agencyProfit)*shopOrder.productCounts[product._id];
-                let balance_update = await Balance.model.update({_id: balance._id}, {
-                    amount: balanceAmount
-                })
-                console.log(balance_update);
+               
                 
                 console.log("================================");
                 console.log("给平台拥有者佣金");
