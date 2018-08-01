@@ -14,6 +14,7 @@ Order.setScheme(
     {
       "orderCode": String,
       "createdAt" : { type: Date, default: Date.now },
+      "updatedAt" : { type: Date, default: Date.now },
       "status": String,
       "appName": String,
       "contact": Object,

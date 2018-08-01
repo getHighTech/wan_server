@@ -45,14 +45,16 @@ class OrderDeal extends WanModel {
             let order = await Order.model.findOne({orderCode: deal.orderCode});
             console.log("改变订单状态", order);
             let orderUpdate = await Order.model.update({_id: order._id}, {
-               $set: { status: "paid"}
+               $set: { status: "paid", "updatedAt": new Date()}
             });
+            
             console.log({orderUpdate})
             console.log("================================");
             console.log("改变店铺订单状态");
             let shopOrders = await ShopOrder.model.find({orderId: order._id})
             let shopOrdersUpdate = await ShopOrder.model.update({orderId: order._id}, {
-                $set: {status: "paid"}
+                
+                $set: {status: "paid", "updatedAt": new Date()}
             });
             console.log("获取店铺的每个商品的佣金");
             let productsTamp = [];
@@ -62,6 +64,18 @@ class OrderDeal extends WanModel {
                 })
             })
             productsTamp.forEach(async product => {
+                if (product.isTool) {
+                    console.log("如果商品是道具类别, 记录商品的拥有");
+                    
+                }
+                let agency = await AgencyRelation.findOne({shopId: product.shopId});
+
+                if(product.productClass){
+                    if (product.productClass === "common_card") {
+                        console.log("如果商品是普通会员卡，则开店，并且记录这个店的上级店铺是什么");
+                        
+                    }
+                }
                 let agencyProfit = 0;
                 let superAgencyProfit = 0;
                 if(product.agencyLevelPrices[0]){
@@ -71,15 +85,11 @@ class OrderDeal extends WanModel {
                     superAgencyProfit = product.agencyLevelPrices[1];
                 }
                 console.log("更改代理关系");
-                let agency = await AgencyRelation.findOne({userId: order.userId});
-                console.log(agency);
                 
-                await AgencyRelation.update({_id: agency._id}, {
-                    shopId: shopOrder.shopId
-                })
+                
+              
 
                 console.log("获取产品的店铺");
-                let shop = await Shop.model.findOne({_id: shopOrder.shopId});
                 let userId = await shop.acl.own.users;
                 let shopOwner = await User.model.findOne({_id: userId});
                 console.log("================================");
@@ -94,6 +104,7 @@ class OrderDeal extends WanModel {
                     "productId": product._id,
                     "productCounts": shopOrder.productCounts[product._id],
                     "balanceId": balance._id,
+                    "updatedAt": new Date()
                 });
                 let balanceAmount = balance.amount + parseInt(agencyProfit)*shopOrder.productCounts[product._id];
                 let balance_update = await Balance.model.update({_id: balance._id}, {
@@ -107,7 +118,7 @@ class OrderDeal extends WanModel {
                 if(!SshopId){
                     return false;
                 }
-                let Sshop = await Shop.model.findOne({_id: SshopId});
+                let Sshop = await Shop.model.findOne({_id: agency.SshopId});
                 let SuserId = await Sshop.acl.own.users;
                 let SshopOwner = await User.model.findById(SuserId);
                 let Sbalance = await Balance.model.findOne({userId: SshopOwner._id});
@@ -120,6 +131,7 @@ class OrderDeal extends WanModel {
                     "productId": product._id,
                     "productCounts": shopOrder.productCounts[product._id],
                     "balanceId": Sbalance._id,
+                    "updatedAt": new Date()
                 });
                 let SbalanceAmount = Sbalance.amount + parseInt(agencyProfit)*shopOrder.productCounts[product._id];
                 let Sbalance_update = await Balance.model.update({_id: balance._id}, {
@@ -146,7 +158,7 @@ class OrderDeal extends WanModel {
 
             console.log("================================");
             await this.model.update({_id: deal._id},{
-                status: "done"
+                status: "done",
             })
             console.log("================================"+count);
             

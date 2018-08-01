@@ -20,6 +20,7 @@ BalanceIncome.setScheme(
       "balanceId": { type: mongoose.Schema.ObjectId, ref: 'balances' },
       "productId": { type: mongoose.Schema.ObjectId, ref: 'products' },
       "productCounts": Number,
+      "updatedAt" : { type: Date, default: Date.now },
 
       
 
