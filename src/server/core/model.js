@@ -1,14 +1,15 @@
 
 import mongoose from 'mongoose';
-
+mongoose.set('debug', true);
 
 class WanModel {
 
     static setScheme(schema, modelName, collectionName){
          this.schema = new mongoose.Schema(
-            schema
+            schema,
+            { collection: collectionName }
         );
-        this.model = mongoose.model(modelName, schema);
+        this.model = mongoose.model(modelName, this.schema);
         this.collectionName = collectionName;
         //此处根据表名生成restful api
         // exg: users/1/create

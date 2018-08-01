@@ -14,13 +14,14 @@ Order.setScheme(
     {
       "orderCode": String,
       "createdAt" : { type: Date, default: Date.now },
-      "updatedAt" : { type: Date, default: Date.now },
+      "user": { type: mongoose.Schema.ObjectId, ref: 'User' },
+      "updatedAt" : Date,
       "status": String,
       "appName": String,
       "contact": Object,
       "area": String,
       "products": Array,
-      "userId": { type: mongoose.Schema.ObjectId, ref: 'users' },
+      "userId": String,
     },
     "Order", "orders"
 

@@ -14,7 +14,7 @@ Balance.setScheme(
       "amount": Number,
       "createdAt" : { type: Date, default: Date.now },
       "updatedAt" : { type: Date, default: Date.now },
-      "userId": { type: mongoose.Schema.ObjectId, ref: 'users' },
+      "userId": String,
       
 
     },
