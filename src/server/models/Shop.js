@@ -8,7 +8,7 @@ class Shop extends WanModel {
    
 }
 
-Simple.setScheme(
+Shop.setScheme(
     {
         "createdAt" : { type: Date, default: Date.now },
         "name": String,
@@ -22,8 +22,8 @@ Simple.setScheme(
         "lanAndLat": Array
 
     },
-    "Simple", "simples"
+    "Shop", "shops"
 
 )
 
-export default  Simple;
+export default  Shop;

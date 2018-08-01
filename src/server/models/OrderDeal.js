@@ -40,16 +40,19 @@ class OrderDeal extends WanModel {
         orderDeals.forEach(async deal=>{
             count++;
             console.log("处理每一个订单"+count);
+            console.log(deal)
 
-            let order = Order.model.findOne({orderCode: deal.orderCode});
-            console.log("改变订单状态");
-            await Order.update({_id: order._id}, {
-                status: "paid"
+            let order = await Order.model.findOne({orderCode: deal.orderCode});
+            console.log("改变订单状态", order);
+            let orderUpdate = await Order.model.update({_id: order._id}, {
+               $set: { status: "paid"}
             });
+            console.log({orderUpdate})
             console.log("================================");
             console.log("改变店铺订单状态");
-            let shopOrders = await ShopOrder.find({orderId: order._id}).update({orderId: order._id}, {
-                status: "paid"
+            let shopOrders = await ShopOrder.model.find({orderId: order._id})
+            let shopOrdersUpdate = await ShopOrder.model.update({orderId: order._id}, {
+                $set: {status: "paid"}
             });
             console.log("获取店铺的每个商品的佣金");
             let productsTamp = [];
@@ -58,7 +61,7 @@ class OrderDeal extends WanModel {
                     productsTamp.push(product);
                 })
             })
-            productsTamp.forEach(product => {
+            productsTamp.forEach(async product => {
                 let agencyProfit = 0;
                 let superAgencyProfit = 0;
                 if(product.agencyLevelPrices[0]){
