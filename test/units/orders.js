@@ -10,7 +10,7 @@ let expect = chai.expect;
 describe('测试订单支付状态，追踪更新', function(){
 
     it('验证最新更新的订单结果', (done)=>{
-       Order.model.find({}).sort({updatedAt: -1}).limit(10).then(rlt => {
+       Order.model.find({status: "paid"}).sort({updatedAt: -1}).limit(10).then(rlt => {
         console.log(rlt);
         expect(rlt).to.exist;
             done();
@@ -21,7 +21,7 @@ describe('测试订单支付状态，追踪更新', function(){
        });
     });
     it('在支付完成功后，验证店铺订单结果', (done)=>{
-        ShopOrder.model.find({}).sort({updatedAt: -1}).limit(10).then(rlt => {
+        ShopOrder.model.find({status: "paid"}).sort({updatedAt: -1}).limit(10).then(rlt => {
             console.log(rlt);
             expect(rlt).to.exist;
             done();
@@ -32,7 +32,7 @@ describe('测试订单支付状态，追踪更新', function(){
         });
      });
      it('在支付完成功后，验证账户结果', (done)=>{
-        Balance.model.find({}).sort({updatedAt: -1}).limit(10).then(rlt => {
+        Balance.model.find({userId: {$exists: true}}).sort({updatedAt: -1}).limit(10).then(rlt => {
             console.log(rlt);
             expect(rlt).to.exist;
             done();
@@ -43,7 +43,7 @@ describe('测试订单支付状态，追踪更新', function(){
         });
      });
      it('在支付完成功后，验证收入结果', (done)=>{
-        BalanceIncome.model.find({}).sort({updatedAt: -1}).limit(10).then(rlt => {
+        BalanceIncome.model.find({userId: {$exists: true}}).sort({updatedAt: -1}).limit(10).then(rlt => {
              console.log(rlt);
              expect(rlt).to.exist;
             done();

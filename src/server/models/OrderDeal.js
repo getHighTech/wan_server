@@ -19,13 +19,11 @@ class OrderDeal extends WanModel {
             //若是没有订单号，开始处理订单
             console.log("这是一个新的订单");
             
-            await this.model.create({
-
-
-
+            let newOrderDeal = await this.model.create({
                 orderCode,
                 status: "ready"
-            })
+            });
+            console.log("新的队列", newOrderDeal);
             this.deal();
         }else{
             this.deal();
@@ -67,6 +65,7 @@ class OrderDeal extends WanModel {
                     productsTamp.push(product);
                 })
             })
+            console.log({productsTamp})
             productsTamp.forEach(async product => {
                 if (product.isTool) {
                     console.log("如果商品是道具类别, 记录商品的拥有");
@@ -105,13 +104,15 @@ class OrderDeal extends WanModel {
                     });
                     let balanceAmount = balance.amount + parseInt(agencyProfit)*shopOrder.productCounts[product._id];
                     let balance_update = await Balance.model.update({_id: balance._id}, {
-                        amount: balanceAmount
+                       $set: { amount: balanceAmount}
                     })
                     console.log(balance_update);
                 }
 
 
                 let buyer = await User.model.findById(order.userId);
+                console.log({buyer})
+                console.log({agency})
                 if(!agency){
                     if(product.productClass){
                         if (product.productClass === "common_card") {
@@ -137,6 +138,7 @@ class OrderDeal extends WanModel {
                             return 0;
                         }else{
                             shop = await Shop.model.findOne({appName: Order.app});
+                            console.log({buyer})
                             await giveMoneyToShopOwner(shop);
                             return 0;
 
@@ -175,7 +177,9 @@ class OrderDeal extends WanModel {
                 });
                 let SbalanceAmount = Sbalance.amount + parseInt(agencyProfit)*shopOrder.productCounts[product._id];
                 let Sbalance_update = await Balance.model.update({_id: balance._id}, {
+                  $set:{
                     amount: SbalanceAmount
+                  }
                 })
                 console.log(Sbalance_update);
                 console.log("================================");
