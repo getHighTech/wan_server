@@ -68,8 +68,6 @@ class OrderDeal extends WanModel {
                     console.log("如果商品是道具类别, 记录商品的拥有");
                     
                 }
-                let agency = await AgencyRelation.findOne({shopId: product.shopId});
-
                 if(product.productClass){
                     if (product.productClass === "common_card") {
                         console.log("如果商品是普通会员卡，则开店，并且记录这个店的上级店铺是什么");
@@ -85,7 +83,12 @@ class OrderDeal extends WanModel {
                     superAgencyProfit = product.agencyLevelPrices[1];
                 }
                 console.log("更改代理关系");
-                
+                let agency = await AgencyRelation.findOne({shopId: product.shopId});
+                let shop = null;
+                shop = await Shop.model.findOne({_id: agency.shopId});
+                if(!agency){
+                    shop = await Shop.model.findOne({appName: Order.app});
+                }
                 
               
 
