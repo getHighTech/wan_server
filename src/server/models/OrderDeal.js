@@ -137,6 +137,10 @@ class OrderDeal extends WanModel {
             console.log("================================");
             console.log("================================");
             console.log("================================");
+            
+
+
+
             console.log("================================");
             await this.model.update({_id: deal._id},{
                 status: "done"
