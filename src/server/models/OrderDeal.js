@@ -93,8 +93,18 @@ class OrderDeal extends WanModel {
                     console.log("================================");
                     console.log("给店铺拥有者佣金");
                     let balance  = await   Balance.model.findOne({userId: shopOwner._id}, ["_id", "amount", "userId"]);
+                    if(!balance){
+                        let newB = new Balance.model();
+                        balance = await Balance.create({
+                            _id: newB._id,
+                            amount: 0,
+                            userId: shopOwner._id,
+                        })
+                    }
                     console.log(shopOrder);
+                    let newBlanceIncome = new BalanceIncome.model();
                     await BalanceIncome.create({
+                        "_id": newBlanceIncome._id,
                         "amount": agencyProfit*shopOrder.productCounts[product._id],
                         "userId": shopOrder.userId,
                         "reasonType": "agencyGive",
@@ -121,7 +131,9 @@ class OrderDeal extends WanModel {
                         if (product.productClass === "common_card") {
                             console.log("如果商品是普通会员卡，则开店，并且记录这个店的上级店铺是什么");
                             agency = await AgencyRelation.model.findOne({SshopId: product.shopId});
+                            let newS = new Shop.model();
                             let newShop = await Shop.model.create({
+                                "_id": newS._id,
                                 "name": buyer.username+"_shop",
                                 "name_zh": "buyer.username的"+"店铺",
                                 "acl": {
@@ -167,7 +179,17 @@ class OrderDeal extends WanModel {
                 let SuserId = await Sshop.acl.own.users;
                 let SshopOwner = await User.model.findById(SuserId);
                 let Sbalance = await Balance.model.findOne({userId: SshopOwner._id});
+                if(!Sbalance){
+                    let newB = new Balance.model();
+                    Sbalance = await Balance.create({
+                        _id: newB._id,
+                        amount: 0,
+                        userId: SshopOwner._id,
+                    })
+                }
+                let newBlanceIncome = new BalanceIncome.model();
                 await BalanceIncome.create({
+                    "_id": newBlanceIncome._id,
                     "amount": superAgencyProfit*shopOrder.productCounts[product._id],
                     "userId": shopOrder.userId,
                     "reasonType": "agencyGive",
