@@ -25,20 +25,20 @@ class WanModel {
 
     }
     static async sortLimitByTime(page=0, pagesize=10){
-        
+
     }
     static async getOne(id){
-    
+
     }
     static async update(id, params){
-    
-    }
-    
-    static async deleteOne(id){
-    
+
     }
 
-    
+    static async deleteOne(id){
+
+    }
+
+
 
 }
 

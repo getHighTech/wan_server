@@ -1,6 +1,7 @@
 import Router from 'koa-router';
 import Order from '../../models/Order.js';
 import Shop from '../../models/Shop.js';
+import Products from '../../models/Products.js'
 import BalanceIncome from '../../models/BalanceIncome.js';
 import Balance from '../../models/Balance.js';
 import BalanceCharge from '../../models/BalanceCharge.js';
@@ -9,8 +10,6 @@ import Agency from '../../models/Agency.js';
 
 import moment from "moment"
 const  ApiRoute = new Router();
-
-  
 
 ApiRoute.get('/api/order/status', async ( ctx )=>{
 //这是临时的借口
@@ -30,7 +29,29 @@ console.log(`11111`)
     }
 })
 
-ApiRoute.get('/api/shop', async ( ctx )=>{ 
+
+ApiRoute.get('/api/products', async ( ctx,next )=>{
+  console.log('11');
+console.log(`过来了`)
+        try{
+        const {shopId,page,pagesize } = ctx.query
+        console.log(page,pagesize);
+        let newpage = page-1;
+        console.log(newpage);
+        const products = await Products.find({shopId}).limit(4).skip(newpage).sort({createdAt: -1})
+        const shop = await Shop.findOne({'_id':shopId})
+
+        ctx.body = {
+        products,shop
+        }
+        } catch (err) {
+        ctx.body = {
+            msg: 'fail1111'
+        }
+        }
+})
+
+ApiRoute.get('/api/shop', async ( ctx )=>{
     const {userId, unit, rangeLength  } = ctx.query
     let yestoday = moment().subtract(rangeLength, unit);
     yestoday = yestoday.toISOString();
@@ -42,14 +63,14 @@ ApiRoute.get('/api/shop', async ( ctx )=>{
         totalAmount+=income.amount
     }
     ctx.body = {
-            incomes, 
+            incomes,
             totalAmount,
             unit
     }
 })
 
 
-ApiRoute.get('/api/loadMoney', async ( ctx )=>{ 
+ApiRoute.get('/api/loadMoney', async ( ctx )=>{
     console.log(`loadMoney`)
     // try{
         const {userId} = ctx.query
@@ -81,7 +102,7 @@ ApiRoute.get('/api/loadMoney', async ( ctx )=>{
 
         //     // }
         // }
-        
+
         // // //======================支出更新完毕
         // ctx.body = {
         //     balance,
@@ -93,7 +114,7 @@ ApiRoute.get('/api/loadMoney', async ( ctx )=>{
     //         msg: 'fail'
     //     }
     // }
-   
+
 })
 
 
@@ -123,7 +144,7 @@ ApiRoute.get('/api/loadMoney', async ( ctx )=>{
 
 //         //     }
 //         // }
-        
+
 //         // //======================支出更新完毕
 //         // ctx.body = {
 //         //     balance,

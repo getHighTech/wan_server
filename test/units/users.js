@@ -1,5 +1,7 @@
 import chai from 'chai';
 import User from '../../src/server/models/User.js';
+import Products from '../../src/server/models/Products.js';
+import BankCard from '../../src/server/models/BankCard.js';
 import moment from 'moment';
 import Axios from 'axios';
 import ed25519 from 'ed25519';
@@ -181,11 +183,29 @@ describe('用户数据查询测试', function(){
           }
       })
     });
-    it('根据用户Id: NR4uitrWdh9eL649k,查询一个用户， 其用户名为lawadmin', (done)=>{
-      User.model.find({'username':'lawadmin'},function(err,alt){
-        console.log('193---------------------------------------------------');
+    it('根据shopId: YhCNM6PqYrqTGMehh,查询4个', (done)=>{
+      Products.model.find({'shopId':'YhCNM6PqYrqTGMehh'}).skip(0).limit(4).exec(function(err,alt){
+        console.log('188---------------------------------------------------');
         if (!err) {
-
+          console.log(alt);
+          expect(alt.length).to.be.equal(4);
+          done();
+        }
+        else {
+          console.log(err);
+        }
+      })
+    });
+    it('根据userId:AT7p7bspKthfSMx7Q,查询该用户的bankcard', (done)=>{
+      BankCard.model.find({'userId':'AT7p7bspKthfSMx7Q'}).exec(function(err,alt){
+        console.log('201---------------------------------------------------');
+        if (!err) {
+          console.log(alt);
+          expect(alt.length).to.be.equal(2);
+          done();
+        }
+        else {
+          console.log(err);
         }
       })
     });
