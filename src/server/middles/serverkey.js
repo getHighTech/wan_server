@@ -19,7 +19,7 @@ export async function validToken(uuid, token){
                 // 验证函数返回了true，通过验证
                 var msg = decipher('aes192', new Buffer(publicKey, 'utf8'), token);  //使用公钥解密
                 if(msg === randomString) {
-                    return true;
+                    return key;
 
                 }else{
                     return false;
@@ -92,7 +92,13 @@ export async function validClient(ctx, next){
         }
         let uuid = ctx.query.uuid;
         let token = ctx.query.token;
-        if(await validToken(uuid, token)){
+        let key  = await validToken(uuid, token)
+        if(key){
+            console.log(key);
+            
+            ctx.role_name = key.roleName;
+            console.log(ctx.role_name);
+            
             await next();
             return true;
         }else{
@@ -105,7 +111,7 @@ export async function validClient(ctx, next){
         let uuid = null;
         let token = null;
 
-        if(!ctx.query.uuid){
+        if(!ctx.query.uuid || ctx.query.uuid===""){
             ctx.body = {
                 msg: "device error"
             }

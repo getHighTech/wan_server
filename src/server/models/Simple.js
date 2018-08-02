@@ -10,7 +10,9 @@ class Simple extends WanModel {
 
 Simple.setScheme(
     {
-      "field": String,
+       "_id": String,
+      "test1": String,
+      "test2": String,
 
     },
     "Simple", "simples"

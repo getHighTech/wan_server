@@ -8,39 +8,60 @@ export function  generateRestFul(collectionName, App, model){
     let apiWithCollection = APIFIXED + collectionName;
     
     rest.post(apiWithCollection, async ( ctx )=>{
-        let page = 1;
-        let pagesize = 10;
-        console.log(ctx.query);
         
-        if(ctx.query.page ){
-            page = ctx.query.page;
+        const {condition, page, pagesize, fields, sort} = ctx.request.body;
+
+        // if(ctx.role_name === "nobody"){
+        //     ctx.body = "access deny"
+        // }
+
+        if(!condition || typeof condition !== Object){
+            ctx.body = "condition missing";
+        }
+
+        if(!page){
+            ctx.body = "page missing"
+        }
+
+        if(!pagesize){
+            ctx.body = "pagesize missing"
+        }
+        if(!fields || typeof fields !== Array){
+            ctx.body = "fields missing"
+        }
+        if(!sort){
+            ctx.body = "sort missing"
         }
         
-        if(ctx.query.pagesize){
-            pagesize = ctx.query.pagesize;
-        }
-        let records = await model.model.find({}).sort({createdAt: -1}).skip((page-1)*pagesize).limit(parseInt(pagesize, 10));
+      
+        let records = await model.model.find(condition, fields).sort(sort).skip((page-1)*pagesize).limit(parseInt(pagesize, 10));
         ctx.body = records
 
-    }).get(apiWithCollection, async ( ctx )=>{
+    }).put(apiWithCollection+"/create", async ( ctx )=>{
+        if(collectionName === "users"){
+            ctx.body = "this is api canceled, please use /users/user_reg"
+        }
         let record =  await model.model.findById(ctx.params.id);
         
         ctx.body = record;
-    }).patch(apiWithCollection, async ( ctx )=>{
+    }).patch(apiWithCollection+"/update", async ( ctx )=>{
         console.log(ctx.params);
     
         ctx.body = ctx.query;
-    }).delete(apiWithCollection, async (ctx)=> {
+    }).delete(apiWithCollection+"/delete", async (ctx)=> {
 
-    }).put(apiWithCollection, async ctx => {
+    }).get(apiWithCollection+"/:id", async ctx => {
 
     })
 
     //处理例外的路由
     if(collectionName === "users"){
         rest.post(APIFIXED+"user_login", ctx => {
+            console.log(ctx.role_name);
+            ctx.body = ctx.role_name;
+            
 
-        }).post(APIFIXED+"user_reg", ctx => {
+        }).put(APIFIXED+"user_reg", ctx => {
 
         })
     }

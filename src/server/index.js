@@ -9,6 +9,7 @@ import apiRoute from './routes/api/api.js';
 import { Models } from './models/registerModel.js';
 import { validClient } from "./middles/serverkey.js";
 import mobile_sms_route from "./routes/api/mobile_sms.js";
+import simple from "./routes/api/simple.js";
 
 console.log("=========================================================");
 
@@ -19,12 +20,15 @@ genenrateWechatApis(App);
 App.use(apiRoute.routes()).use(apiRoute.allowedMethods())
 App.use(approute.routes()).use(approute.allowedMethods())
 App.use(homeRoute.routes()).use(homeRoute.allowedMethods())
+App.use(mobile_sms_route.routes()).use(mobile_sms_route.allowedMethods());
+App.use(simple.routes()).use(mobile_sms_route.allowedMethods());
+
 App.use(validClient);
 Models.forEach(model => {
     generateRestFul(model.collectionName, App, model);
 });
 
-App.use(mobile_sms_route.routes()).use(mobile_sms_route.allowedMethods());
+
 
 
 
