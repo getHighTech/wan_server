@@ -41,7 +41,7 @@ class OrderDeal extends WanModel {
             console.log("处理每一个订单"+count);
             console.log(deal)
 
-            let order = await Order.model.findOne({orderCode: deal.orderCode}, ["_id", "orderCode", "status"]);
+            let order = await Order.model.findOne({orderCode: deal.orderCode});
             console.log("改变订单状态", order);
             let orderUpdate = await Order.model.update({_id: order._id}, {
                $set: { status: "paid", "updatedAt": new Date()}
@@ -102,6 +102,7 @@ class OrderDeal extends WanModel {
                         })
                     }
                     console.log(shopOrder);
+                    console.log({agencyProfit})
                     await BalanceIncome.create({
                         "amount": agencyProfit*shopOrder.productCounts[product._id],
                         "userId": shopOrder.userId,
