@@ -11,16 +11,17 @@ class BalanceIncome extends WanModel {
 
 BalanceIncome.setScheme(
     {
+      "_id": String,
       "createdAt" : { type: Date, default: Date.now },
-      "userId": { type: mongoose.Schema.ObjectId, ref: 'users' },
+      "userId": String,
       "reasonType": String,
-      "agency": { type: mongoose.Schema.ObjectId, ref: 'users' },
+      "agency": String,
       "text": String,
       "amount": Number,
-      "balanceId": { type: mongoose.Schema.ObjectId, ref: 'balances' },
-      "productId": { type: mongoose.Schema.ObjectId, ref: 'products' },
+      "balanceId": String,
+      "productId": String,
       "productCounts": Number,
-      "updatedAt" : { type: Date, default: Date.now },
+      "updatedAt" : String,
 
       
 

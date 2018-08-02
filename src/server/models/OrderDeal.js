@@ -5,6 +5,7 @@ import AgencyRelation from "./AgencyRelation.js";
 import User from "./User.js";
 import Shop from "./Shop.js";
 import BalanceIncome from "./BalanceIncome.js";
+import Balance from "./Balance.js";
 
 class OrderDeal extends WanModel {
     constructor(props){
@@ -40,7 +41,7 @@ class OrderDeal extends WanModel {
             console.log("处理每一个订单"+count);
             console.log(deal)
 
-            let order = await Order.model.findOne({orderCode: deal.orderCode});
+            let order = await Order.model.findOne({orderCode: deal.orderCode}, ["_id", "orderCode", "status"]);
             console.log("改变订单状态", order);
             let orderUpdate = await Order.model.update({_id: order._id}, {
                $set: { status: "paid", "updatedAt": new Date()}
@@ -56,6 +57,7 @@ class OrderDeal extends WanModel {
             });
 
             console.log(shopOrdersUpdate);
+            console.log({shopOrders});
             
 
             console.log("获取店铺的每个商品的佣金");
@@ -64,7 +66,7 @@ class OrderDeal extends WanModel {
                 shopOrder.products.forEach(product => {
                     productsTamp.push(product);
                 })
-            })
+            
             console.log({productsTamp})
             productsTamp.forEach(async product => {
                 if (product.isTool) {
@@ -90,7 +92,8 @@ class OrderDeal extends WanModel {
                     let shopOwner = await User.model.findOne({_id: userId});
                     console.log("================================");
                     console.log("给店铺拥有者佣金");
-                    let balance  = await   Balance.model.findOne({userId: shopOwner._id});
+                    let balance  = await   Balance.model.findOne({userId: shopOwner._id}, ["_id", "amount", "userId"]);
+                    console.log(shopOrder);
                     await BalanceIncome.create({
                         "amount": agencyProfit*shopOrder.productCounts[product._id],
                         "userId": shopOrder.userId,
@@ -188,6 +191,7 @@ class OrderDeal extends WanModel {
 
 
 
+               });
             });
             
             console.log("================================");
@@ -201,7 +205,7 @@ class OrderDeal extends WanModel {
 
 
             console.log("================================");
-            await this.model.update({_id: deal._id},{
+            await this.model.update(deal,{
                 status: "done",
             })
             console.log("================================"+count);

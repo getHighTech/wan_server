@@ -1,5 +1,4 @@
 import WanModel from "../core/model.js";
-import mongoose from 'mongoose';
 
 
 class ShopOrder extends WanModel {
@@ -12,15 +11,17 @@ class ShopOrder extends WanModel {
 
 ShopOrder.setScheme(
     {
-      "orderCode": String,
+      "_id": String,
       "createdAt" : { type: Date, default: Date.now },
       "updatedAt" : { type: Date, default: Date.now },
       "status": String,
       "appName": String,
       "contact": Object,
       "area": String,
+      "orderId": String,
       "products": Array,
-      "userId": { type: mongoose.Schema.ObjectId, ref: 'users' },
+      "userId": String,
+      "productCounts": Object
     },
     "ShopOrder", "shop_orders"
 

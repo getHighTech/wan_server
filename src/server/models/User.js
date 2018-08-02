@@ -71,6 +71,7 @@ class User extends WanModel {
 
 User.setScheme(
     {
+        "_id": String,
         "createdAt" : { type: Date, default: Date.now },
         "hashpassword": String,
         "username" : String,

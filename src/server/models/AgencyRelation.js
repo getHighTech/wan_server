@@ -20,10 +20,10 @@ class AgencyRelation extends WanModel {
 AgencyRelation.setScheme(
     {
       "appName": String,
-      "shopId": { type: mongoose.Schema.ObjectId, ref: 'shops' },
-      "SshopId": { type: mongoose.Schema.ObjectId, ref: 'shops' },
+      "shopId": String,
+      "SshopId": String ,
       "status": Boolean,
-      "SuserId": { type: mongoose.Schema.ObjectId, ref: 'users' },
+      "SuserId": String,
 
     },
     "Simple", "simples"
