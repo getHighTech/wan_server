@@ -18,7 +18,7 @@ console.log(`11111`)
         const {userId, status } = ctx.query
         console.log(userId)
         console.log(status)
-        const order = await Order.find({userId,status}).skip(0).limit(10).sort({createdAt: -1})
+        const order = await Order.model.find({userId,status}).skip(0).limit(10).sort({createdAt: -1})
         ctx.body = {
             order,
         }

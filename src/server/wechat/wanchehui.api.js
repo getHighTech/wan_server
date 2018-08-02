@@ -1,17 +1,28 @@
 import config from './wanchehui.config.js';
 import  tenpay from 'tenpay';
-import request from 'request';
 import Router from 'koa-router';
 import urlencode from 'urlencode';
 import Axios from 'axios'
+import OrderDeal from '../models/OrderDeal.js';
 
-import WeChatUser from '../models/WeChatUser.js';
 
 const wechatApi = new tenpay(config);
-const appName = "wanchehui";
-const redirect_uri = urlencode("")
 
 const app_secrect = "9f22e4512d30fd774d93defa85c3282b";
+
+
+function ShowAppName(appname){
+  switch (appname) {
+    case "wanrenchehui":
+      
+      return "付款给万人车汇";
+
+    case "xianzhi":
+      return "付款给鲜至榛品";
+    default:
+      return "付款给万人车汇";
+  }
+}
 
 
 export default function genenrateWechatApis(App){
@@ -31,13 +42,26 @@ export default function genenrateWechatApis(App){
   })
   .post('/api/v1/wechat/pay/notify', async ( ctx )=>{
      let postData = ctx.request.body;
+     if(!postData.xml){
+
+       return false;
+     }
+
+     if(!postData.xml.out_trade_no){
+
+       
+       return false;
+     }else{
+       //将订单加入队列并且处理
+       OrderDeal.join( postData.xml.out_trade_no[0]);
+     }
 
      console.log(postData.xml);
   })
   .get('/api/v1/wechat/payback/show', async ( ctx )=>{
     let uresult = await wechatApi.unifiedOrder({
       out_trade_no: ctx.query.order,
-      body: '万人车汇商品汇总',
+      body: ShowAppName(ctx.query.appname),
       total_fee: ctx.query.fee,
       openid: ctx.query.openid
     });
@@ -49,7 +73,8 @@ export default function genenrateWechatApis(App){
     console.log(ctx.query.appname);
     await ctx.render("wechatpay", {
       ...result,
-      appname: ctx.query.appname
+      appname: ctx.query.appname,
+      appTitle: ShowAppName(ctx.query.appname)
     })
   });
   // 加载路由中间件

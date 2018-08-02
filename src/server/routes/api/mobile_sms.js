@@ -1,5 +1,5 @@
 import Router from 'koa-router';
-import MobileSMS from '../../models/MobileSMS';
+import MobileSMS from '../../models/MobileSMS.js';
 
 const  mobile_sms_route = new Router();
 

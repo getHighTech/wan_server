@@ -1,31 +1,30 @@
 import WanModel from "../core/model.js";
-import mongoose from 'mongoose';
 
 
-class Order extends WanModel {
+class ShopOrder extends WanModel {
     constructor(props){
         super(props);
-        this.collection = "orders";
+        this.collection = "shop_orders";
     }
     
 }
 
-Order.setScheme(
+ShopOrder.setScheme(
     {
       "_id": String,
-      "orderCode": String,
       "createdAt" : { type: Date, default: Date.now },
-      "user": { type: mongoose.Schema.ObjectId, ref: 'User' },
-      "updatedAt" : Date,
+      "updatedAt" : { type: Date, default: Date.now },
       "status": String,
       "appName": String,
       "contact": Object,
       "area": String,
+      "orderId": String,
       "products": Array,
       "userId": String,
+      "productCounts": Object
     },
-    "Order", "orders"
+    "ShopOrder", "shop_orders"
 
 )
 
-export default Order;
+export default ShopOrder;

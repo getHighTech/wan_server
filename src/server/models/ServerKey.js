@@ -50,6 +50,8 @@ class ServerKey extends WanModel {
             default:
                 break;
         }
+
+        
         //把密钥对存入数据库
         await this.model.create({
             password,
@@ -86,6 +88,7 @@ class ServerKey extends WanModel {
 
             let key = await this.model.findOne({uuid});
 
+           
             if(!await key){
                 return false;
             }
@@ -105,6 +108,22 @@ class ServerKey extends WanModel {
         }
 
     }
+    static async keyIsExpired(key){
+        let expireTime = key.expireTime;
+        if(!expireTime){
+            expireTime = 1296000000; //默认15天
+            
+        }
+
+        let keyTime = new Date(key.createdAt).getTime();
+        let nowTime = new Date().getTime();
+        if((keyTime+expireTime) >= nowTime){
+            
+            return true;
+        }else{
+            return false;
+        }
+    }
 
     static async validToken(uuid, sign){
         try {
@@ -112,6 +131,15 @@ class ServerKey extends WanModel {
             if(!key){
                 return "NO UUID EXIST? require again";
             }
+            if(this.keyIsExpired(key)){
+                await ServerKey.model.remove({uuid});
+
+                return {
+                    type: "error",
+                    reason: "TOKEN_EXPIRED"
+                }
+            }
+
 
             if(
                 ed25519.Verify(new Buffer(key.msgCiphered, 'utf8'), sign, new Buffer(key.publicKey, 'utf8'))

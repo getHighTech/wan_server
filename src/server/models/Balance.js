@@ -1,8 +1,26 @@
+import WanModel from "../core/model.js";
 import mongoose from 'mongoose';
-const Schema = mongoose.Schema
 
-const BalanceSchema = new Schema(
+class Balance extends WanModel {
+    constructor(props){
+        super(props);
+        this.collection = "balances";
+    }
+   
+}
+
+Balance.setScheme(
+    {
+      "_id": String,
+      "amount": Number,
+      "createdAt" : { type: Date, default: Date.now },
+      "updatedAt" : { type: Date, default: Date.now },
+      "userId": String,
+      
+
+    },
+    "Balance", "balances"
 
 )
 
-export default mongoose.model('Balance', BalanceSchema,);
+export default  Balance;

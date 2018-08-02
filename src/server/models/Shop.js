@@ -1,8 +1,29 @@
-import mongoose from 'mongoose';
-const Schema = mongoose.Schema
+import WanModel from "../core/model.js";
+//此乃构造模型的代码模板
+class Shop extends WanModel {
+    constructor(props){
+        super(props);
+        this.collection = "shops";
+    }
+   
+}
 
-const ShopSchema = new Schema(
-  
+Shop.setScheme(
+    {
+        "createdAt" : { type: Date, default: Date.now },
+        "name": String,
+        "name_zh": String,
+        "tag": Array,
+        "cover": String,
+        "acl": Object,
+        "description": String,
+        "status": Boolean,
+        "phone": String,
+        "lanAndLat": Array
+
+    },
+    "Shop", "shops"
+
 )
 
-export default mongoose.model('Shop', ShopSchema);
+export default  Shop;
