@@ -11,7 +11,7 @@ class Balance extends WanModel {
 
 Balance.setScheme(
     {
-      "_id": String,
+
       "amount": Number,
       "createdAt" : { type: Date, default: Date.now },
       "updatedAt" : { type: Date, default: Date.now },

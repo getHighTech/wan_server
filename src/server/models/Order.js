@@ -12,7 +12,6 @@ class Order extends WanModel {
 
 Order.setScheme(
     {
-      "_id": String,
       "orderCode": String,
       "createdAt" : { type: Date, default: Date.now },
       "user": { type: mongoose.Schema.ObjectId, ref: 'User' },
