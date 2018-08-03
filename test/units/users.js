@@ -10,7 +10,7 @@ import { decipher, cipher } from '../../src/both/ciphers.js';
 let expect = chai.expect;
 
 
-let uuid = "34534734563456";
+let uuid = "34534563456";
 
 let sign = null;
 
@@ -317,7 +317,18 @@ describe('测试所有用户的API', ()=>{
       });
 
     it('获取用户列表（简略信息）, 只有10条, 时间倒序', (done)=>{
-        let userPromise  =  Axios.get("http://localhost:7001/api/v1/users?uuid="+uuid+"&token="+token);
+        let userPromise  =  Axios.post(
+          "http://localhost:7001/api/v1/users?uuid="+uuid+"&token="+token,
+
+          {
+            condition: {},
+            page: 1,
+            pagesize: 10,
+            fields: ["username", "createdAt"],
+            sort: {createdAt: -1}
+          }
+          
+        );
         userPromise.then(rlt => {
             console.log(rlt.data);
 

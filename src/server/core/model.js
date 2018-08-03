@@ -10,6 +10,10 @@ class WanModel {
             { collection: collectionName, _id: true }
         );
         this.model = mongoose.model(modelName, this.schema);
+        // this.schema.pre('save', function(next) {
+        //     this.schema._id =  mongoose
+        //     next();
+        //   });
         this.collectionName = collectionName;
         //此处根据表名生成restful api
         // exg: users/1/create

@@ -1,7 +1,7 @@
 import randomString from 'random-string';
 import crypto from 'crypto';
 import ed25519 from 'ed25519';
-
+import mongoose from 'mongoose';
 
 
 
@@ -53,7 +53,8 @@ class ServerKey extends WanModel {
 
         
         //把密钥对存入数据库
-        await this.model.create({
+        let serverkey = await new this.model({
+            "_id": mongoose.Types.ObjectId(),
             password,
             uuid,
             privateKey,
@@ -64,6 +65,10 @@ class ServerKey extends WanModel {
             type, typeOption,
             roleName,
             createdAt: new Date()
+        });
+
+        await serverkey.save({
+            _id: serverkey._id,
         });
 
         return {
@@ -86,7 +91,8 @@ class ServerKey extends WanModel {
     static async getPublicKeyByUUID(uuid){
         try {
 
-            let key = await this.model.findOne({uuid});
+            let key = await this.model.findOne({uuid}, 
+                ["randomString", "roleName", "uuid", "publicKey", "type", "typeOption", "sign", "msgCiphered", "password", "privateKey"]);
 
            
             if(!await key){
@@ -98,7 +104,8 @@ class ServerKey extends WanModel {
                 publicKey: key.publicKey,
                 sign: key.sign,
                 randomString: key.randomString,
-                msgCiphered: key.msgCiphered
+                msgCiphered: key.msgCiphered,
+                roleName: key.roleName,
             }
             return await outPut;
 
@@ -160,6 +167,7 @@ class ServerKey extends WanModel {
 
 ServerKey.setScheme(
     {
+        "_id": String,
         "uuid": String,
         "privateKey": {
             type: Buffer

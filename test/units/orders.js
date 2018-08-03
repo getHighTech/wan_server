@@ -4,11 +4,19 @@ import ShopOrder from '../../src/server/models/ShopOrder';
 import Balance from '../../src/server/models/Balance';
 import BalanceIncome from '../../src/server/models/BalanceIncome';
 import User from '../../src/server/models/User';
+import Simple from '../../src/server/models/AccessLog';
+import { dbConnection } from '../../src/server/bootstrap/connectdb';
 
 
 let expect = chai.expect;
 
 describe('测试订单支付状态，追踪更新', function(){
+    before((done)=>{
+        dbConnection.then(async (rlt)=>{
+            
+            done();
+          });
+      })
 
     it('验证最新更新的订单结果', (done)=>{
        Order.model.find({}, ['_id', 'userId','status', "products", "user", "updatedAt"], {
@@ -18,8 +26,8 @@ describe('测试订单支付状态，追踪更新', function(){
                updatedAt: -1,
            }
        }).then(rlt => {
-        console.log("ORder",rlt);
-        expect(rlt).to.exist;
+        console.log("ORder",rlt[0]);
+        expect(rlt[0]._id).to.exist;
        
         done();
             
@@ -82,5 +90,17 @@ describe('测试订单支付状态，追踪更新', function(){
             
         });
      });
+
+
+     it("验证mongoose,Simple", (done)=>{
+         Simple.model.create({
+             test1: "hello"
+         }).then(rlt=> {
+             console.log(rlt);
+             done();
+             
+         })
+        
+     })
   
 });

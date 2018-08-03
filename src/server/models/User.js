@@ -4,6 +4,7 @@ import ServerKey from './ServerKey.js';
 import {decipher} from '../../both/ciphers.js';
 
 import bcrypt from "bcrypt";
+import mongoose from "mongoose";
 
 class User extends WanModel {
     constructor(props){
@@ -27,6 +28,7 @@ class User extends WanModel {
             console.log({hashpassword});
 
             let regRlt = await this.model.create({
+                _id: mongoose.Types.ObjectId(),
                hashpassword,
               "username" : userParams.username,
               "createdAt": new Date()
