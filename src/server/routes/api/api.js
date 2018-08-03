@@ -5,6 +5,7 @@ import Products from '../../models/Products.js'
 import BalanceIncome from '../../models/BalanceIncome.js';
 import Balance from '../../models/Balance.js';
 import BalanceCharge from '../../models/BalanceCharge.js';
+import BankCard from '../../models/BankCard.js'
 import Agency from '../../models/Agency.js';
 // import User from '../../models/User.js'
 
@@ -30,25 +31,65 @@ console.log(`11111`)
 })
 
 
-ApiRoute.get('/api/products', async ( ctx,next )=>{
-  console.log('11');
-console.log(`过来了`)
+ApiRoute.get('/api/products', async ( ctx )=>{
         try{
         const {shopId,page,pagesize } = ctx.query
         console.log(page,pagesize);
+        console.log(shopId);
         let newpage = page-1;
-        console.log(newpage);
-        const products = await Products.find({shopId}).limit(4).skip(newpage).sort({createdAt: -1})
-        const shop = await Shop.findOne({'_id':shopId})
-
+        const products = await Products.model.find({shopId}).limit(4).skip(newpage).sort({createdAt: -1})
+        const shop = await Shop.model.findOne({'_id':shopId})
         ctx.body = {
         products,shop
         }
         } catch (err) {
         ctx.body = {
-            msg: 'fail1111'
+            msg: 'it is wrong'
         }
         }
+})
+
+ApiRoute.get('/api/my/bankcards', async ( ctx )=>{
+        try{
+            const {bankId } = ctx.query
+            const bankcards = await BankCard.model.find({userId:bankId})
+
+            ctx.body = {
+            bankcards
+            }
+            } catch (err) {
+            ctx.body = {
+              msg: 'fail1111'
+            }
+          }
+
+})
+
+ApiRoute.get('/api/selling_product', async ( ctx )=>{
+        try{
+            const {shopId } = ctx.query
+            console.log('71``````````````````````'+shopId);
+            if (!shopId) {
+              console.log('1111');
+              const products =[]
+              ctx.body = {
+              products
+              }
+            }
+            else {
+              console.log('2222');
+              const products = await Product.model.find({shopId})
+              ctx.body = {
+              products
+              }
+            }
+
+            } catch (err) {
+            ctx.body = {
+              msg: 'fail1111'
+            }
+          }
+
 })
 
 ApiRoute.get('/api/shop', async ( ctx )=>{
