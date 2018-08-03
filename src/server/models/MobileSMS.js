@@ -1,5 +1,8 @@
 import WanModel from "../core/model.js";
-import Axios from "axios";
+import request from "request";
+import Axios from 'axios';
+
+import https from 'https'
 
 class MobileSMS extends WanModel {
     constructor(props){
@@ -22,23 +25,31 @@ class MobileSMS extends WanModel {
             "mobile": mobile,
             "text": text,
         }
-        let rlt = await Axios({
-            method:"post",
-            url:"https://sms.yunpian.com/v2/sms/single_send.json",
-            params,
-            headers:{
-                "Accept":"application/json; charset=utf-8",
-                "Content-Type":"application/x-www-form-urlencoded;charset=utf-8"
-            }
-        })
+        try {
 
-        console.log(rlt.data);
-        
-    
-        await this.model.create({
-            mobile,
-            SMS: num,
-        })
+            await Axios({
+                method:"post",
+                url:"https://sms.yunpian.com/v2/sms/single_send.json",
+                params,
+                httpsAgent: new https.Agent({ keepAlive: true }),
+                headers:{
+                    "Accept":"application/json; charset=utf-8",
+                    "Content-Type":"application/x-www-form-urlencoded;charset=utf-8"
+                }
+            });
+
+            await this.model.create({
+                mobile,
+                SMS: num,
+            })
+            
+        } catch (error) {
+            return {
+                type: "error",
+                reason: error,
+            }
+        }   
+       
         return num;
             
         } catch (error) {

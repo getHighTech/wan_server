@@ -26,7 +26,6 @@ describe('测试订单支付状态，追踪更新', function(){
                updatedAt: -1,
            }
        }).then(rlt => {
-        console.log("ORder",rlt[0]);
         expect(rlt[0]._id).to.exist;
        
         done();
@@ -47,7 +46,6 @@ describe('测试订单支付状态，追踪更新', function(){
                 updatedAt: -1,
             } 
         }).then(rlt => {
-            console.log("ShopOrder",rlt);
             expect(rlt).to.exist;
             done();
             
@@ -64,7 +62,6 @@ describe('测试订单支付状态，追踪更新', function(){
                 updatedAt: -1,
             }
         }).then(rlt => {
-            console.log("Balance",rlt);
             expect(rlt).to.exist;
             done();
             
@@ -81,7 +78,6 @@ describe('测试订单支付状态，追踪更新', function(){
                 updatedAt: -1,
             }
         }).then(rlt => {
-             console.log("BalanceIncome",rlt);
              expect(rlt).to.exist;
             done();
              
@@ -96,7 +92,6 @@ describe('测试订单支付状态，追踪更新', function(){
          Simple.model.create({
              test1: "hello"
          }).then(rlt=> {
-             console.log(rlt);
              done();
              
          })

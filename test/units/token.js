@@ -26,7 +26,6 @@ describe('测试ServerKey模型', ()=>{
         dbConnection.then(async (rlt)=>{
             if(rlt){
             Models.forEach(model => {
-              console.log(model.collectionName);
                 App.use(validClient);
                 generateRestFul(model.collectionName, App, model);
 

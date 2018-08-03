@@ -1,4 +1,5 @@
 import Router from 'koa-router';
+import User from '../models/User';
 
 const APIFIXED = '/api/v1/';
 
@@ -50,7 +51,7 @@ export function  generateRestFul(collectionName, App, model){
         ctx.body = ctx.query;
     }).delete(apiWithCollection+"/delete", async (ctx)=> {
 
-    }).get(apiWithCollection+"/:id", async ctx => {
+    }).get(apiWithCollection+"/get/:id", async ctx => {
 
     })
 
@@ -63,6 +64,19 @@ export function  generateRestFul(collectionName, App, model){
 
         }).put(APIFIXED+"user_reg", ctx => {
 
+        }).get("current_user",async ctx=>{
+            try {
+                return await User.current(ctx.query.token, ctx.query.uuid);
+            
+                
+            } catch (error) {
+                return {
+                    type: "error",
+                    reason: error
+                }
+            }
+            
+            
         })
     }
 
