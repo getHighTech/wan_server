@@ -4,7 +4,7 @@
   "description": "this is a startup with koajs and mongodb , which can manage multiple frontend apps",
   "main": "index.js",
   "scripts": {
-    "test": "node_modules/mocha/bin/mocha  --compilers js:babel-core/register --require babel-polyfill --reporter mochawesome",
+    "test": "node_modules/mocha/bin/mocha -t 15000  --compilers js:babel-core/register --require babel-polyfill --reporter mochawesome",
     "dev": " concurrently \"npm run client-server\"   \"npm run backend-dev\"",
     "start": "npm run build-client && npm run backend",
     "backend-dev": "nodemon --experimental-modules  --loader  ./custom-loader.mjs  ./src/server/index.js --env 'dev'",

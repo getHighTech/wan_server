@@ -27,7 +27,7 @@ describe('MobileSMS类短信验证方法测试', function(){
 
     it('测试getMobileSMS方法，发送短信给18820965455', (done)=>{
         MobileSMS.getMobileSMS("18820965455").then(rlt=>{
-            console.log(rlt);
+            console.log("验证码返回", rlt);
             
             expect(rlt).to.exist;
             readSyncByRl('请输入验证码').then((res) => {
@@ -38,7 +38,10 @@ describe('MobileSMS类短信验证方法测试', function(){
 
             });
 
-            setTimeout(f, 15000);
+           
+        }).catch(err => {
+            console.log(err);
+            
         });
     });
     it("测试validSMS方法, 返回验证成功，并且成功删除了这条记录", (done)=>{
