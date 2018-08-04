@@ -6,12 +6,12 @@ import Balance from '../../models/Balance.js';
 import BalanceCharge from '../../models/BalanceCharge.js';
 import Agency from '../../models/Agency.js';
 // import User from '../../models/User.js'
-const rp = require('    ')
+import rp from 'request-promise'
 import moment from "moment"
 const  ApiRoute = new Router();
 ApiRoute.get('/api/wechat/info', async (ctx) => {
- let appid = 'wx0564668ed5671740'; //公众号appid
-  let secret = '02938e071aae51a7b59b7fe6f627a681';
+ let appid = 'wxb202efbc9c76046a'; //公众号appid
+  let secret = 'b8d396c379cc2b2277c4f1c062365f3a';
   let fetchWechatUserInfo = `https://api.weixin.qq.com/sns/oauth2/access_token?appid=${appid}&secret=${secret}&code=${code}&grant_type=authorization_code `;
   let options = {
     method: 'GET',
