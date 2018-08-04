@@ -9,7 +9,7 @@ import Agency from '../../models/Agency.js';
 import rp from 'request-promise'
 import moment from "moment"
 const  ApiRoute = new Router();
-ApiRoute.get('/api/wechat/info', async (ctx) => {
+ApiRoute.get('/api/info', async (ctx) => {
  let appid = 'wxb202efbc9c76046a'; //公众号appid
   let secret = 'b8d396c379cc2b2277c4f1c062365f3a';
   let fetchWechatUserInfo = `https://api.weixin.qq.com/sns/oauth2/access_token?appid=${appid}&secret=${secret}&code=${code}&grant_type=authorization_code `;
