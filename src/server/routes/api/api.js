@@ -1,16 +1,18 @@
 import Router from 'koa-router';
 import Order from '../../models/Order.js';
 import Shop from '../../models/Shop.js';
+import Products from '../../models/Products.js'
 import BalanceIncome from '../../models/BalanceIncome.js';
 import Balance from '../../models/Balance.js';
 import BalanceCharge from '../../models/BalanceCharge.js';
+import BankCard from '../../models/BankCard.js'
 import Agency from '../../models/Agency.js';
 // import User from '../../models/User.js'
 import rp from 'request-promise'
 import moment from "moment"
 const  ApiRoute = new Router();
 ApiRoute.get('/api/info', async (ctx) => {
-  let code = ctx.query.code; 
+  let code = ctx.query.code;
   let appid = 'wx0564668ed5671740'; //公众号appid
   let secret = '02938e071aae51a7b59b7fe6f627a681';
   let fetchWechatUserInfo = `https://api.weixin.qq.com/sns/oauth2/access_token?appid=${appid}&secret=${secret}&code=${code}&grant_type=authorization_code `;
@@ -25,6 +27,7 @@ ApiRoute.get('/api/info', async (ctx) => {
     throw new Error('fetch userInfo failure, please check the params')
   }
   let {openid, access_token, refresh_token} = userInfo
+
 
   let fetchWechatUserDetailInfoUrl = `https://api.weixin.qq.com/sns/userinfo?access_token=${access_token}&openid=${openid}&lang=zh_CN `;
   let userDetailInfo = await rp({method:'GET', uri: fetchWechatUserDetailInfoUrl, json:true })
@@ -53,7 +56,69 @@ console.log(`11111`)
     }
 })
 
-ApiRoute.get('/api/shop', async ( ctx )=>{ 
+
+ApiRoute.get('/api/products', async ( ctx )=>{
+        try{
+        const {shopId,page,pagesize } = ctx.query
+        console.log(page,pagesize);
+        console.log(shopId);
+        let newpage = page-1;
+        const products = await Products.model.find({shopId}).limit(4).skip(newpage).sort({createdAt: -1})
+        const shop = await Shop.model.findOne({'_id':shopId})
+        ctx.body = {
+        products,shop
+        }
+        } catch (err) {
+        ctx.body = {
+            msg: 'it is wrong'
+        }
+        }
+})
+
+ApiRoute.get('/api/my/bankcards', async ( ctx )=>{
+        try{
+            const {bankId } = ctx.query
+            const bankcards = await BankCard.model.find({userId:bankId})
+
+            ctx.body = {
+            bankcards
+            }
+            } catch (err) {
+            ctx.body = {
+              msg: 'fail1111'
+            }
+          }
+
+})
+
+ApiRoute.get('/api/selling_product', async ( ctx )=>{
+        try{
+            const {shopId } = ctx.query
+            console.log('71``````````````````````'+shopId);
+            if (!shopId) {
+              console.log('1111');
+              const products =[]
+              ctx.body = {
+              products
+              }
+            }
+            else {
+              console.log('2222');
+              const products = await Product.model.find({shopId})
+              ctx.body = {
+              products
+              }
+            }
+
+            } catch (err) {
+            ctx.body = {
+              msg: 'fail1111'
+            }
+          }
+
+})
+
+ApiRoute.get('/api/shop', async ( ctx )=>{
     const {userId, unit, rangeLength  } = ctx.query
     let yestoday = moment().subtract(rangeLength, unit);
     yestoday = yestoday.toISOString();
@@ -65,14 +130,14 @@ ApiRoute.get('/api/shop', async ( ctx )=>{
         totalAmount+=income.amount
     }
     ctx.body = {
-            incomes, 
+            incomes,
             totalAmount,
             unit
     }
 })
 
 
-ApiRoute.get('/api/loadMoney', async ( ctx )=>{ 
+ApiRoute.get('/api/loadMoney', async ( ctx )=>{
     console.log(`loadMoney`)
     // try{
         const {userId} = ctx.query
@@ -104,7 +169,7 @@ ApiRoute.get('/api/loadMoney', async ( ctx )=>{
 
         //     // }
         // }
-        
+
         // // //======================支出更新完毕
         // ctx.body = {
         //     balance,
@@ -116,7 +181,7 @@ ApiRoute.get('/api/loadMoney', async ( ctx )=>{
     //         msg: 'fail'
     //     }
     // }
-   
+
 })
 
 
@@ -146,7 +211,7 @@ ApiRoute.get('/api/loadMoney', async ( ctx )=>{
 
 //         //     }
 //         // }
-        
+
 //         // //======================支出更新完毕
 //         // ctx.body = {
 //         //     balance,

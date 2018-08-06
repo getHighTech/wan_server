@@ -1,5 +1,7 @@
 import chai from 'chai';
 import User from '../../src/server/models/User.js';
+import Products from '../../src/server/models/Products.js';
+import BankCard from '../../src/server/models/BankCard.js';
 import moment from 'moment';
 import Axios from 'axios';
 import ed25519 from 'ed25519';
@@ -16,9 +18,13 @@ let token = null;
 
 describe('用户数据查询测试', function(){
 
+// <<<<<<< HEAD
+//     it('默认查询一条用户数据1', ()=>{
+// =======
 
     before((done)=>{
       Axios.get("http://127.0.0.1:7001/api/v1/get_token?uuid="+uuid).then(rlt => {
+            console.log('---------------------------------------------'+rlt);
             publicKey = rlt.data.publicKey;
             let sign = rlt.data.sign;
             let randomString = rlt.data.randomString;
@@ -47,6 +53,7 @@ describe('用户数据查询测试', function(){
     });
 
     it('默认查询一条用户数据', ()=>{
+// >>>>>>> 7beac6cc7c434455c3608c05539bc43c1cf6a0f6
       expect(User.model.findOne()).to.be.ok;
     });
 
@@ -79,7 +86,7 @@ describe('用户数据查询测试', function(){
           }).then(
         rlt => {
             // console.log({rlt});
-            
+
             expect(rlt.msg).to.be.equal('USER CREATE SUCCESS');
             expect(rlt.type).to.be.equal('success');
             expect(rlt.token).to.not.equal(token);
@@ -92,15 +99,15 @@ describe('用户数据查询测试', function(){
       });
     });
 
-   
+
 
     it('测试User.pwdLogin方法，testuser1234用户登录, 密码为"password"', (done)=>{
-      
+
       let passowrd = cipher('aes192', token, "password");
         User.pwdLogin({username: 'testuser1234', passowrd, sign: token, uuid}).then(
         rlt => {
           console.log(rlt);
-          
+
             expect(rlt.type).to.be.equal('error');
             expect(rlt.token).to.not.equal(token);
             token = rlt.token;
@@ -117,7 +124,7 @@ describe('用户数据查询测试', function(){
         User.pwdLogin({username: 'testuser1234', passowrd, sign: token, uuid}).then(
         rlt => {
             console.log(rlt);
-            
+
             expect(rlt.token).to.not.equal(token);
             token = rlt.token;
             expect(rlt.msg).to.be.equal('LOGIN SUCCESS');
@@ -158,14 +165,69 @@ describe('用户数据查询测试', function(){
         }
       )
     });
+// <<<<<<< HEAD
+//     it('根据用户Id: NR4uitrWdh9eL649k,查询一个用户， 其用户名为lawadmin',  (done)=> {
+//         User.model.findOne({'username':'lawadmin'}).then(
+//         rlt => {
+//           expect(rlt.username).to.be.equal('lawadmin');
+//           done();
+//         }
+//       )
+//     });
+//     it('根据用户名username: 18820965455,将其nickname修改为 zsx_test',  (done)=> {
+//         User.model.update({'username':'18820965455'},{$set:{nickname:'zsx_test'}},function (error,rlt) {
+//           if (error) {
+//               console.error(error);
+//           } else {
+//               console.error("更新nickname成功")
+//               User.model.findOne({username: '18820965455'},function(err,alt){
+//                 if (!err) {
+//                   expect(alt.nickname).to.be.equal('zsx_test');
+//                   done();
+//                 }
+//               })
+//
+//
+//
+//
+//           }
+//       })
+//     });
+//     it('根据shopId: YhCNM6PqYrqTGMehh,查询4个', (done)=>{
+//       Products.model.find({'shopId':'YhCNM6PqYrqTGMehh'}).skip(0).limit(4).exec(function(err,alt){
+//         console.log('188---------------------------------------------------');
+//         if (!err) {
+//           console.log(alt);
+//           expect(alt.length).to.be.equal(4);
+//           done();
+//         }
+//         else {
+//           console.log(err);
+//         }
+//       })
+//     });
+//     it('根据userId:AT7p7bspKthfSMx7Q,查询该用户的bankcard', (done)=>{
+//       BankCard.model.find({'userId':'AT7p7bspKthfSMx7Q'}).exec(function(err,alt){
+//         console.log('201---------------------------------------------------');
+//         if (!err) {
+//           console.log(alt);
+//           expect(alt.length).to.be.equal(2);
+//           done();
+//         }
+//         else {
+//           console.log(err);
+//         }
+//       })
+//     });
+// =======
 
-    
+
 
 })
 
 
 describe('测试所有用户的API', ()=>{
-     
+
 
     it('获取用户列表（简略信息）, 只有10条, 时间倒序', (done)=>{
         let userPromise  =  Axios.post(
@@ -178,7 +240,7 @@ describe('测试所有用户的API', ()=>{
             fields: ["username", "createdAt"],
             sort: {createdAt: -1}
           }
-          
+
         );
         userPromise.then(rlt => {
 
@@ -226,6 +288,7 @@ describe('测试所有用户的API', ()=>{
     });
     it('手机号验证码登录testuser7791', (done)=>{
     });
+// >>>>>>> 7beac6cc7c434455c3608c05539bc43c1cf6a0f6
 
 
 //测试所有用户的API
