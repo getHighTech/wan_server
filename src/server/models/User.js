@@ -55,8 +55,9 @@ class User extends WanModel {
 
 
             return {
-              token: key.msgCiphered,
-              regUsername: userParams.username
+                type: "success",
+                msg: "USER CREATE SUCCESS",
+                token: key.msgCiphered,
             };
 
           } catch (err) {
@@ -65,10 +66,94 @@ class User extends WanModel {
 
 
       }else{
-        return "INVALID TOKEN";
+        return {
+            type: "error",
+            reason: "INVALID TOKEN",
+        }
       }
 
     }
+
+    static async current(token, uuid){
+        let key = await ServerKey.model.findOne({msgCiphered: token, uuid});
+
+        if(key){
+            let user = await User.findOne(key.typeOption.userId);
+            if(!user){
+                return "LOGOUT USER";
+            }
+            return user;
+        }
+        return "INVALID USER";
+    }
+
+    static async pwdLogin(loginParams){
+        let key = await ServerKey.model.findOne({msgCiphered: loginParams.sign});
+        
+        if(!key){
+            return "INVALID TOKEN";
+        }
+        let  password = decipher('aes192', loginParams.sign, loginParams.passowrd); 
+        
+        try {
+             //解密之后立刻删除这个token，
+           
+            let user = await this.model.findOne({username: loginParams.username});
+
+            if(!user){
+                return {
+                    type: "error",
+                    reason: "USER EMPTY",
+                    token: key.msgCiphered
+                }
+            }
+
+            await ServerKey.model.remove({msgCiphered: loginParams.sign});
+            
+            let rlt  = await bcrypt.compare(password, user.hashpassword)
+            if(rlt){
+                let key = await ServerKey.genPublicKey
+                (
+                loginParams.uuid,
+                "login",
+                {
+                    "loginDate": new Date(),
+                    "userId": user._id,
+                }
+                , user.hashpassword
+                );
+
+
+
+                return {
+                    type: "success",
+                    msg: "LOGIN SUCCESS",
+                    token: key.msgCiphered,
+                };
+            }else{
+                let key = await ServerKey.genPublicKey
+                (
+                loginParams.uuid,
+                "random",
+                {
+                   msg: "WRONG PASSWORD ONCE"
+                }
+                , user.hashpassword
+                );
+                return {
+                    type: "error",
+                    reason: "WRONG PASSWORD",
+                    token: key.msgCiphered,
+                }
+            }
+        } catch (error) {
+            console.error(error);
+            
+        }
+        
+    }
+
+
 }
 
 User.setScheme(
