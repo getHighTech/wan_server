@@ -1,10 +1,11 @@
 import WanModel from "../core/model.js";
 
 import ServerKey from './ServerKey.js';
-import {decipher} from '../../both/ciphers.js';
+import {decipher, cipher} from '../../both/ciphers.js';
 
 import bcrypt from "bcrypt";
 import mongoose from "mongoose";
+import MobileSMS from "./MobileSMS.js";
 
 class User extends WanModel {
     constructor(props){
@@ -31,13 +32,11 @@ class User extends WanModel {
                 _id: mongoose.Types.ObjectId(),
                hashpassword,
               "username" : userParams.username,
-              "createdAt": new Date()
+              "createdAt": new Date(),
+              "passwordSettled": true,
 
             });
-
-            console.log({regRlt});
             
-
 
             
             let key = await ServerKey.genPublicKey
@@ -58,6 +57,9 @@ class User extends WanModel {
                 type: "success",
                 msg: "USER CREATE SUCCESS",
                 token: key.msgCiphered,
+                optional: {
+                    userId: regRlt._id
+                }
             };
 
           } catch (err) {
@@ -85,6 +87,126 @@ class User extends WanModel {
             return user;
         }
         return "INVALID USER";
+    }
+
+    static async mobileLogin(loginParams){
+        let key = await ServerKey.model.findOne({msgCiphered: loginParams.sign});
+        
+        if(!key){
+            return "INVALID TOKEN";
+        }
+        let  sms = decipher('aes192', loginParams.sign, loginParams.sms); 
+        
+        try {
+             //解密之后立刻删除这个token，
+           
+            let user = await this.model.findOne({username: loginParams.mobile});
+            let mobileUser = await this.model.findOne({"profile.mobile": loginParams.mobile});
+          
+
+            if(user || mobileUser){
+                //用户名就是手机号的用户
+                let dealUser = user;
+                if(!dealUser){
+                    dealUser = mobileUser;
+                }
+                if(await MobileSMS.validUserSMS(loginParams.sms, loginParams.mobile)){
+                    let key = await ServerKey.genPublicKey
+                    (
+                    loginParams.uuid,
+                    "login",
+                    {
+                        "loginDate": new Date(),
+                        "userId": dealUser._id,
+                    }
+                    , dealUser.hashpassword
+                    );
+                    let optional = null;
+                    if(!dealUser.passwordSettled){
+                    
+                        optional = "need to reset password";
+                    }
+                    return  {
+                        type: "success",
+                        msg: "LOGIN SUCCESS",
+                        token: key.msgCiphered,
+                        optional,
+                    };
+                }else{
+                    let key = await ServerKey.genPublicKey
+                    (
+                    loginParams.uuid,
+                    "random",
+                    {
+                    msg: "WRONG SMS ONCE"
+                    }
+                    , user.hashpassword
+                    );
+                    return {
+                        type: "error",
+                        reason: "SMS INVALID",
+                        token: key.msgCiphered
+                    }
+
+                }
+               
+            }else{
+                //不存在的用户要新建
+                let passowrd = cipher('aes192', token, "112!!@358#%*");
+                try {
+                    let regRlt = await this.reg(
+                        {
+                            username: loginParams.mobile,
+                            profile: {
+                                mobile: loginParams.mobile,
+                            },
+                            passowrd,
+                            sign: token,
+                            uuid
+                          }
+                    );
+                    let optional = null;
+                    if(regRlt.optional.userId){
+                        let user = await this.model.findOne({_id: regRlt.optional.userId});
+                        if(user.passwordSettled){
+                            await this.model.update({_id: regRlt.optional.userId}, {
+                                passwordSettled: false,
+                            })
+                            optional = "need to reset password";
+                        }
+                    }
+       
+                    let key = await ServerKey.genPublicKey
+                    (
+                    loginParams.uuid,
+                    "reg",
+                    {
+                        "loginDate": new Date(),
+                        "userId": regRlt._id,
+                    }
+                    , dealUser.hashpassword
+                    );
+                    return  {
+                        type: "success",
+                        msg: "REG SUCCESS",
+                        token: key.msgCiphered,
+                        optional
+                    };
+                    
+                } catch (error) {
+                    return error;
+                }   
+               
+                
+            }
+
+            await ServerKey.model.remove({msgCiphered: loginParams.sign});
+            
+            
+        } catch (error) {
+            console.error(error);
+            
+        }
     }
 
     static async pwdLogin(loginParams){
@@ -172,6 +294,7 @@ User.setScheme(
 
         "nickname" : String,
         "dataAutograph" : String,
+        "passwordSettled": Boolean,
     },
     "User", "users"
 

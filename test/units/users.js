@@ -181,11 +181,12 @@ describe('测试所有用户的API', ()=>{
           
         );
         userPromise.then(rlt => {
-
-            let firtMoment = rlt.data[0].createdAt;
-            let secondMoment = rlt.data[1].createdAt;
+            console.log(rlt.data);
+            
+            let firtMoment = rlt.data.records[0].createdAt;
+            let secondMoment = rlt.data.records[1].createdAt;
             let isUpdate = moment(firtMoment).isAfter(moment(secondMoment));
-            expect(rlt.data.length).to.be.equal(10);
+            expect(rlt.data.records.length).to.be.equal(10);
             expect(isUpdate).to.be.equal(true);
             done();
 
@@ -193,6 +194,19 @@ describe('测试所有用户的API', ()=>{
     });
 
     it('创建一个用户testuser7791，加密密码test7791', (done)=>{
+      let passowrd = cipher('aes192', token, "test7791");
+      Axios.put("http://localhost:7001/api/v1/user_reg?uuid="+uuid+"&token="+token,
+      {
+        username: 'testuser7791', passowrd, sign: token, uuid
+      }
+      ).then(rlt => {
+        console.log("注册返回消息", rlt);
+        
+        expect(rlt.data.type).to.be.equal("success");
+      }).catch(err => {
+        console.log("错误1", err);
+        
+      })
 
     });
 
