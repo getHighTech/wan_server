@@ -1,5 +1,5 @@
 import Router from 'koa-router';
-import User from '../models/User';
+import User from '../models/User.js';
 
 const APIFIXED = '/api/v1/';
 
@@ -70,16 +70,16 @@ export function  generateRestFul(collectionName, App, model){
         }).get("current_user",async ctx=>{
             try {
                 return await User.current(ctx.query.token, ctx.query.uuid);
-            
-                
+
+
             } catch (error) {
                 return {
                     type: "error",
                     reason: error
                 }
             }
-            
-            
+
+
         })
     }
 

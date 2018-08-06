@@ -36,10 +36,10 @@ class User extends WanModel {
             });
 
             console.log({regRlt});
-            
 
 
-            
+
+
             let key = await ServerKey.genPublicKey
             (
               userParams.uuid,
@@ -89,15 +89,15 @@ class User extends WanModel {
 
     static async pwdLogin(loginParams){
         let key = await ServerKey.model.findOne({msgCiphered: loginParams.sign});
-        
+
         if(!key){
             return "INVALID TOKEN";
         }
-        let  password = decipher('aes192', loginParams.sign, loginParams.passowrd); 
-        
+        let  password = decipher('aes192', loginParams.sign, loginParams.passowrd);
+
         try {
              //解密之后立刻删除这个token，
-           
+
             let user = await this.model.findOne({username: loginParams.username});
 
             if(!user){
@@ -109,7 +109,7 @@ class User extends WanModel {
             }
 
             await ServerKey.model.remove({msgCiphered: loginParams.sign});
-            
+
             let rlt  = await bcrypt.compare(password, user.hashpassword)
             if(rlt){
                 let key = await ServerKey.genPublicKey
@@ -148,9 +148,9 @@ class User extends WanModel {
             }
         } catch (error) {
             console.error(error);
-            
+
         }
-        
+
     }
 
 
