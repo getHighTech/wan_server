@@ -38,7 +38,11 @@ export function  generateRestFul(collectionName, App, model){
 
 
         let records = await model.model.find(condition, fields).sort(sort).skip((page-1)*pagesize).limit(parseInt(pagesize, 10));
-        ctx.body = records
+        return ctx.body = {
+            type: collectionName,
+            status: "success",
+            records,
+        };
 
 
     }).put(apiWithCollection+"/create", async ( ctx )=>{
@@ -65,7 +69,11 @@ export function  generateRestFul(collectionName, App, model){
             ctx.body = ctx.role_name;
 
 
-        }).put(APIFIXED+"user_reg", ctx => {
+        }).put(APIFIXED+"user_reg", async ctx => {
+            console.log(ctx.request.body);
+            
+            return ctx.body = await User.reg(ctx.request.body);
+            
 
         }).get("current_user",async ctx=>{
             try {
