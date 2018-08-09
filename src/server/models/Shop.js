@@ -5,11 +5,12 @@ class Shop extends WanModel {
         super(props);
         this.collection = "shops";
     }
-   
+
 }
 
 Shop.setScheme(
     {
+        "_id":String,
         "createdAt" : { type: Date, default: Date.now },
         "name": String,
         "name_zh": String,

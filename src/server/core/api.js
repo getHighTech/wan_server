@@ -1,13 +1,14 @@
 import Router from 'koa-router';
-import User from '../models/User';
+import User from '../models/User.js';
 
 const APIFIXED = '/api/v1/';
 
 export function  generateRestFul(collectionName, App, model){
     console.log('正在加载路由...');
+
     let rest = new Router();
     let apiWithCollection = APIFIXED + collectionName;
-    
+
     rest.post(apiWithCollection, async ( ctx )=>{
         console.log(ctx.request.body);
         
@@ -53,7 +54,6 @@ export function  generateRestFul(collectionName, App, model){
                 reason: "sort missing"
             }
         }
-        
 
         try {
             let records = await model.model.find(condition, fields).sort(sort).skip((page-1)*pagesize).limit(parseInt(pagesize, 10));
@@ -71,17 +71,7 @@ export function  generateRestFul(collectionName, App, model){
         }
       
         
-
-    }).put(apiWithCollection+"/create", async ( ctx )=>{
-        if(collectionName === "users"){
-            return ctx.body = {
-                type: "error",
-                reason:"this is api canceled, please use /users/user_reg"
-            }
-        }
-        let record =  await model.model.findById(ctx.params.id);
-        
-        return ctx.body = {
+        return {
             type: collectionName,
             status: "success",
             record
@@ -171,12 +161,12 @@ export function  generateRestFul(collectionName, App, model){
                     reason: error
                 }
             }
-            
-            
+
+
         })
     }
 
-    
+
 
     // 加载路由中间件
     App.use(rest.routes()).use(rest.allowedMethods())

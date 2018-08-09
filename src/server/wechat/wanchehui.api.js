@@ -1,4 +1,4 @@
-import config from './wanchehui.config.js';
+import config from './pay.config.js';
 import  tenpay from 'tenpay';
 import Router from 'koa-router';
 import urlencode from 'urlencode';
@@ -6,9 +6,7 @@ import Axios from 'axios'
 import OrderDeal from '../models/OrderDeal.js';
 
 
-const wechatApi = new tenpay(config);
 
-const app_secrect = "9f22e4512d30fd774d93defa85c3282b";
 
 
 function ShowAppName(appname){
@@ -18,7 +16,7 @@ function ShowAppName(appname){
       return "付款给万人车汇";
 
     case "xianzhi":
-      return "付款给鲜至榛品";
+      return "付款给鲜至臻品";
     default:
       return "付款给万人车汇";
   }
@@ -30,6 +28,7 @@ export default function genenrateWechatApis(App){
   let rest = new Router();
 
   rest.get('/api/v1/wechat/access/token', async ( ctx )=>{
+    let app_secrect = config[secrect][ctx.query.appname];
     let rlt  = await Axios.get(`https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=${config.appid}&secret=${app_secrect}`)
     ctx.body = rlt.data;
 
@@ -59,6 +58,7 @@ export default function genenrateWechatApis(App){
      console.log(postData.xml);
   })
   .get('/api/v1/wechat/payback/show', async ( ctx )=>{
+    let wechatApi = new tenpay(config[ctx.query.appname]);
     let uresult = await wechatApi.unifiedOrder({
       out_trade_no: ctx.query.order,
       body: ShowAppName(ctx.query.appname),

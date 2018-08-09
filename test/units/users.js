@@ -1,5 +1,7 @@
 import chai from 'chai';
 import User from '../../src/server/models/User.js';
+import Products from '../../src/server/models/Products.js';
+import BankCard from '../../src/server/models/BankCard.js';
 import moment from 'moment';
 import Axios from 'axios';
 import ed25519 from 'ed25519';
@@ -17,8 +19,10 @@ let token = null;
 describe('用户数据查询测试', function(){
 
 
+
     before((done)=>{
       Axios.get("http://127.0.0.1:7001/api/v1/get_token?uuid="+uuid).then(rlt => {
+            console.log('---------------------------------------------'+rlt);
             publicKey = rlt.data.publicKey;
             let sign = rlt.data.sign;
             let randomString = rlt.data.randomString;
@@ -79,7 +83,7 @@ describe('用户数据查询测试', function(){
           }).then(
         rlt => {
             // console.log({rlt});
-            
+
             expect(rlt.msg).to.be.equal('USER CREATE SUCCESS');
             expect(rlt.type).to.be.equal('success');
             expect(rlt.token).to.not.equal(token);
@@ -92,15 +96,15 @@ describe('用户数据查询测试', function(){
       });
     });
 
-   
+
 
     it('测试User.pwdLogin方法，testuser1234用户登录, 密码为"password"', (done)=>{
-      
+
       let passowrd = cipher('aes192', token, "password");
         User.pwdLogin({username: 'testuser1234', passowrd, sign: token, uuid}).then(
         rlt => {
           console.log(rlt);
-          
+
             expect(rlt.type).to.be.equal('error');
             expect(rlt.token).to.not.equal(token);
             token = rlt.token;
@@ -117,7 +121,7 @@ describe('用户数据查询测试', function(){
         User.pwdLogin({username: 'testuser1234', passowrd, sign: token, uuid}).then(
         rlt => {
             console.log(rlt);
-            
+
             expect(rlt.token).to.not.equal(token);
             token = rlt.token;
             expect(rlt.msg).to.be.equal('LOGIN SUCCESS');
@@ -159,13 +163,13 @@ describe('用户数据查询测试', function(){
       )
     });
 
-    
+
 
 })
 
 
 describe('测试所有用户的API', ()=>{
-     
+
 
     it('获取用户列表（简略信息）, 只有10条, 时间倒序', (done)=>{
         let userPromise  =  Axios.post(
@@ -178,7 +182,7 @@ describe('测试所有用户的API', ()=>{
             fields: ["username", "createdAt"],
             sort: {createdAt: -1}
           }
-          
+
         );
         userPromise.then(rlt => {
             console.log(rlt.data);
@@ -241,6 +245,4 @@ describe('测试所有用户的API', ()=>{
     it('手机号验证码登录testuser7791', (done)=>{
     });
 
-
-//测试所有用户的API
 })
