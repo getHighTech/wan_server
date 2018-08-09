@@ -5,8 +5,8 @@ import urlencode from 'urlencode';
 const  approute = new Router();
 
 
-const app_secrect = "9f22e4512d30fd774d93defa85c3282b";
-const app_id = "wx9ca3272fed4926ba";
+const app_secrect = "02938e071aae51a7b59b7fe6f627a681";
+const app_id = "wx0564668ed5671740";
 approute.get('/app/getopenid/:from_url', async ( ctx )=>{
     let from_url = ctx.params.from_url ? ctx.params.from_url : "http://test2.10000cars.cn";
     await ctx.render('getopenid', {
