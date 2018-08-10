@@ -12,16 +12,16 @@ const app_secrect = "9f22e4512d30fd774d93defa85c3282b";
 
 
 function ShowAppName(appname){
-  switch (appname) {
-    case "wanrenchehui":
-      
-      return "付款给万人车汇";
+    switch (appname) {
+          case "wanrenchehui":
+                  
+                  return "付款给万人车汇";
 
-    case "xianzhi":
-      return "付款给鲜至臻品";
-    default:
-      return "付款给万人车汇";
-  }
+                      case "xianzhi":
+                        return "付款给鲜至臻品";
+                            default:
+                              return "付款给万人车汇";
+                                }
 }
 
 
