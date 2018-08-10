@@ -10,7 +10,7 @@ const config = {
         appid: 'wx0564668ed5671740',
         mchid: '1498726522',
         partnerKey: '11235813213wanrenchehuixbodifivj',
-        notify_url: 'http://test2.10000cars.cn/api/v1/wechat/pay/notify',
+        notify_url: 'http://xianzhi.10000cars.cn/api/v1/wechat/pay/notify',
     },
     secret: {
         wanrenchehui: "9f22e4512d30fd774d93defa85c3282b",

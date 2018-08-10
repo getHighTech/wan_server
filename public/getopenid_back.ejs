@@ -4,14 +4,13 @@
   <title>支付中......</title>
 </head>
 <body>
-<!-- <p>已经获取了openid, 要返回的地址是: <%=url%></p>  -->
+ <p>已经获取了openid, 要返回的地址是: <%=url%></p> 
 <script type="text/javascript">
   window.onload = function(){
 
 	var url = "<%=url %>";
 
     	url = url.replace(/amp;/g, '');
-//	alert(url)
     window.location.assign(url);
   }
 </script>
