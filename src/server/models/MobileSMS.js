@@ -66,6 +66,21 @@ class MobileSMS extends WanModel {
         await this.model.remove({mobile});
         return SMS;
     }
+
+    static async validUserSMS(SMS, mobile){
+        try {
+            let rlt = await this.model.findOne({SMS, mobile});
+            if(!rlt){
+                return false;
+            }
+            return  true;
+            
+        } catch (error) {
+            return error;
+            
+        }
+        
+    }
 }
 
 MobileSMS.setScheme(

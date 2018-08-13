@@ -7,8 +7,12 @@ import Balance from '../../models/Balance.js';
 import BalanceCharge from '../../models/BalanceCharge.js';
 import BankCard from '../../models/BankCard.js'
 import Agency from '../../models/Agency.js';
+<<<<<<< HEAD
 import AgencyRelation from '../../models/AgencyRelation.js'
 import MyTeam from '../../models/MyTeam.js'
+=======
+import User from '../../models/User.js';
+>>>>>>> 09eb095c4bcfab31533a6dc0cd103510129a85aa
 // import User from '../../models/User.js'
 import rp from 'request-promise'
 import moment from "moment"
@@ -78,8 +82,13 @@ ApiRoute.get('/api/products', async ( ctx )=>{
         const {shopId,page,pagesize } = ctx.query
         console.log(page,pagesize);
         console.log(shopId);
-        let newpage = (page-1)*pagesize;
-        const products = await Products.model.find({shopId}).limit(4).skip(newpage).sort({createdAt: 1})
+// <<<<<<< HEAD
+//         let newpage = (page-1)*pagesize;
+//         const products = await Products.model.find({shopId}).limit(4).skip(newpage).sort({createdAt: 1})
+// =======
+        let newpage = page-1;
+        const products = await Products.find({shopId}).limit(4).skip(newpage).sort({createdAt: -1})
+// >>>>>>> 09eb095c4bcfab31533a6dc0cd103510129a85aa
         const shop = await Shop.model.findOne({'_id':shopId})
         ctx.body = {
         products,shop
@@ -164,7 +173,7 @@ ApiRoute.get('/api/shop', async ( ctx )=>{
     let yestoday = moment().subtract(rangeLength, unit);
     yestoday = yestoday.toISOString();
     let yestodayInData = new Date(yestoday);
-    let incomes = await  BalanceIncome.find({createdAt: {'$gte':yestodayInData,'$lt':new Date()}, userId});
+    let incomes = await  BalanceIncome.model.find({createdAt: {'$gte':yestodayInData,'$lt':new Date()}, userId});
     let totalAmount = 0;
     for(let i =0; i<incomes.length; i++)
     {
@@ -179,49 +188,82 @@ ApiRoute.get('/api/shop', async ( ctx )=>{
 
 
 ApiRoute.get('/api/loadMoney', async ( ctx )=>{
-    console.log(`loadMoney`)
-    // try{
-        const {userId} = ctx.query
-        console.log(userId)
-        ctx.body = {
-            userId
+    const {userId} = ctx.query
+    // console.log(`${userId}`)
+    let balance = await Balance.model.findOne({userId});
+    let balance_incomes = await BalanceIncome.model.find({userId}).skip(0).limit(10).sort({createdAt: -1})
+    let balance_charges = await BalanceCharge.find({userId}).skip(0).limit(10).sort({createdAt: -1})
+    let agencies = [];
+    let users = [];
+    // //数据结构兼容，之后可以删除
+    let incomeNeedToUpdate = false;
+    for(let i=0;i<balance_incomes.length;i++) {
+        if(!balance_incomes[i].balanceId){
+            await BalanceIncome.model.where({_id: balance_incomes[i]._id }).update({
+                balanceId: balance._id
+            })
+            incomeNeedToUpdate = true;
         }
-        // console.log(`${userId}`)
-        // let balance = await Balance.findOne({userId});
-        // let balance_incomes = await BalanceIncome.find({userId}).skip(0).limit(10).sort({createdAt: -1})
-        // let balance_charges = await BalanceCharge.find({userId}).skip(0).limit(10).sort({createdAt: -1})
-        // let agencies = [];
-        // let users = [];
-        // // //数据结构兼容，之后可以删除
-        // let incomeNeedToUpdate = false;
-        // for(let i=0;i<balance_incomes.length;i++) {
-        //     console.log(123)
-        //     // if(!balance_incomes.i.balanceId){
-        //     //     await BalanceIncome.where({_id: balance_incomes.i._id }).update({
-        //     //         balanceId: balance._id
-        //     //     })
-        //     //     incomeNeedToUpdate = true;
-        //     // }
 
-        //     // if(balance_incomes.i.userId){
-        //     //     users.push(await User.findOne({_id: balance_incomes.i.userId}))
-        //     // }
-        //     // if(balance_incomes.i.agency) {
+        if(balance_incomes[i].userId){
+            users.push(await User.model.findOne({_id: balance_incomes[i].userId}))
+        }
+        if(balance_incomes[i].agency) {
+            console.log(balance_incomes[i].agency)
+            console.log(1231)
+            // let agency = await Agency.findOne({_id:  balance_incomes[i].agency});
+            // console.log(333)
+            // agencies.push(agency);
+            // let buyer = null;
+            // if(!agency){
+            //     return
+            // }
+            // console.log(agency)
+            // if(agency.userId){
+            //     buyer= await User.model.findOne({_id: agency.userId});
+            //     users.push(buyer);
 
-        //     // }
-        // }
+            // }else{
+            //     buyer = await User.model.fondOne({name: 'wanchehui'})
+            // }
+            // let product = null;
+            // if(agency.productId){
+            //     product = await Products.model.findOne({name_zh: "万人车汇黑卡"});
+            // }
+            // BalanceIncomes.model.update(income._id, {
+            //     $set: {
+            //         buyer,
+            //         product
+            //     }
+            // })
+        }
+    }
+    //支出数据结构兼容
 
-        // // //======================支出更新完毕
-        // ctx.body = {
-        //     balance,
-        //     balance_incomes,
-        //     balance_charges,
-        // }
-    // } catch (err) {
-    //     ctx.body = {
-    //         msg: 'fail'
-    //     }
+    // let chargeNeedToUpdate = false;
+    // balance_charges.forEach(charge=>{
+    //     console.log(123)
+    //     // if(!charge.balanceId){
+    //     //     BalanceCharges.update(charge._id, {
+    //     //         $set: {
+    //     //             balanceId: balance._id
+    //     //         }
+    //     //     })
+    //     //     chargeNeedToUpdate = true;
+    //     // }
+    // });
+    // if(chargeNeedToUpdate){
+    //     balance_charges = BalanceCharge.find({userId},
+    //         {skip: 0, limit: 5, sort: {createdAt: -1}});
     // }
+    // //======================支出更新完毕
+    ctx.body = {
+        balance,
+        balance_incomes,
+        balance_charges,
+        agencies,
+        users,
+    }
 
 })
 

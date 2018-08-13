@@ -18,9 +18,7 @@ let token = null;
 
 describe('用户数据查询测试', function(){
 
-// <<<<<<< HEAD
-//     it('默认查询一条用户数据1', ()=>{
-// =======
+
 
     before((done)=>{
       Axios.get("http://127.0.0.1:7001/api/v1/get_token?uuid="+uuid).then(rlt => {
@@ -53,7 +51,6 @@ describe('用户数据查询测试', function(){
     });
 
     it('默认查询一条用户数据', ()=>{
-// >>>>>>> 7beac6cc7c434455c3608c05539bc43c1cf6a0f6
       expect(User.model.findOne()).to.be.ok;
     });
 
@@ -165,61 +162,6 @@ describe('用户数据查询测试', function(){
         }
       )
     });
-// <<<<<<< HEAD
-//     it('根据用户Id: NR4uitrWdh9eL649k,查询一个用户， 其用户名为lawadmin',  (done)=> {
-//         User.model.findOne({'username':'lawadmin'}).then(
-//         rlt => {
-//           expect(rlt.username).to.be.equal('lawadmin');
-//           done();
-//         }
-//       )
-//     });
-//     it('根据用户名username: 18820965455,将其nickname修改为 zsx_test',  (done)=> {
-//         User.model.update({'username':'18820965455'},{$set:{nickname:'zsx_test'}},function (error,rlt) {
-//           if (error) {
-//               console.error(error);
-//           } else {
-//               console.error("更新nickname成功")
-//               User.model.findOne({username: '18820965455'},function(err,alt){
-//                 if (!err) {
-//                   expect(alt.nickname).to.be.equal('zsx_test');
-//                   done();
-//                 }
-//               })
-//
-//
-//
-//
-//           }
-//       })
-//     });
-//     it('根据shopId: YhCNM6PqYrqTGMehh,查询4个', (done)=>{
-//       Products.model.find({'shopId':'YhCNM6PqYrqTGMehh'}).skip(0).limit(4).exec(function(err,alt){
-//         console.log('188---------------------------------------------------');
-//         if (!err) {
-//           console.log(alt);
-//           expect(alt.length).to.be.equal(4);
-//           done();
-//         }
-//         else {
-//           console.log(err);
-//         }
-//       })
-//     });
-//     it('根据userId:AT7p7bspKthfSMx7Q,查询该用户的bankcard', (done)=>{
-//       BankCard.model.find({'userId':'AT7p7bspKthfSMx7Q'}).exec(function(err,alt){
-//         console.log('201---------------------------------------------------');
-//         if (!err) {
-//           console.log(alt);
-//           expect(alt.length).to.be.equal(2);
-//           done();
-//         }
-//         else {
-//           console.log(err);
-//         }
-//       })
-//     });
-// =======
 
 
 
@@ -243,11 +185,12 @@ describe('测试所有用户的API', ()=>{
 
         );
         userPromise.then(rlt => {
-
-            let firtMoment = rlt.data[0].createdAt;
-            let secondMoment = rlt.data[1].createdAt;
+            console.log(rlt.data);
+            
+            let firtMoment = rlt.data.records[0].createdAt;
+            let secondMoment = rlt.data.records[1].createdAt;
             let isUpdate = moment(firtMoment).isAfter(moment(secondMoment));
-            expect(rlt.data.length).to.be.equal(10);
+            expect(rlt.data.records.length).to.be.equal(10);
             expect(isUpdate).to.be.equal(true);
             done();
 
@@ -255,6 +198,19 @@ describe('测试所有用户的API', ()=>{
     });
 
     it('创建一个用户testuser7791，加密密码test7791', (done)=>{
+      let passowrd = cipher('aes192', token, "test7791");
+      Axios.put("http://localhost:7001/api/v1/user_reg?uuid="+uuid+"&token="+token,
+      {
+        username: 'testuser7791', passowrd, sign: token, uuid
+      }
+      ).then(rlt => {
+        console.log("注册返回消息", rlt);
+        
+        expect(rlt.data.type).to.be.equal("success");
+      }).catch(err => {
+        console.log("错误1", err);
+        
+      })
 
     });
 
@@ -288,8 +244,5 @@ describe('测试所有用户的API', ()=>{
     });
     it('手机号验证码登录testuser7791', (done)=>{
     });
-// >>>>>>> 7beac6cc7c434455c3608c05539bc43c1cf6a0f6
 
-
-//测试所有用户的API
 })

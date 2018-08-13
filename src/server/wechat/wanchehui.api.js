@@ -1,4 +1,4 @@
-import config from './wanchehui.config.js';
+import config from './xianzhi.config.js';
 import  tenpay from 'tenpay';
 import Router from 'koa-router';
 import urlencode from 'urlencode';
@@ -7,21 +7,22 @@ import OrderDeal from '../models/OrderDeal.js';
 
 
 const wechatApi = new tenpay(config);
+console.log(wechatApi);
 
 const app_secrect = "9f22e4512d30fd774d93defa85c3282b";
 
 
 function ShowAppName(appname){
-  switch (appname) {
-    case "wanrenchehui":
-      
-      return "付款给万人车汇";
+    switch (appname) {
+          case "wanrenchehui":
+                  
+                  return "付款给万人车汇";
 
-    case "xianzhi":
-      return "付款给鲜至榛品";
-    default:
-      return "付款给万人车汇";
-  }
+                      case "xianzhi":
+                        return "付款给鲜至臻品";
+                            default:
+                              return "付款给万人车汇";
+                                }
 }
 
 
@@ -59,6 +60,7 @@ export default function genenrateWechatApis(App){
      console.log(postData.xml);
   })
   .get('/api/v1/wechat/payback/show', async ( ctx )=>{
+    console.log(ctx.query);
     let uresult = await wechatApi.unifiedOrder({
       out_trade_no: ctx.query.order,
       body: ShowAppName(ctx.query.appname),

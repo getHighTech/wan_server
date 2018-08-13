@@ -5,10 +5,10 @@ import urlencode from 'urlencode';
 const  approute = new Router();
 
 
-const app_secrect = "9f22e4512d30fd774d93defa85c3282b";
-const app_id = "wx9ca3272fed4926ba";
+const app_secrect = "02938e071aae51a7b59b7fe6f627a681";
+const app_id = "wx0564668ed5671740";
 approute.get('/app/getopenid/:from_url', async ( ctx )=>{
-    let from_url = ctx.params.from_url ? ctx.params.from_url : "http://test2.10000cars.cn";
+    let from_url = ctx.params.from_url ? ctx.params.from_url : "http://xianzhi.10000cars.cn";
     await ctx.render('getopenid', {
       from_url
     })
@@ -24,9 +24,10 @@ approute.get('/app/getopenid/:from_url', async ( ctx )=>{
   })
 })
 .get("/app/getopenid/:from_url/back", async (ctx) => {
-  let from_url = ctx.params.from_url ? ctx.params.from_url : "http://test2.10000cars.cn";
+  let from_url = ctx.params.from_url ? ctx.params.from_url : "http://xianzhi.10000cars.cn";
 
   let res = await Axios.get(`https://api.weixin.qq.com/sns/oauth2/access_token?appid=${app_id}&secret=${app_secrect}&code=${ctx.query.code}&grant_type=authorization_code`)
+  console.log(res.data)
   console.log(res.data['openid']);
 	let openid = res.data['openid'];
 	let url = decode(from_url)+"&openid="+res.data['openid'];
