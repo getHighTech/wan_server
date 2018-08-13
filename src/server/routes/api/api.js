@@ -146,6 +146,7 @@ ApiRoute.get('/api/loadMoney', async ( ctx )=>{
     let balance_charges = await BalanceCharge.find({userId}).skip(0).limit(10).sort({createdAt: -1})
     let agencies = [];
     let users = [];
+    console.log(`来了`)
     // //数据结构兼容，之后可以删除
     let incomeNeedToUpdate = false;
     for(let i=0;i<balance_incomes.length;i++) {
