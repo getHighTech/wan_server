@@ -7,6 +7,8 @@ import Balance from '../../models/Balance.js';
 import BalanceCharge from '../../models/BalanceCharge.js';
 import BankCard from '../../models/BankCard.js'
 import Agency from '../../models/Agency.js';
+import AgencyRelation from '../../models/AgencyRelation.js'
+import MyTeam from '../../models/MyTeam.js'
 // import User from '../../models/User.js'
 import rp from 'request-promise'
 import moment from "moment"
@@ -40,7 +42,6 @@ ApiRoute.get('/api/info', async (ctx) => {
 
 ApiRoute.get('/api/order/status', async ( ctx )=>{
 //这是临时的借口
-console.log(`11111`)
     try{
         const {userId, status } = ctx.query
         console.log(userId)
@@ -56,14 +57,29 @@ console.log(`11111`)
     }
 })
 
+ApiRoute.get('/api/myteam',async (ctx) =>{
+    try{
+      const {SuserId} =ctx.query;
+      const myteam = await MyTeam.model.find({SuserId});
+      ctx.body={
+        myteam
+      }
+    }catch (err) {
+        ctx.body = {
+            msg: 'fail'
+        }
+    }
+
+})
+
 
 ApiRoute.get('/api/products', async ( ctx )=>{
         try{
         const {shopId,page,pagesize } = ctx.query
         console.log(page,pagesize);
         console.log(shopId);
-        let newpage = page-1;
-        const products = await Products.model.find({shopId}).limit(4).skip(newpage).sort({createdAt: -1})
+        let newpage = (page-1)*pagesize;
+        const products = await Products.model.find({shopId}).limit(4).skip(newpage).sort({createdAt: 1})
         const shop = await Shop.model.findOne({'_id':shopId})
         ctx.body = {
         products,shop
@@ -91,20 +107,45 @@ ApiRoute.get('/api/my/bankcards', async ( ctx )=>{
 
 })
 
+ApiRoute.get('/api/new_add_products', async ( ctx )=>{
+        try{
+            const {appName } = ctx.query
+
+            if (appName) {
+              const shop = await Shop.model.findOne({appName})
+              const products =await Products.model.find({$nor: [{productClass: "advanced_card"}],isSale: true, shopId: shop._id})
+              ctx.body = {
+              products
+              }
+            }
+            else {
+              const products = []
+              ctx.body = {
+              products
+              }
+            }
+
+
+
+            } catch (err) {
+            ctx.body = {
+              msg: 'fail1111'
+            }
+          }
+
+})
+
 ApiRoute.get('/api/selling_product', async ( ctx )=>{
         try{
             const {shopId } = ctx.query
-            console.log('71``````````````````````'+shopId);
             if (!shopId) {
-              console.log('1111');
               const products =[]
               ctx.body = {
               products
               }
             }
             else {
-              console.log('2222');
-              const products = await Product.model.find({shopId})
+              const products = await Products.model.find({shopId})
               ctx.body = {
               products
               }
