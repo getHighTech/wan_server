@@ -64,12 +64,14 @@ ApiRoute.get('/api/myteam',async (ctx) =>{
       const myteam = await MyTeam.model.find({SuserId});
       const myteams = [];
       if (myteam.length>1) {
-        console.log('you');
         for (let i = 0; i < myteam.length; i++) {
           let obj = new Object();
           let  user = await User.model.findOne({'_id':myteam[i].userId})
           obj.name= user.username;
-          obj.jointime=user.createdAt;
+          if (typeof(myteam[i].createdAt)=='undefined') {
+            console.log('走了这');
+            obj.jointime='加入时间有误'
+          }
           myteams.push(obj)
         }
         ctx.body={
@@ -207,6 +209,7 @@ ApiRoute.get('/api/loadMoney', async ( ctx )=>{
     let balance_charges = await BalanceCharge.find({userId}).skip(0).limit(10).sort({createdAt: -1})
     let agencies = [];
     let users = [];
+    console.log(`来了`)
     // //数据结构兼容，之后可以删除
     let incomeNeedToUpdate = false;
     for(let i=0;i<balance_incomes.length;i++) {
