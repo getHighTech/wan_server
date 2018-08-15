@@ -7,12 +7,9 @@ import Balance from '../../models/Balance.js';
 import BalanceCharge from '../../models/BalanceCharge.js';
 import BankCard from '../../models/BankCard.js'
 import Agency from '../../models/Agency.js';
-<<<<<<< HEAD
 import AgencyRelation from '../../models/AgencyRelation.js'
 import MyTeam from '../../models/MyTeam.js'
-=======
 import User from '../../models/User.js';
->>>>>>> 09eb095c4bcfab31533a6dc0cd103510129a85aa
 // import User from '../../models/User.js'
 import rp from 'request-promise'
 import moment from "moment"
@@ -65,9 +62,27 @@ ApiRoute.get('/api/myteam',async (ctx) =>{
     try{
       const {SuserId} =ctx.query;
       const myteam = await MyTeam.model.find({SuserId});
-      ctx.body={
-        myteam
+      const myteams = [];
+      if (myteam.length>1) {
+        console.log('you');
+        for (let i = 0; i < myteam.length; i++) {
+          let obj = new Object();
+          let  user = await User.model.findOne({'_id':myteam[i].userId})
+          obj.name= user.username;
+          obj.jointime=user.createdAt;
+          myteams.push(obj)
+        }
+        ctx.body={
+          myteams
+        }
       }
+      else {
+        console.log('no');
+        ctx.body={
+          myteams
+        }
+      }
+
     }catch (err) {
         ctx.body = {
             msg: 'fail'
@@ -82,13 +97,10 @@ ApiRoute.get('/api/products', async ( ctx )=>{
         const {shopId,page,pagesize } = ctx.query
         console.log(page,pagesize);
         console.log(shopId);
-// <<<<<<< HEAD
 //         let newpage = (page-1)*pagesize;
 //         const products = await Products.model.find({shopId}).limit(4).skip(newpage).sort({createdAt: 1})
-// =======
         let newpage = page-1;
         const products = await Products.find({shopId}).limit(4).skip(newpage).sort({createdAt: -1})
-// >>>>>>> 09eb095c4bcfab31533a6dc0cd103510129a85aa
         const shop = await Shop.model.findOne({'_id':shopId})
         ctx.body = {
         products,shop
