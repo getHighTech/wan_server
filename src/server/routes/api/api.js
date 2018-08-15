@@ -62,9 +62,29 @@ ApiRoute.get('/api/myteam',async (ctx) =>{
     try{
       const {SuserId} =ctx.query;
       const myteam = await MyTeam.model.find({SuserId});
-      ctx.body={
-        myteam
+      const myteams = [];
+      if (myteam.length>1) {
+        for (let i = 0; i < myteam.length; i++) {
+          let obj = new Object();
+          let  user = await User.model.findOne({'_id':myteam[i].userId})
+          obj.name= user.username;
+          if (typeof(myteam[i].createdAt)=='undefined') {
+            console.log('走了这');
+            obj.jointime='加入时间有误'
+          }
+          myteams.push(obj)
+        }
+        ctx.body={
+          myteams
+        }
       }
+      else {
+        console.log('no');
+        ctx.body={
+          myteams
+        }
+      }
+
     }catch (err) {
         ctx.body = {
             msg: 'fail'
@@ -79,6 +99,8 @@ ApiRoute.get('/api/products', async ( ctx )=>{
         const {shopId,page,pagesize } = ctx.query
         console.log(page,pagesize);
         console.log(shopId);
+//         let newpage = (page-1)*pagesize;
+//         const products = await Products.model.find({shopId}).limit(4).skip(newpage).sort({createdAt: 1})
         let newpage = page-1;
         const products = await Products.find({shopId}).limit(4).skip(newpage).sort({createdAt: -1})
         const shop = await Shop.model.findOne({'_id':shopId})
