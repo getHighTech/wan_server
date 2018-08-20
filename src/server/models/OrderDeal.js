@@ -51,6 +51,7 @@ class OrderDeal extends WanModel {
 
             let order = await Order.model.findOne({orderCode: deal.orderCode});
             console.log("改变订单状态", order);
+            if(!order){return 0}
             let orderUpdate = await Order.model.update({_id: order._id}, {
                $set: { status: "paid", "updatedAt": new Date()}
             });
@@ -113,14 +114,15 @@ class OrderDeal extends WanModel {
                     console.log({agencyProfit})
                     await BalanceIncome.create({
                         "amount": agencyProfit*shopOrder.productCounts[product._id],
-                        "userId": shopOrder.userId,
+                        "userId": userId,
                         "reasonType": "agencyGive",
-                        "agency": shopOwner._id,
+                        "agency": shopOrder.userId,
                         "text": "店铺代理营收",
                         "productId": product._id,
                         "productCounts": shopOrder.productCounts[product._id],
                         "balanceId": balance._id,
-                        "updatedAt": new Date()
+                        "updatedAt": new Date(),
+                        "appName": order.appName,
                     });
                     let balanceAmount = balance.amount + parseInt(agencyProfit)*shopOrder.productCounts[product._id];
                     let balance_update = await Balance.model.update({_id: balance._id}, {
@@ -193,14 +195,16 @@ class OrderDeal extends WanModel {
                 }
                 await BalanceIncome.create({
                     "amount": superAgencyProfit*shopOrder.productCounts[product._id],
-                    "userId": shopOrder.userId,
+                    "userId": SuserId,
                     "reasonType": "agencyGive",
-                    "agency": SshopOwner._id,
+                    "agency": shopOrder.userId,
                     "text": "店铺代理营收",
                     "productId": product._id,
                     "productCounts": shopOrder.productCounts[product._id],
                     "balanceId": Sbalance._id,
-                    "updatedAt": new Date()
+                    "updatedAt": new Date(),
+                    "appName": order.appName,
+                      
                 });
                 let SbalanceAmount = Sbalance.amount + parseInt(agencyProfit)*shopOrder.productCounts[product._id];
                 let Sbalance_update = await Balance.model.update({_id: balance._id}, {
