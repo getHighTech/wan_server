@@ -10,54 +10,14 @@ import Agency from '../../models/Agency.js';
 import AgencyRelation from '../../models/AgencyRelation.js'
 import MyTeam from '../../models/MyTeam.js'
 import User from '../../models/User.js';
-// import User from '../../models/User.js'
-import rp from 'request-promise'
+import { GetOrderStatus } from '../../controllers/order.js';
+import { wechatAuth } from '../../controllers/wechat.js';
 import moment from "moment"
+
+// const Orders = require('../../controllers/order')
 const  ApiRoute = new Router();
-ApiRoute.get('/api/info', async (ctx) => {
-  let code = ctx.query.code;
-  let appid = 'wx0564668ed5671740'; //公众号appid
-  let secret = '02938e071aae51a7b59b7fe6f627a681';
-  let fetchWechatUserInfo = `https://api.weixin.qq.com/sns/oauth2/access_token?appid=${appid}&secret=${secret}&code=${code}&grant_type=authorization_code `;
-  let options = {
-    method: 'GET',
-    uri: fetchWechatUserInfo,
-    json: true
-  }
-  let userInfo = await rp(options);
-  console.log(userInfo)
-  if(userInfo.errcode){
-    throw new Error('fetch userInfo failure, please check the params')
-  }
-  let {openid, access_token, refresh_token} = userInfo
-
-
-  let fetchWechatUserDetailInfoUrl = `https://api.weixin.qq.com/sns/userinfo?access_token=${access_token}&openid=${openid}&lang=zh_CN `;
-  let userDetailInfo = await rp({method:'GET', uri: fetchWechatUserDetailInfoUrl, json:true })
-  userInfo = Object.assign({}, userInfo, userDetailInfo)
-  console.log(userInfo)
-  ctx.body = {
-      userInfo
-  }
-})
-
-ApiRoute.get('/api/order/status', async ( ctx )=>{
-//这是临时的借口
-    try{
-        const {userId, status } = ctx.query
-        console.log(userId)
-        console.log(status)
-        const order = await Order.model.find({userId,status}).skip(0).limit(10).sort({createdAt: -1})
-        ctx.body = {
-            order,
-        }
-    } catch (err) {
-        ctx.body = {
-            msg: 'fail'
-        }
-    }
-})
-
+ApiRoute.get('/api/info', wechatAuth)
+ApiRoute.get('/api/order/status',GetOrderStatus)
 ApiRoute.get('/api/myteam',async (ctx) =>{
     try{
       const {SuserId} =ctx.query;
@@ -322,5 +282,6 @@ ApiRoute.get('/api/loadMoney', async ( ctx )=>{
 //     //     }
 //     // }
 // })
+
 
 export default ApiRoute;
