@@ -1,5 +1,5 @@
 import rp from 'request-promise'
-export  const wechatAuth = async () => {
+export  const wechatAuth = async(ctx) => {
   try{
     let code = ctx.query.code;
     let appid = 'wx0564668ed5671740'; //公众号appid
@@ -25,7 +25,8 @@ export  const wechatAuth = async () => {
     ctx.body = {
         userInfo
     }
-  } catch (err){
+  } 
+  catch (err){
     ctx.body = {
         msg: 'fail'
     }
