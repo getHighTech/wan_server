@@ -6,6 +6,9 @@ import User from "./User.js";
 import Shop from "./Shop.js";
 import BalanceIncome from "./BalanceIncome.js";
 import Balance from "./Balance.js";
+import Role from "./Role.js";
+import ProductOwner from "./ProductOwners.js";
+import UserRole from "./UserRoles.js";
 
 class OrderDeal extends WanModel {
     constructor(props){
@@ -78,8 +81,71 @@ class OrderDeal extends WanModel {
             
             console.log({productsTamp})
             productsTamp.forEach(async product => {
+                try {
+                    let owner = await ProductOwner.model.findOne({productId: product._id});
+                    if(owner){
+                        console.log("此用户已经拥有此商品");
+                        
+                    }else{
+                       let ownerCreateRlt =  ProductOwner.create({
+                           productId: product._id,
+                           userId: order.userId,
+                       })
+                       console.log(ownerCreateRlt);
+                       
+                    }
+
+                    
+                } catch (error) {
+                    console.log(error);
+                    
+                }
                 if (product.isTool) {
-                    console.log("如果商品是道具类别, 记录商品的拥有");
+                    console.log("如果商品是道具类别, 则记录商品拥有的角色");
+                    try {
+                        let roleName = product.name + '_holder';
+                        let role = await Role.model.findOne({name: roleName});
+                       
+                        if(!role){
+                            let roleCreateResult = await Role.model.create({
+                                name: roleName,
+                            })
+                            role = await Role.model.findOne({name: roleCreateResult.name});
+                            
+                            
+                        }
+                        let addRoleToUser = async (roleId, userId) => {
+                            let userRole = await UserRole.model.findOne({roleId, userId});
+                            if(userRole){
+                                console.log("不再重复授权");
+                                
+                            }else{
+                                let userRoleCreateRlt = await UserRole.model.create({
+                                    roleId,
+                                    roleName,
+                                    roleId,
+                                    userId
+                                })
+
+                                console.log({userRoleCreateRlt});
+                                
+                            }
+    
+                        }
+
+                        addRoleToUser(role._id, order.userId);
+
+
+                       
+
+
+                        
+                    } catch (error) {
+                        console.log(error);
+                        
+                    }
+                   
+                    
                     
                 }
                 
@@ -142,7 +208,8 @@ class OrderDeal extends WanModel {
                             agency = await AgencyRelation.model.findOne({SshopId: product.shopId});
                             let newShop = await Shop.model.create({
                                 "name": buyer.username+"_shop",
-                                "name_zh": "buyer.username的"+"店铺",
+                                "name_zh": "buyer.username"+"的店铺",
+                                "description": '欢迎光临' + buyer.username + "的店铺",
                                 "acl": {
                                     own: {
                                         users: buyer._id
