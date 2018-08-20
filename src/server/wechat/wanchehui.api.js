@@ -7,6 +7,7 @@ import OrderDeal from '../models/OrderDeal.js';
 
 
 const wechatApi = new tenpay(config);
+console.log(wechatApi);
 
 const app_secrect = "9f22e4512d30fd774d93defa85c3282b";
 
@@ -59,6 +60,7 @@ export default function genenrateWechatApis(App){
      console.log(postData.xml);
   })
   .get('/api/v1/wechat/payback/show', async ( ctx )=>{
+    console.log(ctx.query);
     let uresult = await wechatApi.unifiedOrder({
       out_trade_no: ctx.query.order,
       body: ShowAppName(ctx.query.appname),

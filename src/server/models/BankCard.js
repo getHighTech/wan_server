@@ -9,6 +9,7 @@ class BankCard extends WanModel {
 }
 BankCard.setScheme(
   {
+    "_id":String,
   },
   'BankCard','bankcards'
 )

@@ -25,9 +25,17 @@ class OrderDeal extends WanModel {
                 status: "ready"
             });
             console.log("新的队列", newOrderDeal);
-            this.deal();
+            try{
+              await this.deal();
+            }catch(err){
+              console.log(err);
+            }
         }else{
-            this.deal();
+          try{
+            await this.deal();
+          }catch(err){
+            console.log(err);
+          }
         }
         
         
@@ -142,8 +150,9 @@ class OrderDeal extends WanModel {
                                 "phone": buyer.profile.mobile,
                                 "lanAndLat": shop.lanAndLat,
                             })
+                            
                             await AgencyRelation.model.update({SshopId: product.shopId}, {
-                                $set: {updatedAt: new Date(), shopId: newShop._Id}
+                                $set: {updatedAt: new Date(), shopId: newShop._Id, status: true}
                             })
                             shop = await Shop.model.findOne({_id: agency.shopId});
                             await giveMoneyToShopOwner(shop);
