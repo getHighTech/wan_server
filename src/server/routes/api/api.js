@@ -108,10 +108,14 @@ ApiRoute.get('/api/findAllSpecProductByProductId',async (ctx)=>{
           let obj = new Object();
           obj.productId = products[i]._id;
           let aa =products[i].newSpecGroups;
-          console.log(aa[0].spec_value);
           obj.spec = products[i].newSpecGroups[0].spec_value;
-          console.log('----------------');
-          console.log(obj.spec);
+          obj.product=products[i]
+          if(i==0){
+            obj.status=true;
+          }
+          else {
+            obj.status=false;
+          }
           obj.price=products[i].price;
           obj.endPrice=products[i].endPrice;
           allproducts.push(obj)
