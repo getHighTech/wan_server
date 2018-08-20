@@ -94,7 +94,42 @@ ApiRoute.get('/api/myteam',async (ctx) =>{
 })
 
 
-ApiRoute.get('/api/products', async ( ctx )=>{
+ApiRoute.get('/api/findAllSpecProductByProductId',async (ctx)=>{
+
+    try{
+      const {productId} =ctx.query;
+      console.log(productId);
+      const allproducts=[];
+      const product = await Products.model.findOne({'_id':productId});
+      if (product) {
+        let products = await Products.model.find({shopId:product.shopId,name:product.name,isSale:true})
+        console.log('106'+products);
+        for (var i = 0;i<products.length;i++){
+          let obj = new Object();
+          obj.productId = products[i]._id;
+          let aa =products[i].newSpecGroups;
+          console.log(aa[0].spec_value);
+          obj.spec = products[i].newSpecGroups[0].spec_value;
+          console.log('----------------');
+          console.log(obj.spec);
+          obj.price=products[i].price;
+          obj.endPrice=products[i].endPrice;
+          allproducts.push(obj)
+        }
+        ctx.body = {
+          allproducts
+
+        }
+      }
+    }catch(err){
+      ctx.body={
+        msg:'wrong'
+      }
+    }
+
+})
+
+ApiRoute.get('/api/shopdetails/products', async ( ctx )=>{
         try{
         const {shopId,page,pagesize } = ctx.query
         console.log(page,pagesize);
@@ -102,7 +137,7 @@ ApiRoute.get('/api/products', async ( ctx )=>{
 //         let newpage = (page-1)*pagesize;
 //         const products = await Products.model.find({shopId}).limit(4).skip(newpage).sort({createdAt: 1})
         let newpage = page-1;
-        const products = await Products.find({shopId}).limit(4).skip(newpage).sort({createdAt: -1})
+        const products = await Products.model.find({shopId}).limit(4).skip(newpage).sort({createdAt: -1})
         const shop = await Shop.model.findOne({'_id':shopId})
         ctx.body = {
         products,shop

@@ -9,6 +9,16 @@ class Products extends WanModel {
 }
 Products.setScheme(
   {
+    '_id':String,
+    'shopId':String,
+    'name':String,
+    'isSale':Boolean,
+    'price':Number,
+    'endPrice':Number,
+    // 'newSpecGroups':{
+    //   'spec_value':String
+    // }
+    'newSpecGroups':Array,
   },
   'Products','products'
 )
