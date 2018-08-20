@@ -1,4 +1,4 @@
-import config from './wanchehui.config.js';
+import config from './xianzhi.config.js';
 import  tenpay from 'tenpay';
 import Router from 'koa-router';
 import urlencode from 'urlencode';
