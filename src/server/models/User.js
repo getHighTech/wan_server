@@ -158,9 +158,9 @@ class User extends WanModel {
               "passwordSettled": true,
 
             });
-            
 
-            
+
+
             let key = await ServerKey.genPublicKey
             (
               userParams.uuid,
@@ -190,7 +190,7 @@ class User extends WanModel {
 
 
       }else{
-       
+
         return {
             type: "error",
             reason: "INVALID TOKEN",
@@ -214,18 +214,18 @@ class User extends WanModel {
 
     static async mobileLogin(loginParams){
         let key = await ServerKey.model.findOne({msgCiphered: loginParams.sign});
-        
+
         if(!key){
             return "INVALID TOKEN";
         }
-        let  sms = decipher('aes192', loginParams.sign, loginParams.sms); 
-        
+        let  sms = decipher('aes192', loginParams.sign, loginParams.sms);
+
         try {
              //解密之后立刻删除这个token，
-           
+
             let user = await this.model.findOne({username: loginParams.mobile});
             let mobileUser = await this.model.findOne({"profile.mobile": loginParams.mobile});
-          
+
 
             if(user || mobileUser){
                 //用户名就是手机号的用户
@@ -246,7 +246,7 @@ class User extends WanModel {
                     );
                     let optional = null;
                     if(!dealUser.passwordSettled){
-                    
+
                         optional = "need to reset password";
                     }
                     return  {
@@ -272,7 +272,7 @@ class User extends WanModel {
                     }
 
                 }
-               
+
             }else{
                 //不存在的用户要新建
                 let passowrd = cipher('aes192', token, "112!!@358#%*");
@@ -298,7 +298,7 @@ class User extends WanModel {
                             optional = "need to reset password";
                         }
                     }
-       
+
                     let key = await ServerKey.genPublicKey
                     (
                     loginParams.uuid,
@@ -315,20 +315,20 @@ class User extends WanModel {
                         token: key.msgCiphered,
                         optional
                     };
-                    
+
                 } catch (error) {
                     return error;
-                }   
-               
-                
+                }
+
+
             }
 
             await ServerKey.model.remove({msgCiphered: loginParams.sign});
-            
-            
+
+
         } catch (error) {
             console.error(error);
-            
+
         }
     }
 
@@ -417,6 +417,7 @@ User.setScheme(
         "lastLoginTime" :  { type: Date, default: Date.now },
 
         "nickname" : String,
+        "name":String,
         "dataAutograph" : String,
         "passwordSettled": Boolean,
     },

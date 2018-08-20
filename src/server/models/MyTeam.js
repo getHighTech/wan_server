@@ -24,6 +24,7 @@ MyTeam.setScheme(
       "SshopId": String ,
       "status": Boolean,
       "SuserId": String,
+      "userId":String,
 
     },
     "MyTeam", "agency_relation"
