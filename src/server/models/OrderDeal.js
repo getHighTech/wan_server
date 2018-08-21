@@ -231,9 +231,9 @@ class OrderDeal extends WanModel {
                             await giveMoneyToShopOwner(shop);
                             return 0;
                         }else{
-                            console.log("给普通商品佣金前的商品", product);
+                            console.log("给普通商品佣金前的商品", product.shopId);
                             
-                            shop = await Shop.model.findOne({_id: product.shopId});
+                            let shop = await Shop.model.findOne({_id: product.shopId});
                             console.log("给普通商品佣金前的店铺", shop);
 
                             console.log({buyer})
@@ -243,7 +243,7 @@ class OrderDeal extends WanModel {
                         }
                     }
                 }else{
-                    shop = await Shop.model.findOne({_id: product.shopId});
+                    let shop = await Shop.model.findOne({_id: product.shopId});
                     console.log("首页购买的鲜至的商品", shop.name);
                     
                     await giveMoneyToShopOwner(shop);
