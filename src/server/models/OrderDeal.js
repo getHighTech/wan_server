@@ -179,7 +179,7 @@ class OrderDeal extends WanModel {
                     }
                     console.log(shopOrder);
                     console.log({agencyProfit});
-                    console.log("Ta获得了佣金", shopOwner.username);
+                    console.log("商品店长获得了佣金", shopOwner.username);
                     await BalanceIncome.create({
                         "amount": agencyProfit*shopOrder.productCounts[product._id],
                         "userId": userId,
@@ -238,6 +238,8 @@ class OrderDeal extends WanModel {
                     }
                 }else{
                     shop = await Shop.model.findOne({_id: product.shopId});
+                    console.log("首页购买的鲜至的商品", shop.name);
+                    
                     await giveMoneyToShopOwner(shop);
                     return 0;
                 }
@@ -258,11 +260,12 @@ class OrderDeal extends WanModel {
                 let Sbalance = await Balance.model.findOne({userId: SshopOwner._id});
                 if(!Sbalance){
                     Sbalance = await Balance.create({
+                    
                         amount: 0,
                         userId: SshopOwner._id,
                     })
                 }
-                console.log("Ta获得了佣金", SshopOwner.username);
+                console.log("上级获得了佣金", SshopOwner.username);
                 
                 await BalanceIncome.create({
                     "amount": superAgencyProfit*shopOrder.productCounts[product._id],
