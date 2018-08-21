@@ -90,7 +90,7 @@ class OrderDeal extends WanModel {
                         console.log("此用户已经拥有此商品");
                         
                     }else{
-                       let ownerCreateRlt =  ProductOwner.create({
+                       let ownerCreateRlt =  ProductOwner.model.create({
                            _id: mongoose.Types.ObjectId(),
                            productId: product._id,
                            userId: order.userId,
@@ -175,9 +175,8 @@ class OrderDeal extends WanModel {
                     console.log("给店铺拥有者佣金");
                     let balance  = await   Balance.model.findOne({userId: shopOwner._id}, ["_id", "amount", "userId"]);
                     if(!balance){
-                        let newB = new Balance.model();
-                        balance = await Balance.create({
-                            _id: newB._id,
+                        balance = await Balance.model.create({
+                            _id: mongoose.Types.ObjectId(),
                             amount: 0,
                             userId: shopOwner._id,
                         })
@@ -185,7 +184,7 @@ class OrderDeal extends WanModel {
                     console.log(shopOrder);
                     console.log({agencyProfit});
                     console.log("商品店长获得了佣金", shopOwner.username);
-                    await BalanceIncome.create({
+                    await BalanceIncome.model.create({
                         _id: mongoose.Types.ObjectId(),
                         "amount": agencyProfit*shopOrder.productCounts[product._id],
                         "userId": userId,
@@ -270,7 +269,7 @@ class OrderDeal extends WanModel {
                 let SshopOwner = await User.model.findById(SuserId);
                 let Sbalance = await Balance.model.findOne({userId: SshopOwner._id});
                 if(!Sbalance){
-                    Sbalance = await Balance.create({
+                    Sbalance = await Balance.model.create({
                         _id: mongoose.Types.ObjectId(),
                         amount: 0,
                         userId: SshopOwner._id,
@@ -278,7 +277,7 @@ class OrderDeal extends WanModel {
                 }
                 console.log("上级获得了佣金", SshopOwner.username);
                 
-                await BalanceIncome.create({
+                await BalanceIncome.model.create({
                     _id: mongoose.Types.ObjectId(),
                     "amount": superAgencyProfit*shopOrder.productCounts[product._id],
                     "userId": SuserId,
