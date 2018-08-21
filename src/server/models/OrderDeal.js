@@ -160,7 +160,6 @@ class OrderDeal extends WanModel {
                 }
                 console.log("更改代理关系");
                 let agency = await AgencyRelation.model.findOne({shopId: product.shopId});
-                let shop = null;
 
                 let giveMoneyToShopOwner = async shop => {
                     console.log("获取产品的店铺", shop.name);
@@ -226,11 +225,11 @@ class OrderDeal extends WanModel {
                             await AgencyRelation.model.update({SshopId: product.shopId}, {
                                 $set: {updatedAt: new Date(), shopId: newShop._Id, status: true}
                             })
-                            shop = await Shop.model.findOne({_id: product.shopId});
+                            let shop = await Shop.model.findOne({_id: product.shopId});
                             await giveMoneyToShopOwner(shop);
                             return 0;
                         }else{
-                            shop = await Shop.model.findOne({appName: Order.app});
+                            shop = await Shop.model.findOne({_id: product.shopId});
                             console.log({buyer})
                             await giveMoneyToShopOwner(shop);
                             return 0;
