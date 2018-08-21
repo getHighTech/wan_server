@@ -8,6 +8,7 @@ import { getPeriodIncome } from '../../controllers/balanceIncome.js';
 import { loadMoney } from '../../controllers/balance.js';
 const  ApiRoute = new Router();
 ApiRoute.get('/api/info', wechatAuth)
+
 ApiRoute.get('/api/order/status',getOrderStatus)
 ApiRoute.get('/api/myteam',getTeam)
 ApiRoute.get('/api/products',getShopProducts)
