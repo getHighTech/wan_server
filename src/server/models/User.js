@@ -420,6 +420,7 @@ User.setScheme(
         "name":String,
         "dataAutograph" : String,
         "passwordSettled": Boolean,
+        "profile": Object
     },
     "User", "users"
 

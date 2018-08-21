@@ -15,10 +15,8 @@ Products.setScheme(
     'isSale':Boolean,
     'price':Number,
     'endPrice':Number,
-    // 'newSpecGroups':{
-    //   'spec_value':String
-    // }
     'newSpecGroups':Array,
+    'name_zh': String,
   },
   'Products','products'
 )

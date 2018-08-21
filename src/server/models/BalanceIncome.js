@@ -1,24 +1,29 @@
 import WanModel from "../core/model.js";
 import mongoose from 'mongoose';
 
+const Schema = mongoose.Schema;
+
 class BalanceIncome extends WanModel {
     constructor(props){
         super(props);
         this.collection = "balance_incomes";
+        
     }
+
+    
    
 }
 
 BalanceIncome.setScheme(
     {
       "createdAt" : { type: Date, default: Date.now },
-      "userId": String,
+      "userId": { type: String, ref: 'User' },
       "reasonType": String,
-      "agency": String,
+      "agency": { type: String, ref: 'User' },
       "text": String,
       "amount": Number,
-      "balanceId": String,
-      "productId": String,
+      "balanceId": { type: String, ref: 'Balance' },
+      "productId": { type: String, ref: 'Products' },
       "productCounts": Number,
       "updatedAt" : String,
 

@@ -6,6 +6,9 @@ import User from "./User.js";
 import Shop from "./Shop.js";
 import BalanceIncome from "./BalanceIncome.js";
 import Balance from "./Balance.js";
+import Role from "./Role.js";
+import ProductOwner from "./ProductOwners.js";
+import UserRole from "./UserRoles.js";
 
 class OrderDeal extends WanModel {
     constructor(props){
@@ -51,6 +54,7 @@ class OrderDeal extends WanModel {
 
             let order = await Order.model.findOne({orderCode: deal.orderCode});
             console.log("改变订单状态", order);
+            if(!order){return 0}
             let orderUpdate = await Order.model.update({_id: order._id}, {
                $set: { status: "paid", "updatedAt": new Date()}
             });
@@ -77,8 +81,71 @@ class OrderDeal extends WanModel {
             
             console.log({productsTamp})
             productsTamp.forEach(async product => {
+                try {
+                    let owner = await ProductOwner.model.findOne({productId: product._id});
+                    if(owner){
+                        console.log("此用户已经拥有此商品");
+                        
+                    }else{
+                       let ownerCreateRlt =  ProductOwner.create({
+                           productId: product._id,
+                           userId: order.userId,
+                       })
+                       console.log(ownerCreateRlt);
+                       
+                    }
+
+                    
+                } catch (error) {
+                    console.log(error);
+                    
+                }
                 if (product.isTool) {
-                    console.log("如果商品是道具类别, 记录商品的拥有");
+                    console.log("如果商品是道具类别, 则记录商品拥有的角色");
+                    try {
+                        let roleName = product.name + '_holder';
+                        let role = await Role.model.findOne({name: roleName});
+                       
+                        if(!role){
+                            let roleCreateResult = await Role.model.create({
+                                name: roleName,
+                            })
+                            role = await Role.model.findOne({name: roleCreateResult.name});
+                            
+                            
+                        }
+                        let addRoleToUser = async (roleId, userId) => {
+                            let userRole = await UserRole.model.findOne({roleId, userId});
+                            if(userRole){
+                                console.log("不再重复授权");
+                                
+                            }else{
+                                let userRoleCreateRlt = await UserRole.model.create({
+                                    roleId,
+                                    roleName,
+                                    roleId,
+                                    userId
+                                })
+
+                                console.log({userRoleCreateRlt});
+                                
+                            }
+    
+                        }
+
+                        addRoleToUser(role._id, order.userId);
+
+
+                       
+
+
+                        
+                    } catch (error) {
+                        console.log(error);
+                        
+                    }
+                   
+                    
                     
                 }
                 
@@ -113,14 +180,15 @@ class OrderDeal extends WanModel {
                     console.log({agencyProfit})
                     await BalanceIncome.create({
                         "amount": agencyProfit*shopOrder.productCounts[product._id],
-                        "userId": shopOrder.userId,
+                        "userId": userId,
                         "reasonType": "agencyGive",
-                        "agency": shopOwner._id,
+                        "agency": shopOrder.userId,
                         "text": "店铺代理营收",
                         "productId": product._id,
                         "productCounts": shopOrder.productCounts[product._id],
                         "balanceId": balance._id,
-                        "updatedAt": new Date()
+                        "updatedAt": new Date(),
+                        "appName": order.appName,
                     });
                     let balanceAmount = balance.amount + parseInt(agencyProfit)*shopOrder.productCounts[product._id];
                     let balance_update = await Balance.model.update({_id: balance._id}, {
@@ -140,7 +208,8 @@ class OrderDeal extends WanModel {
                             agency = await AgencyRelation.model.findOne({SshopId: product.shopId});
                             let newShop = await Shop.model.create({
                                 "name": buyer.username+"_shop",
-                                "name_zh": "buyer.username的"+"店铺",
+                                "name_zh": "buyer.username"+"的店铺",
+                                "description": '欢迎光临' + buyer.username + "的店铺",
                                 "acl": {
                                     own: {
                                         users: buyer._id
@@ -193,14 +262,16 @@ class OrderDeal extends WanModel {
                 }
                 await BalanceIncome.create({
                     "amount": superAgencyProfit*shopOrder.productCounts[product._id],
-                    "userId": shopOrder.userId,
+                    "userId": SuserId,
                     "reasonType": "agencyGive",
-                    "agency": SshopOwner._id,
+                    "agency": shopOrder.userId,
                     "text": "店铺代理营收",
                     "productId": product._id,
                     "productCounts": shopOrder.productCounts[product._id],
                     "balanceId": Sbalance._id,
-                    "updatedAt": new Date()
+                    "updatedAt": new Date(),
+                    "appName": order.appName,
+                      
                 });
                 let SbalanceAmount = Sbalance.amount + parseInt(agencyProfit)*shopOrder.productCounts[product._id];
                 let Sbalance_update = await Balance.model.update({_id: balance._id}, {
