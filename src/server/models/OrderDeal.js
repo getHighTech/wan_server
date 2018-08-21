@@ -112,6 +112,7 @@ class OrderDeal extends WanModel {
                        
                         if(!role){
                             let roleCreateResult = await Role.model.create({
+                                _id: mongoose.Types.ObjectId(),
                                 name: roleName,
                             })
                             role = await Role.model.findOne({name: roleCreateResult.name});
