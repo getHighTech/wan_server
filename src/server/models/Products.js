@@ -9,6 +9,8 @@ class Products extends WanModel {
 }
 Products.setScheme(
   {
+      '_id': String,
+      'name_zh': String,
   },
   'Products','products'
 )
