@@ -177,7 +177,8 @@ class OrderDeal extends WanModel {
                         })
                     }
                     console.log(shopOrder);
-                    console.log({agencyProfit})
+                    console.log({agencyProfit});
+                    console.log("Ta获得了佣金", shopOwner);
                     await BalanceIncome.create({
                         "amount": agencyProfit*shopOrder.productCounts[product._id],
                         "userId": userId,
@@ -260,6 +261,8 @@ class OrderDeal extends WanModel {
                         userId: SshopOwner._id,
                     })
                 }
+                console.log("Ta获得了佣金", SshopOwner);
+                
                 await BalanceIncome.create({
                     "amount": superAgencyProfit*shopOrder.productCounts[product._id],
                     "userId": SuserId,

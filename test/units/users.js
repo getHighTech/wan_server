@@ -1,7 +1,5 @@
 import chai from 'chai';
 import User from '../../src/server/models/User.js';
-import Products from '../../src/server/models/Products.js';
-import BankCard from '../../src/server/models/BankCard.js';
 import moment from 'moment';
 import Axios from 'axios';
 import ed25519 from 'ed25519';
