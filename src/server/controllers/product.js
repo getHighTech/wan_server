@@ -7,7 +7,7 @@ export const getShopProducts = async(ctx) => {
     try{
         const { shopId, page, pagesize } = ctx.query
         let newpage = page-1;
-        const products = await Products.find({shopId}).limit(4).skip(newpage).sort({createdAt: -1})
+        const products = await Products.model.find({shopId}).limit(4).skip(newpage).sort({createdAt: -1})
         const shop = await Shop.model.findOne({'_id':shopId})
         ctx.body = {
             products,
