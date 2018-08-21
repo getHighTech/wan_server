@@ -9,6 +9,7 @@ import Balance from "./Balance.js";
 import Role from "./Role.js";
 import ProductOwner from "./ProductOwners.js";
 import UserRole from "./UserRoles.js";
+import mongoose from 'mongoose';
 
 class OrderDeal extends WanModel {
     constructor(props){
@@ -89,6 +90,7 @@ class OrderDeal extends WanModel {
                         
                     }else{
                        let ownerCreateRlt =  ProductOwner.create({
+                           _id: mongoose.Types.ObjectId(),
                            productId: product._id,
                            userId: order.userId,
                        })
@@ -229,7 +231,11 @@ class OrderDeal extends WanModel {
                             await giveMoneyToShopOwner(shop);
                             return 0;
                         }else{
+                            console.log("给普通商品佣金前的商品", product);
+                            
                             shop = await Shop.model.findOne({_id: product.shopId});
+                            console.log("给普通商品佣金前的店铺", shop);
+
                             console.log({buyer})
                             await giveMoneyToShopOwner(shop);
                             return 0;
