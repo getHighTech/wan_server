@@ -81,6 +81,7 @@ class OrderDeal extends WanModel {
             
             console.log({productsTamp})
             productsTamp.forEach(async product => {
+              console.log('购买的商品是', product);
                 try {
                     let owner = await ProductOwner.model.findOne({productId: product._id});
                     if(owner){
@@ -162,7 +163,8 @@ class OrderDeal extends WanModel {
                 let shop = null;
 
                 let giveMoneyToShopOwner = async shop => {
-                    console.log("获取产品的店铺");
+                    console.log("获取产品的店铺", shop.name);
+                    console.log("获取产品的店铺的店长", shop.acl.own.users);
                     let userId = await shop.acl.own.users;
                     let shopOwner = await User.model.findOne({_id: userId});
                     console.log("================================");
@@ -178,7 +180,7 @@ class OrderDeal extends WanModel {
                     }
                     console.log(shopOrder);
                     console.log({agencyProfit});
-                    console.log("Ta获得了佣金", shopOwner);
+                    console.log("Ta获得了佣金", shopOwner.username);
                     await BalanceIncome.create({
                         "amount": agencyProfit*shopOrder.productCounts[product._id],
                         "userId": userId,
@@ -224,7 +226,7 @@ class OrderDeal extends WanModel {
                             await AgencyRelation.model.update({SshopId: product.shopId}, {
                                 $set: {updatedAt: new Date(), shopId: newShop._Id, status: true}
                             })
-                            shop = await Shop.model.findOne({_id: agency.shopId});
+                            shop = await Shop.model.findOne({_id: product.shopId});
                             await giveMoneyToShopOwner(shop);
                             return 0;
                         }else{
@@ -236,7 +238,7 @@ class OrderDeal extends WanModel {
                         }
                     }
                 }else{
-                    shop = await Shop.model.findOne({_id: agency.shopId});
+                    shop = await Shop.model.findOne({_id: product.shopId});
                     await giveMoneyToShopOwner(shop);
                     return 0;
                 }
@@ -261,7 +263,7 @@ class OrderDeal extends WanModel {
                         userId: SshopOwner._id,
                     })
                 }
-                console.log("Ta获得了佣金", SshopOwner);
+                console.log("Ta获得了佣金", SshopOwner.username);
                 
                 await BalanceIncome.create({
                     "amount": superAgencyProfit*shopOrder.productCounts[product._id],

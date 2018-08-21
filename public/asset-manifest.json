@@ -1,8 +1,8 @@
 {
   "main.css": "static/css/main.6e7eec51.css",
   "main.css.map": "static/css/main.6e7eec51.css.map",
-  "main.js": "static/js/main.af4b2a2c.js",
-  "main.js.map": "static/js/main.af4b2a2c.js.map",
+  "main.js": "static/js/main.4a9cf10e.js",
+  "main.js.map": "static/js/main.4a9cf10e.js.map",
   "static/media/WechatIMG620.jpeg": "static/media/WechatIMG620.9fcd75ca.jpeg",
   "static/media/WechatIMG959.jpeg": "static/media/WechatIMG959.f43e5cd3.jpeg",
   "static/media/address.svg": "static/media/address.b7dbc277.svg",
@@ -23,6 +23,7 @@
   "static/media/shop.jpg": "static/media/shop.caf8b769.jpg",
   "static/media/shop.svg": "static/media/shop.3eb8e421.svg",
   "static/media/success.svg": "static/media/success.49273e11.svg",
+  "static/media/teams.jpg": "static/media/teams.2de4480d.jpg",
   "static/media/timg.jpg": "static/media/timg.d094f407.jpg",
   "static/media/xianzhilogo.jpg": "static/media/xianzhilogo.f99cc5be.jpg"
 }
