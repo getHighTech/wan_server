@@ -21,6 +21,9 @@ export const getPeriodIncome = async(ctx) => {
         }
     } 
     catch(err) {
-        msg: "fail"
+        console.log(111)
+        ctx.body = {
+            msg: "fail"
+        }
     }
 }
