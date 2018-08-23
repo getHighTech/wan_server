@@ -25,6 +25,7 @@ MyTeam.setScheme(
       "status": Boolean,
       "SuserId": String,
       "userId":String,
+      'createdAt':Date
 
     },
     "MyTeam", "agency_relation"
