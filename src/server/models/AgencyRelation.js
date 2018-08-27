@@ -5,7 +5,7 @@ import mongoose from 'mongoose';
 class AgencyRelation extends WanModel {
     constructor(props){
         super(props);
-        this.collection = "simples";
+        this.collection = "agency_relation";
     }
     static async getMobileSMS(mobile){
 
@@ -24,9 +24,10 @@ AgencyRelation.setScheme(
       "SshopId": String ,
       "status": Boolean,
       "SuserId": String,
+      "createdAt": {type: Date, default: Date.now}
 
     },
-    "Simple", "simples"
+    "AgencyRelation", "agency_relation"
 
 )
 

@@ -85,9 +85,9 @@ class OrderDeal extends WanModel {
             productsTamp.forEach(async product => {
               console.log('购买的商品是', product);
                 try {
-                    let owner = await ProductOwner.model.findOne({productId: product._id});
+                    let owner = await ProductOwner.model.findOne({productId: product._id, userId: order.userId});
                     if(owner){
-                        console.log("此用户已经拥有此商品");
+                        console.log("此用户已经拥有此商品", owner);
                         
                     }else{
                        let ownerCreateRlt =  ProductOwner.model.create({
@@ -95,7 +95,7 @@ class OrderDeal extends WanModel {
                            productId: product._id,
                            userId: order.userId,
                        })
-                       console.log(ownerCreateRlt);
+                       console.log('用户购买记录新建结果',ownerCreateRlt);
                        
                     }
 
