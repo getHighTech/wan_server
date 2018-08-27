@@ -17,6 +17,7 @@ Products.setScheme(
     'endPrice':Number,
     'newSpecGroups':Array,
     'name_zh': String,
+    'productClass':String,
   },
   'Products','products'
 )
