@@ -281,7 +281,10 @@ class OrderDeal extends WanModel {
                 if(!SshopId){
                     return false;
                 }
-                let Sshop = await Shop.model.findOne({_id: agency.SshopId});
+                let Sagency = await AgencyRelation.findOne({shopId: agency.SshopId, userId: agency.SuserId})
+                console.log("是否有上上级", Sagency);
+                
+                let Sshop = await Shop.model.findOne({_id: Sagency.SshopId});
                 let SuserId = await Sshop.acl.own.users;
                 let SshopOwner = await User.model.findById(SuserId);
                 let Sbalance = await Balance.model.findOne({userId: SshopOwner._id});
