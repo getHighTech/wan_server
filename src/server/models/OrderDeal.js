@@ -128,6 +128,13 @@ class OrderDeal extends WanModel {
                                 console.log("用户名是", user.username);
                                 console.log(user.username+"用户的角色是", role);
                                 console.log("不再重复授权");
+                                let userRoleUpdateRlt = await UserRole.model.update({userId: user._id}, {
+                                    $set: {
+                                        status: true,
+                                    }
+                                })
+                                console.log(userRoleUpdateRlt);
+                                
                                 
                             }else{
                                 let userRoleCreateRlt = await UserRole.model.create({
@@ -135,7 +142,8 @@ class OrderDeal extends WanModel {
                                     roleId,
                                     roleName,
                                     roleId,
-                                    userId
+                                    userId,
+                                    status: true,
                                 })
 
                                 console.log({userRoleCreateRlt});
