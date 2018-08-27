@@ -74,30 +74,13 @@ export const sellingProduct = async(ctx) => {
 export const getProductCard = async(ctx) => {
     try{
         const { rolename,shopId } = ctx.query
-        console.log(rolename);
-        console.log('----------------');
-        console.log(shopId);
         let product = await Products.model.findOne({'_id': rolename});
-        console.log(product);
-        console.log('11');
         if(!product){
            product = await Products.model.findOne({'productClass': "common_card",'isSale': true, shopId})
-            console.log(porduct);
-            console.log('----------------');
-            ctx.body = {
-              product
-            }
-
         }
-        else {
-            ctx.body = {
-              product
-            }
+        ctx.body = {
+          product
         }
-
-
-
-
      }
      catch (err) {
         ctx.body = {
