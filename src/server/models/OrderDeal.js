@@ -122,7 +122,19 @@ class OrderDeal extends WanModel {
                         let addRoleToUser = async (roleId, userId) => {
                             let userRole = await UserRole.model.findOne({roleId, userId});
                             if(userRole){
+
+                                let user = await User.model.findOne({_id: userId});
+                                let role = await Role.model.findOne({_id: roleId});
+                                console.log("用户名是", user.username);
+                                console.log(user.username+"用户的角色是", role);
                                 console.log("不再重复授权");
+                                let userRoleUpdateRlt = await UserRole.model.update({userId: user._id}, {
+                                    $set: {
+                                        status: true,
+                                    }
+                                })
+                                console.log(userRoleUpdateRlt);
+                                
                                 
                             }else{
                                 let userRoleCreateRlt = await UserRole.model.create({
@@ -130,7 +142,8 @@ class OrderDeal extends WanModel {
                                     roleId,
                                     roleName,
                                     roleId,
-                                    userId
+                                    userId,
+                                    status: true,
                                 })
 
                                 console.log({userRoleCreateRlt});
@@ -224,8 +237,7 @@ class OrderDeal extends WanModel {
                                     }
                                 },
                                 "status": true,
-                                "phone": buyer.profile.mobile,
-                                "lanAndLat": shop.lanAndLat,
+                                "phone": buyer.profile ? (buyer.profile.mobile? buyer.profile.mobile: boyer.username): buyer.username,
                             })
                             
                             await AgencyRelation.model.update({SshopId: product.shopId}, {
