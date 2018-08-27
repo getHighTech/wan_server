@@ -250,7 +250,6 @@ class OrderDeal extends WanModel {
                            
                             let shop = await Shop.model.findOne({_id: product.shopId});
                             await giveMoneyToShopOwner(shop);
-                            return 0;
                         }else{
                             console.log("给普通商品佣金前的商品", product.shopId);
                             
@@ -259,7 +258,6 @@ class OrderDeal extends WanModel {
 
                             console.log({buyer})
                             await giveMoneyToShopOwner(shop);
-                            return 0;
 
                         }
                     }
@@ -268,7 +266,6 @@ class OrderDeal extends WanModel {
                     console.log("首页购买的鲜至的商品", shop.name);
                     
                     await giveMoneyToShopOwner(shop);
-                    return 0;
                 }
                 
               
@@ -281,7 +278,7 @@ class OrderDeal extends WanModel {
                 if(!SshopId){
                     return false;
                 }
-                let Sagency = await AgencyRelation.findOne({shopId: agency.SshopId, userId: agency.SuserId})
+                let Sagency = await AgencyRelation.findOne({shopId: agency.SshopId, userId: agency.SuserId, status: true})
                 console.log("是否有上上级", Sagency);
                 
                 let Sshop = await Shop.model.findOne({_id: Sagency.SshopId});
