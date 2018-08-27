@@ -177,8 +177,9 @@ class OrderDeal extends WanModel {
                     superAgencyProfit = product.agencyLevelPrices[1];
                 }
                 console.log("更改代理关系");
-                let agency = await AgencyRelation.model.findOne({shopId: product.shopId});
+                let agency = await AgencyRelation.model.findOne({SshopId: product.shopId, userId: order.userId});
 
+                console.log('目前的关系是', agency);
                 let giveMoneyToShopOwner = async shop => {
                     console.log("获取产品的店铺", shop.name);
                     console.log("获取产品的店铺的店长", shop.acl.own.users);
@@ -221,11 +222,12 @@ class OrderDeal extends WanModel {
                 let buyer = await User.model.findById(order.userId);
                 console.log({buyer})
                 console.log({agency})
-                if(!agency){
+                if(agency && !agency.status){
                     if(product.productClass){
                         if (product.productClass === "common_card") {
                             console.log("如果商品是普通会员卡，则开店，并且记录这个店的上级店铺是什么");
-                            agency = await AgencyRelation.model.findOne({SshopId: product.shopId});
+                            agency = await AgencyRelation.model.findOne({SshopId: product.shopId, userId: order.userId});
+                            console.log('目前的代理2', agency)
                             let newShop = await Shop.model.create({
                                 _id: mongoose.Types.ObjectId(),
                                 "name": buyer.username+"_shop",
@@ -239,10 +241,13 @@ class OrderDeal extends WanModel {
                                 "status": true,
                                 "phone": buyer.profile ? (buyer.profile.mobile? buyer.profile.mobile: boyer.username): buyer.username,
                             })
+                            console.log("新的店铺为", newShop);
                             
-                            await AgencyRelation.model.update({SshopId: product.shopId}, {
+                           let agencyUpdateRlt =  await AgencyRelation.model.update({SshopId: product.shopId, userId: order.userId}, {
                                 $set: {updatedAt: new Date(), shopId: newShop._Id, status: true}
                             })
+                           console.log("关系是否更新成功", agencyUpdateRlt);
+                           
                             let shop = await Shop.model.findOne({_id: product.shopId});
                             await giveMoneyToShopOwner(shop);
                             return 0;
