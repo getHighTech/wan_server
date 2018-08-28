@@ -177,8 +177,9 @@ class OrderDeal extends WanModel {
                     superAgencyProfit = product.agencyLevelPrices[1];
                 }
                 console.log("更改代理关系");
-                let agency = await AgencyRelation.model.findOne({shopId: product.shopId});
+                let agency = await AgencyRelation.model.findOne({SshopId: product.shopId, userId: order.userId});
 
+                console.log('目前的关系是', agency);
                 let giveMoneyToShopOwner = async shop => {
                     console.log("获取产品的店铺", shop.name);
                     console.log("获取产品的店铺的店长", shop.acl.own.users);
@@ -221,15 +222,20 @@ class OrderDeal extends WanModel {
                 let buyer = await User.model.findById(order.userId);
                 console.log({buyer})
                 console.log({agency})
-                if(!agency){
+                if((agency && !agency.status) || (agency && !agency.shopId && agency.status )){
+                  //如果代理没有找到，并且代理关系状态激活， 或者代理存在并且代理的店铺并不存在
                     if(product.productClass){
                         if (product.productClass === "common_card") {
                             console.log("如果商品是普通会员卡，则开店，并且记录这个店的上级店铺是什么");
-                            agency = await AgencyRelation.model.findOne({SshopId: product.shopId});
-                            let newShop = await Shop.model.create({
+                            agency = await AgencyRelation.model.findOne({SshopId: product.shopId, userId: order.userId});
+                            console.log('目前的代理2', agency)
+                              let shopFound = await Shop.model.findOne({'acl.own.users': order.userId});
+                            if(!shopFound){
+                            
+                            shopFound = await Shop.model.create({
                                 _id: mongoose.Types.ObjectId(),
                                 "name": buyer.username+"_shop",
-                                "name_zh": "buyer.username"+"的店铺",
+                                "name_zh": buyer.username+"的店铺",
                                 "description": '欢迎光临' + buyer.username + "的店铺",
                                 "acl": {
                                     own: {
@@ -239,31 +245,45 @@ class OrderDeal extends WanModel {
                                 "status": true,
                                 "phone": buyer.profile ? (buyer.profile.mobile? buyer.profile.mobile: boyer.username): buyer.username,
                             })
+                            console.log("新的店铺为", newShop);
+                            }
                             
-                            await AgencyRelation.model.update({SshopId: product.shopId}, {
-                                $set: {updatedAt: new Date(), shopId: newShop._Id, status: true}
+                           let agencyUpdateRlt =  await AgencyRelation.model.update({SshopId: product.shopId, userId: order.userId}, {
+                                $set: {updatedAt: new Date(), shopId: shopFound._id, status: true}
                             })
+                           console.log("关系是否更新成功", agencyUpdateRlt);
+                           
                             let shop = await Shop.model.findOne({_id: product.shopId});
                             await giveMoneyToShopOwner(shop);
-                            return 0;
                         }else{
                             console.log("给普通商品佣金前的商品", product.shopId);
+                            agency = await AgencyRelation.model.findOne({shopId: product.shopId, status: true});
+                            console.log("普通商品涉及的关系", agency);
                             
                             let shop = await Shop.model.findOne({_id: product.shopId});
                             console.log("给普通商品佣金前的店铺", shop);
 
                             console.log({buyer})
                             await giveMoneyToShopOwner(shop);
-                            return 0;
+                            
+                            
 
                         }
                     }
                 }else{
-                    let shop = await Shop.model.findOne({_id: product.shopId});
-                    console.log("首页购买的鲜至的商品", shop.name);
-                    
-                    await giveMoneyToShopOwner(shop);
-                    return 0;
+                          console.log("给普通商品佣金前的商品", product.shopId);
+                            agency = await AgencyRelation.model.findOne({shopId: product.shopId, status: true});
+                            console.log("普通商品涉及的关系", agency);
+                            
+                            let shop = await Shop.model.findOne({_id: product.shopId});
+                            console.log("给普通商品佣金前的店铺", shop);
+
+                            console.log({buyer})
+                            await giveMoneyToShopOwner(shop);
+                            
+                            
+
+
                 }
                 
               
@@ -272,10 +292,19 @@ class OrderDeal extends WanModel {
                 
                 console.log("================================");
                 console.log("给平台拥有者佣金");
+                if(!agency){
+                  return false;
+                }
                 let SshopId = agency.SshopId;
                 if(!SshopId){
                     return false;
                 }
+                if(!agency){
+                    return false;
+
+                }
+                console.log("是否有上上级", agency);
+                
                 let Sshop = await Shop.model.findOne({_id: agency.SshopId});
                 let SuserId = await Sshop.acl.own.users;
                 let SshopOwner = await User.model.findById(SuserId);
@@ -287,7 +316,7 @@ class OrderDeal extends WanModel {
                         userId: SshopOwner._id,
                     })
                 }
-                console.log("上级获得了佣金", SshopOwner.username);
+                console.log("上shang级获得了佣金", SshopOwner.username);
                 
                 await BalanceIncome.model.create({
                     _id: mongoose.Types.ObjectId(),
@@ -303,8 +332,8 @@ class OrderDeal extends WanModel {
                     "appName": order.appName,
                       
                 });
-                let SbalanceAmount = Sbalance.amount + parseInt(agencyProfit)*shopOrder.productCounts[product._id];
-                let Sbalance_update = await Balance.model.update({_id: balance._id}, {
+                let SbalanceAmount = Sbalance.amount + parseInt(superAgencyProfit)*shopOrder.productCounts[product._id];
+                let Sbalance_update = await Balance.model.update({_id: Sbalance._id}, {
                   $set:{
                     amount: SbalanceAmount
                   }
