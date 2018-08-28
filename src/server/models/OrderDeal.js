@@ -223,6 +223,7 @@ class OrderDeal extends WanModel {
                 console.log({buyer})
                 console.log({agency})
                 if((agency && !agency.status) || (agency && !agency.shopId && agency.status )){
+                  //如果代理没有找到，并且代理关系状态激活， 或者代理存在并且代理的店铺并不存在
                     if(product.productClass){
                         if (product.productClass === "common_card") {
                             console.log("如果商品是普通会员卡，则开店，并且记录这个店的上级店铺是什么");
