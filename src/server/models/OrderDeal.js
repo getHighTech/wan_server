@@ -256,18 +256,6 @@ class OrderDeal extends WanModel {
                             let shop = await Shop.model.findOne({_id: product.shopId});
                            await giveMoneyToShopOwner(shop);
                            return 0;
-                        }else{
-                            console.log("给普通商品佣金前的商品", product.shopId);
-                            agency = await AgencyRelation.model.findOne({shopId: product.shopId, status: true});
-                            console.log("普通商品涉及的关系", agency);
-                            
-                            let shop = await Shop.model.findOne({_id: product.shopId});
-                            console.log("给普通商品佣金前的店铺", shop);
-
-                            console.log({buyer})
-                            await giveMoneyToShopOwner(shop);
-                            
-                            
 
                         }
                     }
