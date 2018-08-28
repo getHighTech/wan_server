@@ -6,7 +6,9 @@ import User from '../models/User.js';
 export const getTeam = async(ctx) => {
     try{
         const { SuserId } =ctx.query;
+        console.log(SuserId);
         const myteam = await MyTeam.model.find({SuserId:SuserId,status:true});
+        console.log('-------------------');
         console.log(myteam);
         const myteams = [];
         if (myteam.length>=1) {
