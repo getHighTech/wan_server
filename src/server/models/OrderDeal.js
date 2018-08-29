@@ -245,7 +245,7 @@ class OrderDeal extends WanModel {
                                 "status": true,
                                 "phone": buyer.profile ? (buyer.profile.mobile? buyer.profile.mobile: boyer.username): buyer.username,
                             })
-                            console.log("新的店铺为", newShop);
+                            console.log("新的店铺为", shopFound);
                             }
                             
                            let agencyUpdateRlt =  await AgencyRelation.model.update({SshopId: product.shopId, userId: order.userId}, {
@@ -254,19 +254,8 @@ class OrderDeal extends WanModel {
                            console.log("关系是否更新成功", agencyUpdateRlt);
                            
                             let shop = await Shop.model.findOne({_id: product.shopId});
-                            await giveMoneyToShopOwner(shop);
-                        }else{
-                            console.log("给普通商品佣金前的商品", product.shopId);
-                            agency = await AgencyRelation.model.findOne({shopId: product.shopId, status: true});
-                            console.log("普通商品涉及的关系", agency);
-                            
-                            let shop = await Shop.model.findOne({_id: product.shopId});
-                            console.log("给普通商品佣金前的店铺", shop);
-
-                            console.log({buyer})
-                            await giveMoneyToShopOwner(shop);
-                            
-                            
+                           await giveMoneyToShopOwner(shop);
+                           return 0;
 
                         }
                     }
