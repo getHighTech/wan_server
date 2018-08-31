@@ -28,7 +28,7 @@ export const porudctsWarehouse = async(ctx) => {
         const { appName } = ctx.query
         if (appName) {
           const shop = await Shop.model.findOne({appName})
-          const products =await Products.model.find({$nor: [{productClass: "advanced_card"}],isSale: true,isDelete:false ,shopId: shop._id})
+          const products =await Products.model.find({$nor: [{productClass: "advanced_card"}],isSale: true,isDelete:{$exists: false},shopId: shop._id})
           ctx.body = {
             products
           }
