@@ -13,6 +13,7 @@ Products.setScheme(
     'shopId':String,
     'name':String,
     'isSale':Boolean,
+    'isDelete':Boolean,
     'price':Number,
     'endPrice':Number,
     'newSpecGroups':Array,
