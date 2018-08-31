@@ -11,6 +11,7 @@ import { getPeriodIncome } from '../../controllers/balanceIncome.js';
 import { loadMoney } from '../../controllers/balance.js';
 import { getShop } from '../../controllers/shop.js';
 import { getWithdraw } from '../../controllers/balanceCharge.js'
+import { deleteUserContact } from '../../controllers/deleteUserContact.js'
 const  ApiRoute = new Router();
 ApiRoute.get('/api/info', wechatAuth)
 ApiRoute.get('/api/findAllSpecProductByProductId',getProductSpec)
@@ -25,4 +26,5 @@ ApiRoute.get('/api/shop',getPeriodIncome)
 ApiRoute.get('/api/loadMoney',loadMoney)
 ApiRoute.get('/api/taozi', getShop)
 ApiRoute.get('/api/withdraw',getWithdraw)
+ApiRoute.get('/api/delete_user_contact',deleteUserContact)
 export default ApiRoute;
