@@ -4,18 +4,18 @@ import moment from 'moment';
 import BalanceIncome from '../../models/BalanceIncome.js';
 import BalanceCharge from '../../models/BalanceCharge.js';
 //此乃模板代码
-let money = new Router().get('/api/v0/my_incomes', async ( ctx )=>{
+let   money = new Router().get('/api/v0/my_incomes', async ( ctx )=>{
     let page = parseInt(ctx.query.page? ctx.query.page : 1);
     let pagesize  = parseInt(ctx.query.pagesize? ctx.query.pagesize : 10);
     console.log(pagesize);
-    
+    let appName = ctx.query.appName;
     let userId = ctx.query.userId? ctx.query.userId: null;
     if(!userId){
         return ctx.body = "require login"
     }
     try {
         let balance_incomes = await BalanceIncome.model
-        .find({userId})
+        .find({userId,appName})
         .skip(pagesize*(page-1))
         .limit(pagesize)
         .sort({createdAt: -1}).populate('agency', "username").populate('productId', "name_zh").populate('userId', "username")
@@ -32,13 +32,13 @@ let money = new Router().get('/api/v0/my_incomes', async ( ctx )=>{
 }).get('/api/v0/my_balance', async ( ctx )=>{
     try {
         let userId = ctx.query.userId? ctx.query.userId: null;
-
+        let appName = ctx.query.appName;
         if(!userId){
             return ctx.body = "require login"
         }
         
     
-        let balance = await Balance.model.findOne({userId})
+        let balance = await Balance.model.findOne({userId,appName})
         .populate('userId', "username")
         ctx.body = balance;
         
@@ -55,6 +55,7 @@ let money = new Router().get('/api/v0/my_incomes', async ( ctx )=>{
     let page = ctx.query.page? ctx.query.page : 1;
     let pagesize  = ctx.query.pagesize? ctx.query.pagesize : 10;
     let userId = ctx.query.userId? ctx.query.userId: null;
+    let appName = ctx.query.appName;
     if(!userId){
         return ctx.body = "require login"
     }
@@ -69,6 +70,7 @@ let money = new Router().get('/api/v0/my_incomes', async ( ctx )=>{
 .get('/api/v0/my_statics', async ( ctx )=>{
 
     let userId = ctx.query.userId? ctx.query.userId: null;
+     let appName = ctx.query.appName;
     if(!userId){
         return ctx.body = "require login"
     }
