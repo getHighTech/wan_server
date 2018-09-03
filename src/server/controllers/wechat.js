@@ -39,8 +39,10 @@ export  const wechatAuth = async(ctx) => {
 }
 
 export const wechatShare = async(ctx) =>{
-  let appid = 'wx387b34583841ec2d'; //公众号appid
-  let secret = '5e4e086325a72ffd80bf179e6a22749b';
+  // let appid = 'wx387b34583841ec2d'; //公众号appid
+  // let secret = '5e4e086325a72ffd80bf179e6a22749b';
+  let appid = 'wx412cc1c5e02a292e'; //公众号appid
+  let secret = '2cd967050582d6256d8108281af8e8eb';
     //获取accessToken
     const {url} = ctx.query;
     console.log(url);
@@ -61,12 +63,13 @@ export const wechatShare = async(ctx) =>{
   let result = await axios.get(`https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=${access_token}&type=jsapi`);
   console.log(result.data);
   var str =  "jsapi_ticket="+result.data.ticket+"&noncestr="+nonceStr+"&timestamp="+timestamp+"&url="+url;
-  console.log(str);
   // var signature = SHA1(str)
   let ticket= result.data;
   ticket.timestamp=timestamp;
   ticket.nonceStr=nonceStr;
   ticket.signature=sha1(str)
+  ticket.access_token=token.access_token;
+  console.log(ticket.signature);
   ctx.body={
     ticket
   }

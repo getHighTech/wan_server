@@ -9,7 +9,7 @@ export const getShopProducts = async(ctx) => {
         console.log(pages);
         let newpagesize = Number(pagesize)
         const shop = await Shop.model.findOne({'_id':shopId})
-        const products = await Products.model.find({shopId,isSale:true}).limit(newpagesize).skip(pagesize*(pages-1)).sort({createdAt: -1})
+        const products = await Products.model.find({shopId,isSale:true,isDelete:{$exists: false}}).limit(newpagesize).skip(pagesize*(pages-1)).sort({createdAt: -1})
         ctx.body = {
             products,
             shop

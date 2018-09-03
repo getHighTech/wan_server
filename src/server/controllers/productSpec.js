@@ -9,7 +9,7 @@ export const getProductSpec = async(ctx) => {
       const allproducts=[];
       const product = await Products.model.findOne({'_id':productId});
       if (product) {
-        let products = await Products.model.find({shopId:product.shopId,name:product.name,isSale:true})
+        let products = await Products.model.find({shopId:product.shopId,name:product.name,isSale:true,isDelete:{$exists: false}})
         for (var i = 0;i<products.length;i++){
           let obj = new Object();
           obj.productId = products[i]._id;
