@@ -26,6 +26,7 @@ BalanceIncome.setScheme(
       "productId": { type: String, ref: 'Products' },
       "productCounts": Number,
       "updatedAt" : String,
+      "appName": String,
 
       
 
