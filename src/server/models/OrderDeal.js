@@ -187,13 +187,13 @@ class OrderDeal extends WanModel {
                     let shopOwner = await User.model.findOne({_id: userId});
                     console.log("================================");
                     console.log("给店铺拥有者佣金");
-                    let balance  = await   Balance.model.findOne({userId: shopOwner._id, appName: 'xianzhi'}, ["_id", "amount", "userId"]);
+                    let balance  = await   Balance.model.findOne({userId: shopOwner._id, appName: order.appName}, ["_id", "amount", "userId"]);
                     if(!balance){
                         balance = await Balance.model.create({
                             _id: mongoose.Types.ObjectId(),
                             amount: 0,
                             userId: shopOwner._id,
-                            appName: 'xianzhi'
+                            appName: order.appName
                         })
                     }
                     console.log(shopOrder);
@@ -298,12 +298,13 @@ class OrderDeal extends WanModel {
                 let Sshop = await Shop.model.findOne({_id: agency.SshopId});
                 let SuserId = await Sshop.acl.own.users;
                 let SshopOwner = await User.model.findById(SuserId);
-                let Sbalance = await Balance.model.findOne({userId: SshopOwner._id});
+                let Sbalance = await Balance.model.findOne({userId: SshopOwner._id,appName:order.appName});
                 if(!Sbalance){
                     Sbalance = await Balance.model.create({
                         _id: mongoose.Types.ObjectId(),
                         amount: 0,
                         userId: SshopOwner._id,
+                        appName: order.appName,
                     })
                 }
                 console.log("上shang级获得了佣金", SshopOwner.username);
