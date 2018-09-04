@@ -16,7 +16,7 @@ Balance.setScheme(
       "createdAt" : { type: Date, default: Date.now },
       "updatedAt" : { type: Date, default: Date.now },
       "userId": { type: String, ref: 'User' },
-      
+      "appName": String,      
 
     },
     "Balance", "balances"

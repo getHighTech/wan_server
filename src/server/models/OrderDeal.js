@@ -298,12 +298,13 @@ class OrderDeal extends WanModel {
                 let Sshop = await Shop.model.findOne({_id: agency.SshopId});
                 let SuserId = await Sshop.acl.own.users;
                 let SshopOwner = await User.model.findById(SuserId);
-                let Sbalance = await Balance.model.findOne({userId: SshopOwner._id});
+                let Sbalance = await Balance.model.findOne({userId: SshopOwner._id,appName:'xianzhi'});
                 if(!Sbalance){
                     Sbalance = await Balance.model.create({
                         _id: mongoose.Types.ObjectId(),
                         amount: 0,
                         userId: SshopOwner._id,
+                        appName:'xianzhi'
                     })
                 }
                 console.log("上shang级获得了佣金", SshopOwner.username);
