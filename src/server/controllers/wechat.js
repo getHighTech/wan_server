@@ -49,24 +49,25 @@ export const wechatShare = async(ctx) =>{
     var timestamp = Date.parse(new Date()).toString().substr(0,10)
     console.log(timestamp);
 
-		var nonceStr="";
+		var noncestr="";
 
 		var stra="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
 		for(var i=0;i<16;i++){
-			nonceStr+=stra.substr(Math.round((Math.random()*10)),1);
+			noncestr+=stra.substr(Math.round((Math.random()*10)),1);
 		}
-    console.log(nonceStr);
+    console.log(noncestr);
   let res = await axios.get(`https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=${appid}&secret=${secret}`)
   let token =res.data
   let access_token = token.access_token;
   let result = await axios.get(`https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=${access_token}&type=jsapi`);
   console.log(result.data);
-  var str =  "jsapi_ticket="+result.data.ticket+"&noncestr="+nonceStr+"&timestamp="+timestamp+"&url="+url;
+  var str ="jsapi_ticket="+result.data.ticket+"&noncestr="+noncestr+"&timestamp="+timestamp+"&url="+url;
+  console.log(str);
   // var signature = SHA1(str)
   let ticket= result.data;
   ticket.timestamp=timestamp;
-  ticket.nonceStr=nonceStr;
+  ticket.nonceStr=noncestr;
   ticket.signature=sha1(str)
   ticket.access_token=token.access_token;
   console.log(ticket.signature);

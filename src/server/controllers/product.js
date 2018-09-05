@@ -58,7 +58,7 @@ export const sellingProduct = async(ctx) => {
           }
         }
         else {
-          const products = await Products.model.find({shopId})
+          const products = await Products.model.find({shopId,isSale: true,isDelete:{$exists: false}})
           ctx.body = {
             products
           }
