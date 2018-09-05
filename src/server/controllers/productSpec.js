@@ -5,7 +5,6 @@ import Products from '../models/Products.js';
 export const getProductSpec = async(ctx) => {
   try{
       const {productId} =ctx.query;
-      console.log(productId);
       const allproducts=[];
       const product = await Products.model.findOne({'_id':productId});
       if (product) {
