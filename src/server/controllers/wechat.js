@@ -67,8 +67,7 @@ export const wechatShare = async(ctx) =>{
     var ticket='';
     var parameter =new Object();
   const first = await WechatShare.model.find();
-  console.log('查询数据库'+first[0]);
-  console.log('存入数据库的时间'+first[0].createdAt.getTime());
+
 
   if (first.length>0) {
     var time1 = first[0].createdAt;
