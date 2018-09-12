@@ -70,7 +70,8 @@ let   money = new Router().get('/api/v0/my_incomes', async ( ctx )=>{
 .get('/api/v0/my_statics', async ( ctx )=>{
 
     let userId = ctx.query.userId? ctx.query.userId: null;
-     let appName = ctx.query.appName;
+    let appName = ctx.query.appName;
+    
     if(!userId){
         return ctx.body = "require login"
     }
@@ -79,14 +80,17 @@ let   money = new Router().get('/api/v0/my_incomes', async ( ctx )=>{
         
         let yestoday = moment().subtract(1, "days");
         yestoday = yestoday.toISOString();
+     
         let yestodayInData = new Date(yestoday);
+        console.log(yestodayInData)
         let yestodayIncomes = await  BalanceIncome.model.find({createdAt: {'$gte':yestodayInData,'$lt':new Date()}, userId});
+       
         let yestodayTotalAmount = 0;
         for(let i =0; i<yestodayIncomes.length; i++)
         {
-            yestodayTotalAmount+=yestodayIncomes.amount
+            
+            yestodayTotalAmount+= yestodayIncomes[i].amount
         }
-
 
         let week = moment().subtract(1, "weeks");
         week = week.toISOString();
@@ -95,7 +99,7 @@ let   money = new Router().get('/api/v0/my_incomes', async ( ctx )=>{
         let weekTotalAmount = 0;
         for(let i =0; i<weekIncomes.length; i++)
         {
-            weekTotalAmount+=weekIncomes.amount
+            weekTotalAmount+=weekIncomes[i].amount
         }
 
 
@@ -107,13 +111,15 @@ let   money = new Router().get('/api/v0/my_incomes', async ( ctx )=>{
         let monthsTotalAmount = 0;
         for(let i =0; i<monthsIncomes.length; i++)
         {
-            monthsTotalAmount+=monthsIncomes.amount
+            monthsTotalAmount+=monthsIncomes[i].amount
         }
 
         ctx.body = {
             yestodayTotalAmount,
             weekTotalAmount,
             monthsTotalAmount,
+            yestoday,
+            userId 
         }
     } 
     catch(error) {
