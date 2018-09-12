@@ -4,11 +4,9 @@ import mongoose from 'mongoose';
 class WechatShare extends WanModel {
     constructor(props){
         super(props);
-        this.collection = "wechatshare";
+        this.collection = "WechatShare";
     }
     static async InsertShare(access_token,ticket){
-      console.log('走了这');
-      console.log(this.model);
       let wechatshare =await new this.model({
         "_id": mongoose.Types.ObjectId(),
         access_token,
