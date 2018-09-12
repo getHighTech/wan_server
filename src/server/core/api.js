@@ -11,14 +11,14 @@ export function  generateRestFul(collectionName, App, model){
 
     rest.post(apiWithCollection, async ( ctx )=>{
         console.log(ctx.request.body);
-        
+
         const {condition, page, pagesize, fields, sort} = ctx.request.body;
 
         // if(ctx.role_name === "nobody"){
         //     ctx.body = "access deny"
         // }
         console.log(typeof condition);
-        
+
         if(!condition || typeof condition !== "object"){
             return ctx.body = {
                 type: "error",
@@ -41,7 +41,7 @@ export function  generateRestFul(collectionName, App, model){
             }
             return ctx.body = "pagesize missing"
         }
-        
+
         if(!fields || typeof fields !== "object"){
             return ctx.body = {
                 type: "error",
@@ -62,15 +62,15 @@ export function  generateRestFul(collectionName, App, model){
                 status: "success",
                 records
             };
-            
+
         } catch (error) {
             return ctx.body = {
                 type: "error",
                 reason: error
             }
         }
-      
-        
+
+
         return {
             type: collectionName,
             status: "success",
@@ -92,8 +92,8 @@ export function  generateRestFul(collectionName, App, model){
         if(!set){
             return ctx.body = "sort missing"
         }
-        
-      
+
+
         let msg = await model.model.update(condition, {
             $set: ctx.body.set
         });
@@ -114,10 +114,10 @@ export function  generateRestFul(collectionName, App, model){
     if(collectionName === "users"){
         rest.post(APIFIXED+"user_login", async ctx => {
             try {
-                
+
                 let rlt = await User.pwdLogin(ctx.request.body);
                 return ctx.body = rlt;
-                
+
             } catch (error) {
                 return ctx.body = {
                     type: "error",
@@ -126,7 +126,7 @@ export function  generateRestFul(collectionName, App, model){
             }
         }).put(APIFIXED+"user_reg", async ctx => {
             console.log("用户注册路由");
-            
+
             try {
                 console.log("输入的注册参数", ctx.request.body);
 
@@ -154,7 +154,7 @@ export function  generateRestFul(collectionName, App, model){
             try {
                 let rlt =  await User.current(ctx.query.token, ctx.query.uuid);
                 return ctx.body = rlt;
-                
+
             } catch (error) {
                 return ctx.body = {
                     type: "error",
