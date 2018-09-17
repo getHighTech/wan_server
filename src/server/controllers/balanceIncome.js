@@ -57,7 +57,7 @@ Date.prototype.Format = function(format){
   }
 
 export const  getStat = async(ctx) => {
-    // try{
+    try{
         const { userId,appName } = ctx.query;
         let date = new Date();
         let nextdate = (new Date((date/1000+86400)*1000))
@@ -90,10 +90,10 @@ export const  getStat = async(ctx) => {
             weekTotalAmount,
             monthsTotalAmount,
         }
-    // }
-    // catch (err) {
-    //     ctx.body = {
-    //       msg: 'fail'
-    //     }
-    //  }
+    }
+    catch (err) {
+        ctx.body = {
+          msg: 'fail'
+        }
+     }
 }
