@@ -16,6 +16,7 @@ class BalanceIncome extends WanModel {
 
 BalanceIncome.setScheme(
     {
+      "_id":String,
       "createdAt" : { type: Date, default: Date.now },
       "userId": { type: String, ref: 'User' },
       "reasonType": String,
