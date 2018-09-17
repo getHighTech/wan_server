@@ -57,12 +57,12 @@ Date.prototype.Format = function(format){
   }
 
 export const  getStat = async(ctx) => {
-    // try{
+    try{
+        const { userId,appName } = ctx.query;
         let date = new Date();
         let nextdate = (new Date((date/1000+86400)*1000))
         const currentDate = date.Format("yyyy/MM/dd");
         const  nextDate = nextdate.Format("yyyy/MM/dd");
-        let userId = "oEfiC2RTXLtSK3zDh"
         var day_of_week = new Date().getDay()
         if( day_of_week == 0){
            day_of_week = 7
@@ -73,33 +73,27 @@ export const  getStat = async(ctx) => {
         var exDate = exdate.Format("yyyy/MM/dd");
         var getCurrentMonthFirstDay = getCurrentMonthFirst().Format("yyyy/MM/dd");
         var getCurrentMonthLastDay = getCurrentMonthLast().Format("yyyy/MM/dd");
-        // let today_balance_incomes = await BalanceIncome.model.find({userId})
-
-        let today_balance_incomes = await BalanceIncome.model.aggregate([
+        let  yestodayTotalAmount = await BalanceIncome.model.aggregate([
             { $match: {userId: userId, createdAt: {'$gte':new Date(currentDate),'$lt':new Date(nextDate)}}},
             { $group: {_id: '$userId',total: {$sum: "$amount"}}}
         ])
-        let week_balance_incomes = await BalanceIncome.model.aggregate([
+        let weekTotalAmount= await BalanceIncome.model.aggregate([
             { $match: {userId: userId,createdAt: {'$gt':new Date(exDate),'$lte':new Date(currentMondayDate)}}},
             { $group: {_id: '$userId',total: {$sum: "$amount"}}}
         ])
-        let month_balance_incomes = await BalanceIncome.model.aggregate([
+        let monthsTotalAmount = await BalanceIncome.model.aggregate([
             { $match: {userId: userId,createdAt: {'$gte':new Date(getCurrentMonthFirstDay),'$lte':new Date(getCurrentMonthLastDay)}}},
             { $group: {_id: '$userId',total: {$sum: "$amount"}}}
         ])
         ctx.body = {
-            exdate,
-            currentMondayDate,
-            // currentDate,
-            // nextDate,
-            today_balance_incomes,
-            week_balance_incomes,
-            month_balance_incomes
+            yestodayTotalAmount,
+            weekTotalAmount,
+            monthsTotalAmount,
         }
-    // }
-    // catch (err) {
-    //     ctx.body = {
-    //       msg: 'fail'
-    //     }
-    //  }
+    }
+    catch (err) {
+        ctx.body = {
+          msg: 'fail'
+        }
+     }
 }
