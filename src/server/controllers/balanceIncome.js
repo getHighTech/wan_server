@@ -1,11 +1,12 @@
 import mongoose from 'mongoose';
 import BalanceIncome from '../models/BalanceIncome.js';
+
 export function getCurrentMonthFirst(){
     var date=new Date();
     date.setDate(1);
     return date;
  }
- 
+
  export function getCurrentMonthLast(){
     var date=new Date();
     var currentMonth=date.getMonth();
@@ -14,47 +15,47 @@ export function getCurrentMonthFirst(){
     var oneDay=1000*60*60*24;
     return new Date(nextMonthFirstDay-oneDay);
  }
- 
+
 Date.prototype.Format = function(format){
 
     var o = {
-  
+
     "M+" : this.getMonth()+1, //month
-  
+
     "d+" : this.getDate(), //day
-  
+
     "h+" : this.getHours(), //hour
-  
+
     "m+" : this.getMinutes(), //minute
-  
+
     "s+" : this.getSeconds(), //second
-  
+
     "q+" : Math.floor((this.getMonth()+3)/3), //quarter
-  
+
     "S" : this.getMilliseconds() //millisecond
-  
+
     }
-  
+
     if(/(y+)/.test(format)) {
-  
+
     format = format.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length));
-  
+
     }
-  
+
     for(var k in o) {
-  
+
       if(new RegExp("("+ k +")").test(format)) {
-  
+
         format = format.replace(RegExp.$1, RegExp.$1.length==1 ? o[k] : ("00"+ o[k]).substr((""+ o[k]).length));
-  
+
       }
-  
+
     }
-  
+
     return format;
-  
+
   }
-  
+
 export const  getStat = async(ctx) => {
     // try{
         let date = new Date();
@@ -95,7 +96,7 @@ export const  getStat = async(ctx) => {
             week_balance_incomes,
             month_balance_incomes
         }
-    // } 
+    // }
     // catch (err) {
     //     ctx.body = {
     //       msg: 'fail'
