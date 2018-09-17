@@ -70,64 +70,79 @@ export const wechatShare = async(ctx) =>{
     console.log(first[0]);
 
 
-  if (first.length>0) {
-    var time1 = first[0].createdAt;
-    var time2=new Date();
-    var time3= time2.getTime()-time1.getTime();
-    zsx=time3/1000;
-    console.log('时间差为：'+time3/1000);
-    if (first[0].ticket!=null) {
-      if (time3/1000>7000) {
-        console.log('如果时间超过7000秒，重新获取');
-        const  res = await axios.get(`https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=${appid}&secret=${secret}`)
-        access_token= res.data.access_token;
-        const result = await axios.get(`https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=${access_token}&type=jsapi`);
-        ticket = result.data.ticket
-        let id = first[0]._id;
-        const refalsh = await WechatShare.model.update({_id:id},{
-          $set:{
-            access_token:access_token,
-            ticket:ticket,
-            createdAt:new Date()
-          }
-        })
-      }
-      else {
-            console.log('此时缓存还存在');
-            access_token = first[0].access_token;
-            ticket= first[0].ticket;
-            console.log('此时的ticket是：'+ticket);
-      }
-    }else {
-      console.log('此时ticket为null');
-      const  res = await axios.get(`https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=${appid}&secret=${secret}`)
-      access_token= res.data.access_token;
-      const result = await axios.get(`https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=${access_token}&type=jsapi`);
-      ticket = result.data.ticket
-      let id = first[0]._id;
-      const refalsh = await WechatShare.model.update({_id:id},{
-        $set:{
-          access_token:access_token,
-          ticket:ticket,
-          createdAt:new Date()
-        }
-      })
-    }
 
 
+          const  res = await axios.get(`https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=${appid}&secret=${secret}`)
+          access_token= res.data.access_token;
+          const result = await axios.get(`https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=${access_token}&type=jsapi`);
+          ticket = result.data.ticket
+          let id = first[0]._id;
+          const refalsh = await WechatShare.model.update({_id:id},{
+            $set:{
+              access_token:access_token,
+              ticket:ticket,
+              createdAt:new Date()
+            }
+          })
 
-  }else {
-    console.log('数据库没有存储');
-    const  res = await axios.get(`https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=${appid}&secret=${secret}`)
-    access_token= res.data.access_token;
-    const result = await axios.get(`https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=${access_token}&type=jsapi`);
-    ticket = result.data.ticket
-    console.log('生成的ticket'+ticket);
-    // const oneData = await WechatShare.model.creat({'ticket': ticket,'access_token':access_token,'aaa':'zsx','createdAt':new Date()})
-    WechatShare.InsertShare(access_token,ticket).then(rlt=>{
-      console.log(rlt);
-    })
-  }
+  // if (first.length>0) {
+  //   var time1 = first[0].createdAt;
+  //   var time2=new Date();
+  //   var time3= time2.getTime()-time1.getTime();
+  //   zsx=time3/1000;
+  //   console.log('时间差为：'+time3/1000);
+  //   if (first[0].ticket!=null) {
+  //     if (time3/1000>7000) {
+  //       console.log('如果时间超过7000秒，重新获取');
+  //       const  res = await axios.get(`https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=${appid}&secret=${secret}`)
+  //       access_token= res.data.access_token;
+  //       const result = await axios.get(`https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=${access_token}&type=jsapi`);
+  //       ticket = result.data.ticket
+  //       let id = first[0]._id;
+  //       const refalsh = await WechatShare.model.update({_id:id},{
+  //         $set:{
+  //           access_token:access_token,
+  //           ticket:ticket,
+  //           createdAt:new Date()
+  //         }
+  //       })
+  //     }
+  //     else {
+  //           console.log('此时缓存还存在');
+  //           access_token = first[0].access_token;
+  //           ticket= first[0].ticket;
+  //           console.log('此时的ticket是：'+ticket);
+  //     }
+  //   }else {
+  //     console.log('此时ticket为null');
+  //     const  res = await axios.get(`https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=${appid}&secret=${secret}`)
+  //     access_token= res.data.access_token;
+  //     const result = await axios.get(`https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=${access_token}&type=jsapi`);
+  //     ticket = result.data.ticket
+  //     let id = first[0]._id;
+  //     const refalsh = await WechatShare.model.update({_id:id},{
+  //       $set:{
+  //         access_token:access_token,
+  //         ticket:ticket,
+  //         createdAt:new Date()
+  //       }
+  //     })
+  //   }
+  //
+  //
+  //
+  // }else {
+  //   console.log('数据库没有存储');
+  //   const  res = await axios.get(`https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=${appid}&secret=${secret}`)
+  //   access_token= res.data.access_token;
+  //   const result = await axios.get(`https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=${access_token}&type=jsapi`);
+  //   ticket = result.data.ticket
+  //   console.log('生成的ticket'+ticket);
+  //   // const oneData = await WechatShare.model.creat({'ticket': ticket,'access_token':access_token,'aaa':'zsx','createdAt':new Date()})
+  //   WechatShare.InsertShare(access_token,ticket).then(rlt=>{
+  //     console.log(rlt);
+  //   })
+  // }
 
   var str ="jsapi_ticket="+ticket+"&noncestr="+noncestr+"&timestamp="+timestamp+"&url="+url;
   console.log('生成的签名'+str);
