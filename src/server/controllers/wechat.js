@@ -69,7 +69,6 @@ export const wechatShare = async(ctx) =>{
     var zsx=''
     console.log(first[0]);
 
-
   if (first.length>0) {
     var time1 = first[0].createdAt;
     var time2=new Date();
