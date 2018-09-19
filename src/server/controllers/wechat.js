@@ -43,11 +43,11 @@ export const wechatShare = async(ctx) =>{
   // let appid = 'wx387b34583841ec2d'; //自己公众号appid
   // let secret = '5e4e086325a72ffd80bf179e6a22749b';
   //
-  // let appid = 'wx0564668ed5671740'; //公众号appid
-  // let secret = '02938e071aae51a7b59b7fe6f627a681';
+  let appid = 'wx0564668ed5671740'; //公众号appid
+  let secret = '02938e071aae51a7b59b7fe6f627a681';
 
-  let appid = 'wx412cc1c5e02a292e'; //测试公众号appid
-  let secret = '2cd967050582d6256d8108281af8e8eb';
+  // let appid = 'wx412cc1c5e02a292e'; //测试公众号appid
+  // let secret = '2cd967050582d6256d8108281af8e8eb';
     //获取accessToken
     const {url,uri} = ctx.query;
     var timestamp = Date.parse(new Date()).toString().substr(0,10)
