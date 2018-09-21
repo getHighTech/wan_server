@@ -28,10 +28,11 @@ export const getShopProducts = async(ctx) => {
 
 export const porudctsWarehouse = async(ctx) => {
     try{
-        const { appName } = ctx.query
+        const { appName,page } = ctx.query
+        let pagesize = 10;
         if (appName) {
           const shop = await Shop.model.findOne({appName})
-          const products =await Products.model.find({$nor: [{productClass: "advanced_card"}],isSale: true,isDelete:{$exists: false},shopId: shop._id})
+          const products =await Products.model.find({$nor: [{productClass: "advanced_card"}],isSale: true,isDelete:{$exists: false},shopId: shop._id}).limit(pagesize).skip(pagesize*(page-1)).sort({createdAt: -1})
           ctx.body = {
             products
           }
